@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="YiLongZhang">
+
+
+
+
+
+<title>Docker中安装部署MySQL | 乾坤多畏途,何处无波澜</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">推文</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">推文</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部折叠"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Docker中安装部署MySQL</h1>
+            
+                <div class="post-meta">
+                    
+                        作者: <a itemprop="author" rel="author" href="/">YiLongZhang</a>
+                    
+
+                    
+                        <span class="post-time">
+                        创建日期: <a href="#">十月 24, 2019&nbsp;&nbsp;10:26:56</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    分类:
+                            
+                                <a href="/categories/Docker/">Docker</a>
+                            
+                                <a href="/categories/Docker/MySQL/">MySQL</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="Docker中安装部署MySQL"><a href="#Docker中安装部署MySQL" class="headerlink" title="Docker中安装部署MySQL"></a>Docker中安装部署MySQL</h1><h2 id="安装启动"><a href="#安装启动" class="headerlink" title="安装启动"></a>安装启动</h2><blockquote>
+<p><a href="https://dev.mysql.com/doc/refman/5.7/en/docker-mysql-getting-started.html#docker-starting-mysql-server" target="_blank" rel="noopener">参考文档</a></p>
+<p>安装前要选择安装版本，访问<a href="https://hub.docker.com/r/mysql/mysql-server/tags/" target="_blank" rel="noopener">官方链接</a>，找到适合的版本，这里我选择5.7版本</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 拉去mysql镜像 docker pull mysql/mysql-server:tag</span></span><br><span class="line">docker pull mysql/mysql-server:5.7</span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看是否全部镜像</span></span><br><span class="line">docker images</span><br><span class="line"><span class="meta">#</span><span class="bash"> 选择镜像，启动容器 docker run --name=container_name -d image_name:tag</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> -d 后台启动 -p 容器3306端口映射外部端口3308 --name 给容器实例命名mysql5.7</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> docker run -p 3346:3306 --name mysql-slave4 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7</span></span><br><span class="line">docker run --name=mysql5.7 -p 3308:3306 -d mysql/mysql-server:5.7</span><br><span class="line"><span class="meta">#</span><span class="bash"> 容器启动过程中会重新初始化数据库，生成随机密码，查看容器启动日志</span></span><br><span class="line">docker logs mysql5.7 2&gt;&amp;1 | grep GENERATED</span><br><span class="line"><span class="meta">#</span><span class="bash"> 登录数据库</span></span><br><span class="line">docker exec -it mysql5.7 mysql -uroot -p</span><br><span class="line"><span class="meta">#</span><span class="bash"> 改密码</span></span><br><span class="line">ALTER USER 'root'@'localhost' IDENTIFIED BY 'password';</span><br><span class="line"><span class="meta">#</span><span class="bash"> 默认mysql的root用户不支持远程访问，开启访问权限</span></span><br><span class="line">GRANT ALL ON *.* TO root@'%' IDENTIFIED BY 'password' WITH GRANT OPTION;</span><br><span class="line">flush privileges;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 进入docker</span></span><br><span class="line">docker exec -it mysql5.7 bash </span><br><span class="line"><span class="meta">#</span><span class="bash"> 容器mysql部署路径</span></span><br><span class="line">cd /var/lib/mysql </span><br><span class="line"><span class="meta">#</span><span class="bash">启动、重启、停止、删除容器</span></span><br><span class="line">docker start mysql5.7</span><br><span class="line">docker restart mysql5.7</span><br><span class="line">docker stop mysql5.7</span><br><span class="line">docker rm mysql5.7</span><br></pre></td></tr></table></figure>
+
+<h2 id="容器挂载本地配置和数据目录"><a href="#容器挂载本地配置和数据目录" class="headerlink" title="容器挂载本地配置和数据目录"></a>容器挂载本地配置和数据目录</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run --name=mysql5.7 \</span><br><span class="line">--mount type=bind,src=/opt/mysql.docker/my.cnf,dst=/etc/my.cnf \</span><br><span class="line">--mount type=bind,src=/opt/mysql.docker/datadir,dst=/var/lib/mysql \</span><br><span class="line">-p 3308:3306 \</span><br><span class="line">-d mysql/mysql-server:5.7</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Docker/"># Docker</a>
+                    
+                        <a href="/tags/MySQL/"># MySQL</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/10/24/Windows-MySQL%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/">Windows-MySQL安装部署</a>
+            
+            
+            <a class="next" rel="next" href="/2019/10/24/Java%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/">Java开发规范</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© YiLongZhang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+	<script src="/js/canvas-nest.js"></script>
+</body>
+</html>

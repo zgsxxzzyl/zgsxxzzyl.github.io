@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="YiLongZhang">
+
+
+
+
+
+<title>Jenkins和SonarQube集成 | 乾坤多畏途,何处无波澜</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">推文</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">推文</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部折叠"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Jenkins和SonarQube集成</h1>
+            
+                <div class="post-meta">
+                    
+                        作者: <a itemprop="author" rel="author" href="/">YiLongZhang</a>
+                    
+
+                    
+                        <span class="post-time">
+                        创建日期: <a href="#">十月 25, 2019&nbsp;&nbsp;16:39:26</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="Jenkins和SonarQube集成"><a href="#Jenkins和SonarQube集成" class="headerlink" title="Jenkins和SonarQube集成"></a>Jenkins和SonarQube集成</h1><h2 id="安装插件SonarQube-Scanner-for-Jenkins"><a href="#安装插件SonarQube-Scanner-for-Jenkins" class="headerlink" title="安装插件SonarQube Scanner for Jenkins"></a>安装插件SonarQube Scanner for Jenkins</h2><ul>
+<li>系统管理 - 插件管理</li>
+<li>可选插件（没有内容点立即获取）</li>
+<li>过滤 - 搜索SonarQube </li>
+<li>安装SonarQube Scanner for Jenkins</li>
+<li>安装成功 - 重启</li>
+</ul>
+<h2 id="配置插件"><a href="#配置插件" class="headerlink" title="配置插件"></a>配置插件</h2><ul>
+<li>系统管理 - 系统设置 - SonarQube servers<br><img src="/images/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20190628094437.png" alt=""></li>
+</ul>
+<h2 id="给项目配置启动SonarQube"><a href="#给项目配置启动SonarQube" class="headerlink" title="给项目配置启动SonarQube"></a>给项目配置启动SonarQube</h2><ul>
+<li><p>创建一个maven项目<br><img src="/images/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20190628100058.png" alt=""></p>
+</li>
+<li><p>配置maven项目</p>
+</li>
+<li><p>配置SonarQube<br>构建环境 - Pre Steps/Post Steps - Add pre-build step - Execute SonarQube Scanner<br><img src="/images/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20190628100535.png" alt=""><br><img src="/images/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20190628100715.png" alt=""></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">//多模块配置</span></span><br><span class="line"><span class="meta">sonar.projectKey</span>=<span class="string">bi_build_sonar</span></span><br><span class="line"><span class="meta">sonar.projectName</span>=<span class="string">bi_build_sonar</span></span><br><span class="line"><span class="meta">sonar.projectVersion</span>=<span class="string">1.0</span></span><br><span class="line"><span class="meta">sonar.modules</span>=<span class="string">com.yss.bi.cml.client,com.yss.bi.common,portal-app,portal-web,com.yss.bi.iae</span></span><br><span class="line"><span class="meta">sonar.sources</span>=<span class="string">src/main/java</span></span><br><span class="line"><span class="meta">sonar.java.binaries</span>=<span class="string">target/classes</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="配置参数"><a href="#配置参数" class="headerlink" title="配置参数"></a>配置参数</h2><h2 id="相关问题"><a href="#相关问题" class="headerlink" title="相关问题"></a>相关问题</h2></li>
+</ul>
+<ol>
+<li>mysql参数设置问题<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">17:08:15.777 DEBUG: Upload report</span><br><span class="line">17:08:22.648 DEBUG: POST 500 http://192.168.99.108:9000/api/ce/submit?projectKey=bi_build_sonar&amp;projectName=bi_build_sonar | time=6864ms</span><br><span class="line">17:08:22.662 INFO: ------------------------------------------------------------------------</span><br><span class="line">17:08:22.663 INFO: EXECUTION FAILURE</span><br><span class="line">17:08:22.663 INFO: ------------------------------------------------------------------------</span><br><span class="line">17:08:22.663 INFO: Total time: 5:01.152s</span><br><span class="line">17:08:22.951 INFO: Final Memory: 47M/1469M</span><br><span class="line">17:08:22.951 INFO: ------------------------------------------------------------------------</span><br><span class="line">17:08:22.951 ERROR: Error during SonarQube Scanner execution</span><br><span class="line">17:08:22.951 ERROR: Failed to upload report - An error has occurred. Please contact your administrator</span><br><span class="line">WARN: Unable to locate &apos;report-task.txt&apos; in the workspace. Did the SonarScanner succeeded?</span><br><span class="line">ERROR: SonarQube scanner exited with non-zero code: 1</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SHOW VARIABLES LIKE &apos;max_allowed_packet&apos;;</span><br><span class="line">修改/etc/my.cnf文件：</span><br><span class="line">max_allowed_packet = 50M</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/11/04/PING%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/">PING命令使用</a>
+            
+            
+            <a class="next" rel="next" href="/2019/10/25/%E5%B0%86Linux%E5%91%BD%E4%BB%A4%E7%9A%84%E7%BB%93%E6%9E%9C%E4%BD%9C%E4%B8%BA%E4%B8%8B%E4%B8%80%E4%B8%AA%E5%91%BD%E4%BB%A4%E7%9A%84%E5%8F%82%E6%95%B0/">将Linux命令的结果作为下一个命令的参数</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© YiLongZhang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+	<script src="/js/canvas-nest.js"></script>
+</body>
+</html>
