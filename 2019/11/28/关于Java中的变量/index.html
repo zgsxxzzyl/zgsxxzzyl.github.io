@@ -12,7 +12,7 @@
 
 
 
-<title>将Linux命令的结果作为下一个命令的参数 | 乾坤多畏途,何处无波澜</title>
+<title>关于Java中的变量 | 乾坤多畏途,何处无波澜</title>
 
 
 
@@ -174,7 +174,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">将Linux命令的结果作为下一个命令的参数</h1>
+            <h1 class="post-title">关于Java中的变量</h1>
             
                 <div class="post-meta">
                     
@@ -183,14 +183,14 @@
 
                     
                         <span class="post-time">
-                        创建日期: <a href="#">十月 25, 2019&nbsp;&nbsp;11:27:13</a>
+                        创建日期: <a href="#">十一月 28, 2019&nbsp;&nbsp;9:20:58</a>
                         </span>
                     
                     
                         <span class="post-category">
                     分类:
                             
-                                <a href="/categories/Linux/">Linux</a>
+                                <a href="/categories/Java/">Java</a>
                             
                         </span>
                     
@@ -199,23 +199,32 @@
         </header>
 
         <div class="post-content">
-            <h1 id="符号："><a href="#符号：" class="headerlink" title="符号：``"></a>符号：``</h1><p>名称：反引号，上分隔符</p>
-<p>位置：反引号（`）这个字符一般在键盘的左上角，数字1的左边，不要将其同单引号（’）混淆</p>
-<p>作用：反引号括起来的字符串被shell解释为命令行，在执行时，shell首先执行该命令行，并以它的标准输出结果取代整个反引号（包括两个反引号）部分</p>
-<p>举例：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo `rpm -qa|grep java`</span><br></pre></td></tr></table></figure>
-
-<h1 id="命令：xargs"><a href="#命令：xargs" class="headerlink" title="命令：xargs"></a>命令：xargs</h1><p>xargs是给命令传递参数的一个过滤器，也是组合多个命令的一个工具。它把一个数据流分割为一些足够小的块，以方便过滤器和命令进行处理。</p>
-<p>通常情况下，xargs从管道或者stdin中读取数据，但是它也能够从文件的输出中读取数据。</p>
-<p>xargs的默认命令是echo，这意味着通过管道传递给xargs的输入将会包含换行和空白，不过通过xargs的处理，换行和空白将被空格取代。</p>
-<p>举例：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa|grep java |xargs echo</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="命令：awk"><a href="#命令：awk" class="headerlink" title="命令：awk"></a>命令：awk</h1><p>就是把文件逐行的读入，以空格为默认分隔符将每行切片，切开的部分再进行各种分析处理。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa|grep java|awk '&#123;print $1&#125;'</span><br></pre></td></tr></table></figure>
-
+            <h1 id="成员变量"><a href="#成员变量" class="headerlink" title="成员变量"></a>成员变量</h1><blockquote>
+<p>存在于堆内存中，和类一起创建</p>
+</blockquote>
+<ul>
+<li>实例变量（不以static修饰）</li>
+</ul>
+<p>实例变量则从该类的实例被创建起开始存在，直到系统完全销毁这个实例，实例变量的作用域与对应实例的生存范围相同</p>
+<ul>
+<li>类变量（以static修饰）</li>
+</ul>
+<p>类变量从该类的准备阶段起开始存在，直到系统完全销毁这个类，类变量的作用域与这个类的生存范围相同</p>
+<h1 id="局部变量"><a href="#局部变量" class="headerlink" title="局部变量"></a>局部变量</h1><blockquote>
+<p>存在于栈内存中，当方法执行完成，回收内存</p>
+</blockquote>
+<ul>
+<li>形参（方法签名中定义的变量）</li>
+</ul>
+<p>在定义方法签名时定义的变量，形参的作用域在整个方法中都有效</p>
+<ul>
+<li>方法局部变量（在方法内定义）</li>
+</ul>
+<p>在方法体内定义的局部变量，它的作用域是从定义该变量的地方生效，到该方法结束时失效</p>
+<ul>
+<li>代码块局部变量（在代码块内定义）</li>
+</ul>
+<p>这个局部变量的作用域从定义该变量的地方生效，到该代码结束时失效。</p>
 
         </div>
 
@@ -226,7 +235,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/Linux/"># Linux</a>
+                        <a href="/tags/Java/"># Java</a>
                     
                         
                 </span>
@@ -239,10 +248,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2019/10/25/Jenkins%E5%92%8CSonarQube%E9%9B%86%E6%88%90/">Jenkins和SonarQube集成</a>
             
-            
-            <a class="next" rel="next" href="/2019/10/24/MySQL-Replication/">MySQL-Replication</a>
+            <a class="next" rel="next" href="/2019/11/14/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%9F%BA%E7%A1%80/">二进制基础</a>
             
         </section>
 
