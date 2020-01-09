@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="YiLongZhang">
+
+
+
+
+
+<title>MacBook实用技能 | 乾坤多畏途,何处无波澜</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">推文</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">推文</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部折叠"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">MacBook实用技能</h1>
+            
+                <div class="post-meta">
+                    
+                        作者: <a itemprop="author" rel="author" href="/">YiLongZhang</a>
+                    
+
+                    
+                        <span class="post-time">
+                        创建日期: <a href="#">十二月 24, 2019&nbsp;&nbsp;16:02:43</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="系统快捷键"><a href="#系统快捷键" class="headerlink" title="系统快捷键"></a>系统快捷键</h1><table>
+<thead>
+<tr>
+<th align="center">键</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">⌘⌥⎋</td>
+<td align="center">强制退出</td>
+</tr>
+</tbody></table>
+<h1 id="重装系统"><a href="#重装系统" class="headerlink" title="重装系统"></a>重装系统</h1><p><a href="https://support.apple.com/zh-cn/HT204904" target="_blank" rel="noopener">https://support.apple.com/zh-cn/HT204904</a></p>
+<h1 id="关于shell"><a href="#关于shell" class="headerlink" title="关于shell"></a>关于shell</h1><ul>
+<li><p><a href="https://support.apple.com/zh-cn/HT208050" target="_blank" rel="noopener">在 Mac 上将 zsh 用作默认 Shell</a></p>
+</li>
+<li><p>配置环境变量</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 旧版本Mac系统的环境变量，加载顺序为：</span></span><br><span class="line">/etc/profile								</span><br><span class="line">/etc/paths </span><br><span class="line">~/.bash_profile </span><br><span class="line">~/.bash_login </span><br><span class="line">~/.profile </span><br><span class="line">~/.bashrc</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/zprofile</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 中间用冒号隔开</span></span><br><span class="line">export PATH=$PATH:&lt;PATH 1&gt;:&lt;PATH 2&gt;:&lt;PATH 3&gt;:------:&lt;PATH N&gt;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> environment variable</span></span><br><span class="line">export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_231.jdk/Contents/Home</span><br><span class="line">export MVN_HOME=/opt/apache-maven-3.6.2</span><br><span class="line">export PATH=$JAVA_HOME/bin:$MVN_HOME/bin:$PATH</span><br><span class="line">export CLASSPATH=.:$JAVA_HOME/lib</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改主机名称</p>
+<blockquote>
+<p>在某些情况下，主机名称会改变成bogon，用下面这个命令修改</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo scutil --set HostName XXXX</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>命令行下载</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">curl [options...] &lt;url&gt;</span><br><span class="line">-O, --remote-name   Write output to a file named as the remote file</span><br><span class="line">    --remote-name-all Use the remote file name for all URLs</span><br><span class="line">    </span><br><span class="line">curl -O &lt;URL&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>权限授予</p>
+<blockquote>
+<p>某些情况下，如果发现某些应用无法启动，可能是因为权限的问题</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看当前路径下文件的全部权限</span></span><br><span class="line">ls -l</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 授权</span></span><br><span class="line">chmod [ugoa...][[+-=][rwxX]...][,...]</span><br><span class="line">其中：</span><br><span class="line">u 表示该文件的拥有者，g 表示与该文件的拥有者属于同一个群体(group)者，o 表示其他以外的人，a 表示这三者皆是。</span><br><span class="line">+ 表示增加权限、- 表示取消权限、= 表示唯一设定权限。</span><br><span class="line">r 表示可读取，w 表示可写入，x 表示可执行，X 表示只有当该文件是个子目录或者该文件已经被设定过为可执行。</span><br><span class="line">r=4，w=2，x=1</span><br><span class="line">其他参数说明：</span><br><span class="line">-c : 若该文件权限确实已经更改，才显示其更改动作</span><br><span class="line">-f : 若该文件权限无法被更改也不要显示错误讯息</span><br><span class="line">-v : 显示权限变更的详细资料</span><br><span class="line">-R : 对目前目录下的所有文件与子目录进行相同的权限变更(即以递回的方式逐个变更)</span><br><span class="line">--help : 显示辅助说明</span><br><span class="line">--version : 显示版本</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h1 id="Git命令"><a href="#Git命令" class="headerlink" title="Git命令"></a>Git命令</h1><blockquote>
+<p>一直没有遇到自己喜欢的图形化</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看文件跟踪状态</span></span><br><span class="line">git status</span><br><span class="line"><span class="meta">#</span><span class="bash"> 把文件加入到跟踪索引</span></span><br><span class="line">git add &lt;file&gt;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 移除文件跟踪，并且保留文件</span></span><br><span class="line">git rm --cached &lt;file&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="IDEA常用快捷键-macOS"><a href="#IDEA常用快捷键-macOS" class="headerlink" title="IDEA常用快捷键(macOS)"></a>IDEA常用快捷键(macOS)</h1><table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="center">键</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Implementation(s)</td>
+<td align="center">⌥⌘B</td>
+<td align="left">查看实现类</td>
+</tr>
+<tr>
+<td align="left">Evaluate Expression…</td>
+<td align="center">⌥F8</td>
+<td align="left">DEBUG模式下调试参数</td>
+</tr>
+<tr>
+<td align="left">Run to Cursor</td>
+<td align="center">⌥F9</td>
+<td align="left">运行到这一行</td>
+</tr>
+<tr>
+<td align="left">Generate…</td>
+<td align="center">⌘N</td>
+<td align="left">代码生成</td>
+</tr>
+<tr>
+<td align="left">File…</td>
+<td align="center">⇧⌘O</td>
+<td align="left">文件打开</td>
+</tr>
+<tr>
+<td align="left">Find Usages</td>
+<td align="center">⌥F7</td>
+<td align="left">查找类的使用</td>
+</tr>
+<tr>
+<td align="left">Show Context Actions</td>
+<td align="center">⌥↩</td>
+<td align="left">导入依赖</td>
+</tr>
+<tr>
+<td align="left">Find in Path…</td>
+<td align="center">⇧⌘F</td>
+<td align="left">在路径中查询</td>
+</tr>
+<tr>
+<td align="left">Reformat Code</td>
+<td align="center">⌥⌘L</td>
+<td align="left">格式化代码</td>
+</tr>
+<tr>
+<td align="left">Delete Line</td>
+<td align="center">⌘⌦</td>
+<td align="left">删除一行</td>
+</tr>
+<tr>
+<td align="left">Last Edit Location</td>
+<td align="center">⇧⌘⌦</td>
+<td align="left">退到上一次编辑的地方</td>
+</tr>
+</tbody></table>
+<h1 id="按键符号"><a href="#按键符号" class="headerlink" title="按键符号"></a>按键符号</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">⌘ == Command</span><br><span class="line">⇧ == Shift</span><br><span class="line">⇪ == Caps Lock</span><br><span class="line">⌥ == Option</span><br><span class="line">⌃ == Control</span><br><span class="line">↩ == Return/Enter</span><br><span class="line">⌫ == Delete</span><br><span class="line">⌦ == 向前删除键（Fn+Delete）</span><br><span class="line">↑ == 上箭头</span><br><span class="line">↓ == 下箭头</span><br><span class="line">← == 左箭头</span><br><span class="line">→ == 右箭头</span><br><span class="line">⇞ == Page Up（Fn+↑）</span><br><span class="line">⇟ == Page Down（Fn+↓）</span><br><span class="line">Home == Fn + ←</span><br><span class="line">End == Fn + →</span><br><span class="line">⇥ == 右制表符（Tab键）</span><br><span class="line">⇤ == 左制表符（Shift+Tab）</span><br><span class="line">⎋ == Escape (Esc)</span><br><span class="line">⏏ == 电源开关键</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/12/25/%E7%BC%93%E5%AD%98%E7%AE%97%E6%B3%95/">缓存算法</a>
+            
+            
+            <a class="next" rel="next" href="/2019/12/19/Java%E5%9B%BE%E5%83%8F%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/">Java图像相关操作</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© YiLongZhang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+	<script src="/js/canvas-nest.js"></script>
+</body>
+</html>
