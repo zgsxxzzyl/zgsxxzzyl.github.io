@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="YiLongZhang">
+
+
+
+
+
+<title>Docker常用命令 | 乾坤多畏途,何处无波澜</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">推文</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">推文</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部折叠"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Docker常用命令</h1>
+            
+                <div class="post-meta">
+                    
+                        作者: <a itemprop="author" rel="author" href="/">YiLongZhang</a>
+                    
+
+                    
+                        <span class="post-time">
+                        创建日期: <a href="#">十月 22, 2019&nbsp;&nbsp;14:42:27</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    分类:
+                            
+                                <a href="/categories/Docker/">Docker</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="Docker常用命令"><a href="#Docker常用命令" class="headerlink" title="Docker常用命令"></a>Docker常用命令</h1><blockquote>
+<p><a href="https://docs.docker.com/engine/reference/run/" target="_blank" rel="noopener">官方文档</a></p>
+</blockquote>
+<h2 id="启动docker进程"><a href="#启动docker进程" class="headerlink" title="启动docker进程"></a>启动docker进程</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start docker</span><br></pre></td></tr></table></figure>
+
+<h2 id="搜索可用镜像"><a href="#搜索可用镜像" class="headerlink" title="搜索可用镜像"></a>搜索可用镜像</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker search xx</span><br><span class="line"></span><br><span class="line">NAME           # 镜像仓库</span><br><span class="line">DESCRIPTION    # 镜像描述信息</span><br><span class="line">STARS          # 镜像收藏数</span><br><span class="line">OFFICIAL       # 是否为docker官方发布的镜像</span><br><span class="line">AUTOMATED      # 是否为自动化构建的镜像，关于自动化构建，可以查看官方文档：https://docs.docker.com/docker-hub/builds/#how-automated-builds-work</span><br></pre></td></tr></table></figure>
+<h2 id="拉去镜像"><a href="#拉去镜像" class="headerlink" title="拉去镜像"></a>拉去镜像</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull [OPTIONS] NAME[:TAG|@DIGEST]</span><br></pre></td></tr></table></figure>
+<h2 id="列出本地全部镜像"><a href="#列出本地全部镜像" class="headerlink" title="列出本地全部镜像"></a>列出本地全部镜像</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure>
+<h2 id="查看镜像的详情"><a href="#查看镜像的详情" class="headerlink" title="查看镜像的详情"></a>查看镜像的详情</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker inspect [OPTIONS] NAME|ID [NAME|ID...]</span><br><span class="line">docker image inspect nginx:latest | grep -i version</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除镜像"><a href="#删除镜像" class="headerlink" title="删除镜像"></a>删除镜像</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rmi [OPTIONS] IMAGE [IMAGE...]</span><br></pre></td></tr></table></figure>
+<h2 id="基于镜像创建并启动容器"><a href="#基于镜像创建并启动容器" class="headerlink" title="基于镜像创建并启动容器"></a>基于镜像创建并启动容器</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker run [OPTIONS] IMAGE [COMMAND] [ARG...]</span><br><span class="line">-d, --detach                         Run container in background and print container ID</span><br><span class="line">-t, --tty                            Allocate a pseudo-TTY</span><br><span class="line">-p, --publish list                   Publish a container's port(s) to the host</span><br><span class="line">-P, --publish-all                    Publish all exposed ports to random ports</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">基于镜像启动容器实例</span></span><br><span class="line">docker run -t -i IMAGE /bin/bash</span><br></pre></td></tr></table></figure>
+<h2 id="删除容器"><a href="#删除容器" class="headerlink" title="删除容器"></a>删除容器</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rm [OPTIONS] CONTAINER [CONTAINER...]</span><br></pre></td></tr></table></figure>
+<h2 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a>启动容器</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker start [OPTIONS] CONTAINER [CONTAINER...]</span><br></pre></td></tr></table></figure>
+<h2 id="查看启动容器日志"><a href="#查看启动容器日志" class="headerlink" title="查看启动容器日志"></a>查看启动容器日志</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Usage:  docker logs [OPTIONS] CONTAINER</span><br><span class="line">Fetch the logs of a container</span><br><span class="line">Options:</span><br><span class="line">      --details        Show extra details provided to logs</span><br><span class="line">  -f, --follow         Follow log output</span><br><span class="line">      --since string   Show logs since timestamp (e.g. 2013-01-02T13:23:37) or relative (e.g. 42m for 42 minutes)</span><br><span class="line">      --tail string    Number of lines to show from the end of the logs (default "all")</span><br><span class="line">  -t, --timestamps     Show timestamps</span><br><span class="line">      --until string   Show logs before a timestamp (e.g. 2013-01-02T13:23:37) or relative (e.g. 42m for 42 minutes)</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看容器近30分钟日志</span></span><br><span class="line">docker logs --since 30m CONTAINER_ID</span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看某时间之后的日志</span></span><br><span class="line">docker logs -t --since="2019-08-02T13:23:37" CONTAINER_ID</span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看某时间段日志：</span></span><br><span class="line">docker logs -t --since="2019-08-02T13:23:37" --until "2019-08-03T12:23:37" CONTAINER_ID</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看启动的实例"><a href="#查看启动的实例" class="headerlink" title="查看启动的实例"></a>查看启动的实例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker ps [OPTIONS]</span><br><span class="line">-a, --all             Show all containers (default shows just running)</span><br></pre></td></tr></table></figure>
+<h2 id="修改容器端口映射"><a href="#修改容器端口映射" class="headerlink" title="修改容器端口映射"></a>修改容器端口映射</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 直接修改配置文件</span></span><br><span class="line">/var/lib/docker/containers/[CONTAINER ID]/config.v2.json</span><br><span class="line"><span class="meta">#</span><span class="bash"> 容器3306端口映射到外部3310端口</span></span><br><span class="line">docker run -dit --privileged -p 3310:3306 --name=CONTAINNAME IMAGE /usr/sbin/init</span><br></pre></td></tr></table></figure>
+<h2 id="进入容器"><a href="#进入容器" class="headerlink" title="进入容器"></a>进入容器</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it [CONTAINER ID] bash</span><br><span class="line">docker <span class="built_in">exec</span> -it [CONTAINER ID] /bin/sh</span><br></pre></td></tr></table></figure>
+<h2 id="导入导出容器"><a href="#导入导出容器" class="headerlink" title="导入导出容器"></a>导入导出容器</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker export [imagename] &gt; [url]</span><br><span class="line">docker import [url] &gt; [imagename]</span><br></pre></td></tr></table></figure>
+
+<h2 id="拷贝"><a href="#拷贝" class="headerlink" title="拷贝"></a>拷贝</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH</span><br><span class="line">docker cp [OPTIONS] SRC_PATH CONTAINER:DEST_PATH</span><br></pre></td></tr></table></figure>
+
+<h2 id="基于容器创建镜像"><a href="#基于容器创建镜像" class="headerlink" title="基于容器创建镜像"></a>基于容器创建镜像</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker commit containid imagename</span><br></pre></td></tr></table></figure>
+
+<h2 id="挂载目录"><a href="#挂载目录" class="headerlink" title="挂载目录"></a>挂载目录</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -v &lt;host&gt;:&lt;container&gt;:[rw|ro]</span><br></pre></td></tr></table></figure>
+
+<h2 id="历史记录"><a href="#历史记录" class="headerlink" title="历史记录"></a>历史记录</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker run -di \</span><br><span class="line">--name=tomcat8081 \</span><br><span class="line">-p 8081:8080 \</span><br><span class="line">-v /opt/tomcat.docker/tomcat8081/logs:/usr/local/tomcat/logs \</span><br><span class="line">-v /opt/tomcat.docker/tomcat8081/conf:/usr/local/tomcat/conf \</span><br><span class="line">-v /opt/tomcat.docker/tomcat8081/webapps:/usr/local/tomcat/webapps \</span><br><span class="line">tomcat:8.5-jdk8</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Docker/"># Docker</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/10/22/Maven%E6%89%93%E5%8C%85%E4%BB%8B%E7%BB%8D/">Maven打包介绍</a>
+            
+            
+            <a class="next" rel="next" href="/2019/10/22/MySQL%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/">MySQL安装部署</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© YiLongZhang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+	<script src="/js/canvas-nest.js"></script>
+</body>
+</html>

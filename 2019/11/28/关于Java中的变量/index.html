@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="YiLongZhang">
+
+
+
+
+
+<title>关于Java中的变量 | 乾坤多畏途,何处无波澜</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">推文</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">推文</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部折叠"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">关于Java中的变量</h1>
+            
+                <div class="post-meta">
+                    
+                        作者: <a itemprop="author" rel="author" href="/">YiLongZhang</a>
+                    
+
+                    
+                        <span class="post-time">
+                        创建日期: <a href="#">十一月 28, 2019&nbsp;&nbsp;9:20:58</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    分类:
+                            
+                                <a href="/categories/Java/">Java</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="成员变量"><a href="#成员变量" class="headerlink" title="成员变量"></a>成员变量</h1><blockquote>
+<p>存在于堆内存中，和类一起创建</p>
+</blockquote>
+<ul>
+<li>实例变量（不以static修饰）</li>
+</ul>
+<p>实例变量则从该类的实例被创建起开始存在，直到系统完全销毁这个实例，实例变量的作用域与对应实例的生存范围相同</p>
+<ul>
+<li>类变量（以static修饰）</li>
+</ul>
+<p>类变量从该类的准备阶段起开始存在，直到系统完全销毁这个类，类变量的作用域与这个类的生存范围相同</p>
+<h1 id="局部变量"><a href="#局部变量" class="headerlink" title="局部变量"></a>局部变量</h1><blockquote>
+<p>存在于栈内存中，当方法执行完成，回收内存</p>
+</blockquote>
+<ul>
+<li>形参（方法签名中定义的变量）</li>
+</ul>
+<p>在定义方法签名时定义的变量，形参的作用域在整个方法中都有效</p>
+<ul>
+<li>方法局部变量（在方法内定义）</li>
+</ul>
+<p>在方法体内定义的局部变量，它的作用域是从定义该变量的地方生效，到该方法结束时失效</p>
+<ul>
+<li>代码块局部变量（在代码块内定义）</li>
+</ul>
+<p>这个局部变量的作用域从定义该变量的地方生效，到该代码结束时失效。</p>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Java/"># Java</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/12/09/Linux%E7%B3%BB%E7%BB%9F%E4%B8%ADbash%E7%9A%84%E5%9B%9B%E7%A7%8D%E6%A8%A1%E5%BC%8F/">Linux系统中bash的四种模式</a>
+            
+            
+            <a class="next" rel="next" href="/2019/11/14/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%9F%BA%E7%A1%80/">二进制基础</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© YiLongZhang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+	<script src="/js/canvas-nest.js"></script>
+</body>
+</html>
