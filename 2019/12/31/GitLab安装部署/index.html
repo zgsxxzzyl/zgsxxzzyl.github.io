@@ -39,7 +39,44 @@
 
     
     
-        
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
     
 
 
@@ -190,7 +227,7 @@
                         <span class="post-category">
                     分类:
                             
-                                <a href="/categories/GitLab/">GitLab</a>
+                                <a href="/categories/%E9%83%A8%E7%BD%B2%E6%96%87%E6%A1%A3/">部署文档</a>
                             
                         </span>
                     
@@ -217,7 +254,7 @@
 <blockquote>
 <p><a href="https://gitlab.com/xhang/gitlab/-/wikis/home" target="_blank" rel="noopener">https://gitlab.com/xhang/gitlab/-/wikis/home</a></p>
 </blockquote>
-</li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 获取当前版本，版本可能不一致</span></span><br><span class="line">gitlab_version=$(sudo cat /opt/gitlab/embedded/service/gitlab-rails/VERSION)</span><br><span class="line"><span class="comment"># 克隆汉化版本库</span></span><br><span class="line">git <span class="built_in">clone</span> https://gitlab.com/xhang/gitlab.git</span><br><span class="line"><span class="comment"># 如果已经克隆过，则进行更新</span></span><br><span class="line">git fetch</span><br><span class="line"><span class="comment"># 导出gitlab_version版本的汉化补丁</span></span><br><span class="line">git diff v<span class="variable">$&#123;gitlab_version&#125;</span> v<span class="variable">$&#123;gitlab_version&#125;</span>-zh &gt; ../<span class="variable">$&#123;gitlab_version&#125;</span>-zh.diff</span><br><span class="line"><span class="comment"># 停止 gitlab</span></span><br><span class="line">sudo gitlab-ctl stop</span><br><span class="line"><span class="comment"># 如果patch命令不存在 yum install -y patch</span></span><br><span class="line">sudo patch -d /opt/gitlab/embedded/service/gitlab-rails -p1 &lt; <span class="variable">$&#123;gitlab_version&#125;</span>-zh.diff</span><br><span class="line"><span class="comment"># 停止gitlab</span></span><br><span class="line">sudo gitlab-ctl stop</span><br><span class="line">sudo gitlab-ctl start</span><br><span class="line">sudo gitlab-ctl reconfigure</span><br></pre></td></tr></table></figure></li>
 </ul>
 
         </div>

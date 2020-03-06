@@ -39,7 +39,44 @@
 
     
     
-        
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
     
 
 
@@ -108,6 +145,68 @@
             <div class="container">
     
     
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部折叠"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
 
     
     <article class="post-wrap">
@@ -125,19 +224,15 @@
                         </span>
                     
                     
-                        <span class="post-category">
-                    分类:
-                            
-                                <a href="/categories/Git/">Git</a>
-                            
-                        </span>
-                    
                 </div>
             
         </header>
 
         <div class="post-content">
-            <ul>
+            <h1 id="Git配置多个SSH-key"><a href="#Git配置多个SSH-key" class="headerlink" title="Git配置多个SSH key"></a>Git配置多个SSH key</h1><blockquote>
+<p>相关：<a href="https://blog.csdn.net/hao495430759/article/details/80673568" target="_blank" rel="noopener">https://blog.csdn.net/hao495430759/article/details/80673568</a></p>
+</blockquote>
+<h1 id="操作命令"><a href="#操作命令" class="headerlink" title="操作命令"></a>操作命令</h1><ul>
 <li>从远端合并代码到本地</li>
 </ul>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1.配置上游地址(只需要一次)</span><br><span class="line">git remote add upstream 你上游项目的地址 </span><br><span class="line"></span><br><span class="line">2.获取上游更新</span><br><span class="line">git fetch upstream</span><br><span class="line"></span><br><span class="line">3.合并到本地分支</span><br><span class="line">git merge upstream/master</span><br><span class="line"></span><br><span class="line">4.提交推送</span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
@@ -146,6 +241,15 @@
 <li>首次配置git时候测试连接</li>
 </ul>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@192.168.99.168</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>生成密钥</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config –global user.name ‘username’ </span><br><span class="line">git config –global user.email ‘example@email.com<span class="string">'</span></span><br><span class="line"><span class="string">ssh-keygen -t rsa -C '</span>example@email.com<span class="string">'</span></span><br></pre></td></tr></table></figure>
+
+
+
+
         </div>
 
         

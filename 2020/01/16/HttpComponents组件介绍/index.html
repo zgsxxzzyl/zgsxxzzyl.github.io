@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="YiLongZhang">
+
+
+
+
+
+<title>HttpComponents组件介绍 | 乾坤多畏途,何处无波澜</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">推文</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">推文</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部折叠"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">HttpComponents组件介绍</h1>
+            
+                <div class="post-meta">
+                    
+                        作者: <a itemprop="author" rel="author" href="/">YiLongZhang</a>
+                    
+
+                    
+                        <span class="post-time">
+                        创建日期: <a href="#">一月 16, 2020&nbsp;&nbsp;10:33:52</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="HttpComponents概述"><a href="#HttpComponents概述" class="headerlink" title="HttpComponents概述"></a>HttpComponents概述</h1><p>超文本传输协议（HTTP）可能是当今Internet上使用的最重要的协议。Web服务，具有网络功能的设备以及网络计算的增长继续将HTTP协议的作用扩展到用户驱动的Web浏览器之外，同时增加了需要HTTP支持的应用程序的数量。</p>
+<p>HttpComponents是为扩展而设计的，同时提供了对基本HTTP协议的强大支持，对于构建HTTP感知的客户端和服务器应用程序（例如Web浏览器，Web Spider，HTTP代理，Web服务传输库或利用或扩展HTTP协议以进行分布式通信。</p>
+<h1 id="HttpCore"><a href="#HttpCore" class="headerlink" title="HttpCore"></a><a href="http://hc.apache.org/httpcomponents-core-ga/index.html" target="_blank" rel="noopener">HttpCore</a></h1><blockquote>
+<p>是一组低级HTTP传输组件，可用于以最小的占用空间构建自定义客户端和服务器端HTTP服务。HttpCore支持两种I / O模型：基于经典Java I / O的阻塞I / O模型和基于Java NIO的非阻塞事件驱动的I / O模型。</p>
+<p>阻塞I / O模型可能更适合于数据密集型低延迟方案，而非阻塞模型可能更适合于高延迟方案，在原始数据吞吐量中，原始数据吞吐量的重要性不如处理数千个同时HTTP连接的能力。资源高效的方式。</p>
+</blockquote>
+<ul>
+<li>HttpCore教程<a href="http://hc.apache.org/httpcomponents-core-ga/tutorial/html" target="_blank" rel="noopener">HTML</a> / <a href="http://hc.apache.org/httpcomponents-core-ga/tutorial/pdf/httpcore-tutorial.pdf" target="_blank" rel="noopener">PDF</a></li>
+<li>HttpCore <a href="http://hc.apache.org/httpcomponents-core-ga/examples.html" target="_blank" rel="noopener">示例</a></li>
+</ul>
+<h1 id="HttpClient"><a href="#HttpClient" class="headerlink" title="HttpClient"></a><a href="http://hc.apache.org/httpcomponents-client-ga/index.html" target="_blank" rel="noopener">HttpClient</a></h1><blockquote>
+<p>是基于HttpCore的HTTP / 1.1兼容HTTP代理实现。它还为客户端身份验证，HTTP状态管理和HTTP连接管理提供了可重用的组件。HttpComponents Client是<a href="http://hc.apache.org/httpclient-legacy/index.html" target="_blank" rel="noopener">Commons HttpClient 3.x</a>的继承者和替代者。强烈建议Commons HttpClient用户进行升级。</p>
+</blockquote>
+<ul>
+<li>HttpClient教程<a href="http://hc.apache.org/httpcomponents-client-ga/tutorial/html" target="_blank" rel="noopener">HTML</a> / <a href="http://hc.apache.org/httpcomponents-client-ga/tutorial/pdf/httpclient-tutorial.pdf" target="_blank" rel="noopener">PDF</a></li>
+<li>HttpClient <a href="http://hc.apache.org/httpcomponents-client-ga/examples.html" target="_blank" rel="noopener">示例</a></li>
+</ul>
+<h1 id="Asynch-HttpClient"><a href="#Asynch-HttpClient" class="headerlink" title="Asynch HttpClient"></a><a href="http://hc.apache.org/httpcomponents-asyncclient-dev/index.html" target="_blank" rel="noopener">Asynch HttpClient</a></h1><blockquote>
+<p>是基于HttpCore NIO和HttpClient组件的HTTP / 1.1兼容HTTP代理实现。它是Apache HttpClient的补充模块，适用于特殊情况，在特殊情况下，就原始数据吞吐量而言，处理大量并发连接的能力比性能更为重要。</p>
+</blockquote>
+<ul>
+<li>HttpAsyncClient <a href="http://hc.apache.org/httpcomponents-asyncclient-dev/examples.html" target="_blank" rel="noopener">示例</a></li>
+</ul>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Java/"># Java</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/01/20/Java%E6%96%AD%E7%82%B9%E7%BB%AD%E4%BC%A0/">Java断点续传</a>
+            
+            
+            <a class="next" rel="next" href="/2020/01/10/Java%E4%B8%AD%E5%B8%B8%E7%94%A8%E5%8D%B4%E5%AD%98%E5%9C%A8%E6%80%A7%E8%83%BD%E7%9A%84%E9%97%AE%E9%A2%98/">Java中常用却存在性能的问题</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© YiLongZhang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+	<script src="/js/canvas-nest.js"></script>
+</body>
+</html>

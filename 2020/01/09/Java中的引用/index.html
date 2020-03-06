@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="YiLongZhang">
+
+
+
+
+
+<title>Java中的引用 | 乾坤多畏途,何处无波澜</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">推文</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">推文</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部折叠"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Java中的引用</h1>
+            
+                <div class="post-meta">
+                    
+                        作者: <a itemprop="author" rel="author" href="/">YiLongZhang</a>
+                    
+
+                    
+                        <span class="post-time">
+                        创建日期: <a href="#">一月 9, 2020&nbsp;&nbsp;17:47:30</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><blockquote>
+<p>在Java中提供了四个级别的引用：强引用，软引用，弱引用和虚引用。在这四个引用类型中，只有强引用FinalReference类是包内可见，其他三种引用类型均为public，可以在应用程序中直接使用。引用类型的类结构如图所示。</p>
+</blockquote>
+<h2 id="强引用-FinalReference"><a href="#强引用-FinalReference" class="headerlink" title="强引用 FinalReference"></a>强引用 FinalReference</h2><blockquote>
+<p>Java中的引用，类似C语言中最难的指针。（我是C语言入门编程，指针的概念还是很深入我心。）通过引用，可以对堆中的对象进行操作。如：</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">StringBuffer stringBuffer = <span class="keyword">new</span> StringBuffer(<span class="string">"Helloword"</span>);</span><br></pre></td></tr></table></figure>
+<p>变量str指向StringBuffer实例所在的堆空间，通过str可以操作该对象。</p>
+<ul>
+<li>强引用的特点：<ol>
+<li>强引用可以直接访问目标对象。</li>
+<li>强引用所指向的对象在任何时候都不会被系统回收。JVM宁愿抛出OOM异常，也不会回收强引用所指向的对象。</li>
+<li>强引用可能导致内存泄漏。</li>
+</ol>
+</li>
+</ul>
+<h2 id="软引用-SoftReference"><a href="#软引用-SoftReference" class="headerlink" title="软引用 SoftReference"></a>软引用 SoftReference</h2><blockquote>
+<p>软引用是除了强引用外，最强的引用类型。可以通过java.lang.ref.SoftReference使用软引用。一个持有软引用的对象，不会被JVM很快回收，JVM会根据当前堆的使用情况来判断何时回收。当堆使用率临近阈值时，才会去回收软引用的对象。因此，软引用可以用于实现对内存敏感的高速缓存。</p>
+<p>SoftReference的特点是它的一个实例保存对一个Java对象的软引用， 该软引用的存在不妨碍垃圾收集线程对该Java对象的回收。也就是说，一旦SoftReference保存了对一个Java对象的软引用后，在垃圾线程对 这个Java对象回收前，SoftReference类所提供的get()方法返回Java对象的强引用。一旦垃圾线程回收该Java对象之后，get()方法将返回null。</p>
+</blockquote>
+<p>下面举一个例子说明软引用的使用方法。</p>
+<p>在你的IDE设置参数 -Xmx2m -Xms2m规定堆内存大小为2m。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test3</span><span class="params">()</span></span>&#123;</span><br><span class="line">    MyObject obj = <span class="keyword">new</span> myObject();</span><br><span class="line">    SoftReference sf = <span class="keyword">new</span> SoftReference&lt;&gt;(obj);</span><br><span class="line">    obj = <span class="keyword">null</span>;</span><br><span class="line">    System.gc();</span><br><span class="line">    <span class="comment">//        byte[] bytes = new byte[1024*100];</span></span><br><span class="line">    <span class="comment">//        System.gc();</span></span><br><span class="line">    System.out.println(<span class="string">"是否被回收"</span>+sf.get());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">是否被回收cn.zyzpp.MyObject@42110406</span><br></pre></td></tr></table></figure>
+<p>打开被注释掉的new byte[1024*100]语句，这条语句请求一块大的堆空间，使堆内存使用紧张。并显式的再调用一次GC，结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">是否被回收null</span><br></pre></td></tr></table></figure>
+<p>说明在系统内存紧张的情况下，软引用被回收。</p>
+<h2 id="弱引用-PhantomReference"><a href="#弱引用-PhantomReference" class="headerlink" title="弱引用 PhantomReference"></a>弱引用 PhantomReference</h2><blockquote>
+<p>弱引用是一种比软引用较弱的引用类型。在系统GC时，只要发现弱引用，不管系统堆空间是否足够，都会将对象进行回收。在java中，可以用java.lang.ref.WeakReference实例来保存对一个Java对象的弱引用。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test3</span><span class="params">()</span></span>&#123;</span><br><span class="line">    MyObject obj = <span class="keyword">new</span> MyObject();</span><br><span class="line">    WeakReference sf = <span class="keyword">new</span> WeakReference(obj);</span><br><span class="line">    obj = <span class="keyword">null</span>;</span><br><span class="line">    System.out.println(<span class="string">"是否被回收"</span>+sf.get());</span><br><span class="line">    System.gc();</span><br><span class="line">    System.out.println(<span class="string">"是否被回收"</span>+sf.get());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">是否被回收cn.zyzpp.MyObject@42110406</span><br><span class="line">是否被回收null</span><br></pre></td></tr></table></figure>
+<p>软引用，弱引用都非常适合来保存那些可有可无的缓存数据，如果这么做，当系统内存不足时，这些缓存数据会被回收，不会导致内存溢出。而当内存资源充足时，这些缓存数据又可以存在相当长的时间，从而起到加速系统的作用。</p>
+<h3 id="弱引用WeakHashMap"><a href="#弱引用WeakHashMap" class="headerlink" title="弱引用WeakHashMap"></a>弱引用WeakHashMap</h3><blockquote>
+<p>WeakHashMap类在java.util包内，它实现了Map接口，是HashMap的一种实现，它使用弱引用作为内部数据的存储方案。WeakHashMap是弱引用的一种典型应用，它可以作为简单的缓存表解决方案。</p>
+</blockquote>
+<p>以下两段代码分别使用WeakHashMap和HashMap保存大量的数据：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test4</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Map map;</span><br><span class="line">    map = <span class="keyword">new</span> WeakHashMap&lt;String,Object&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i =<span class="number">0</span>;i&lt;<span class="number">10000</span>;i++)&#123;</span><br><span class="line">        map.put(<span class="string">"key"</span>+i,<span class="keyword">new</span> <span class="keyword">byte</span>[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//        map = new HashMap&lt;String,Object&gt;();</span></span><br><span class="line">    <span class="comment">//        for (int i =0;i&lt;10000;i++)&#123;</span></span><br><span class="line">    <span class="comment">//            map.put("key"+i,new byte[i]);</span></span><br><span class="line">    <span class="comment">//        &#125;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用-Xmx2M限定堆内存，使用WeakHashMap的代码正常运行结束，而使用HashMap的代码段抛出异常</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java.lang.OutOfMemoryError: Java heap space</span><br></pre></td></tr></table></figure>
+<p>由此可见，WeakHashMap会在系统内存紧张时使用弱引用，自动释放掉持有弱引用的内存数据。</p>
+<p>但如果WeakHashMap的key都在系统内持有强引用，那么WeakHashMap就退化为普通的HashMap，因为所有的表项都无法被自动清理。</p>
+<h2 id="虚引用-WeakReference"><a href="#虚引用-WeakReference" class="headerlink" title="虚引用 WeakReference"></a>虚引用 WeakReference</h2><blockquote>
+<p>虚引用是所有类型中最弱的一个。一个持有虚引用的对象，和没有引用几乎是一样的，随时可能被垃圾回收器回收。当试图通过虚引用的get()方法取得强引用时，总是会失败。并且，虚引用必须和引用队列一起使用，它的作用在于跟踪垃圾回收过程。</p>
+<p>当垃圾回收器准备回收一个对象时，如果发现它还有虚引用，就会在垃圾回收后，销毁这个对象，将这个虚引用加入引用队列。程序可以通过判断引用队列中是否已经加入了虚引用，来了解被引用的对象是否将要被垃圾回收。如果程序发现某个虚引用已经被加入到引用队列，那么就可以在所引用的对象的内存被回收之前采取必要的行动。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test3</span><span class="params">()</span></span>&#123;</span><br><span class="line">    MyObject obj = <span class="keyword">new</span> MyObject();</span><br><span class="line">    ReferenceQueue&lt;Object&gt; referenceQueue = <span class="keyword">new</span> ReferenceQueue&lt;&gt;();</span><br><span class="line">    PhantomReference sf = <span class="keyword">new</span> PhantomReference&lt;&gt;(obj,referenceQueue);</span><br><span class="line">    obj = <span class="keyword">null</span>;</span><br><span class="line">    System.out.println(<span class="string">"是否被回收"</span>+sf.get());</span><br><span class="line">    System.gc();</span><br><span class="line">    System.out.println(<span class="string">"是否被回收"</span>+sf.get());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">是否被回收null</span><br><span class="line">是否被回收null</span><br></pre></td></tr></table></figure>
+<p>对虚引用的get()操作，总是返回null，因为sf.get()方法的实现如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Java/"># Java</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/01/10/Java%E4%B8%AD%E5%B8%B8%E7%94%A8%E5%8D%B4%E5%AD%98%E5%9C%A8%E6%80%A7%E8%83%BD%E7%9A%84%E9%97%AE%E9%A2%98/">Java中常用却存在性能的问题</a>
+            
+            
+            <a class="next" rel="next" href="/2020/01/09/Java%E6%B3%9B%E5%9E%8B%E7%AE%80%E4%BB%8B/">Java泛型简介</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© YiLongZhang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+	<script src="/js/canvas-nest.js"></script>
+</body>
+</html>

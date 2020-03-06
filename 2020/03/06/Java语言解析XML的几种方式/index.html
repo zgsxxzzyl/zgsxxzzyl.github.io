@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="YiLongZhang">
+
+
+
+
+
+<title>Java语言解析XML的几种方式 | 乾坤多畏途,何处无波澜</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">推文</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">推文</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部折叠"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Java语言解析XML的几种方式</h1>
+            
+                <div class="post-meta">
+                    
+                        作者: <a itemprop="author" rel="author" href="/">YiLongZhang</a>
+                    
+
+                    
+                        <span class="post-time">
+                        创建日期: <a href="#">三月 6, 2020&nbsp;&nbsp;14:53:04</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="1-DOM解析"><a href="#1-DOM解析" class="headerlink" title="(1)DOM解析"></a>(1)DOM解析</h1><blockquote>
+<p>DOM是html和xml的应用程序接口(API)，以层次结构（类似于树型）来组织节点和信息片段，映射XML文档的结构，允许获取和操作文档的任意部分，是W3C的官方标准</p>
+</blockquote>
+<h2 id="【优点】"><a href="#【优点】" class="headerlink" title="【优点】"></a>【优点】</h2><ul>
+<li>①允许应用程序对数据和结构做出更改。</li>
+<li>②访问是双向的，可以在任何时候在树中上下导航，获取和操作任意部分的数据。</li>
+</ul>
+<h2 id="【缺点】"><a href="#【缺点】" class="headerlink" title="【缺点】"></a>【缺点】</h2><p>①通常需要加载整个XML文档来构造层次结构，消耗资源大。</p>
+<h2 id="【解析详解】"><a href="#【解析详解】" class="headerlink" title="【解析详解】"></a>【解析详解】</h2><ul>
+<li>①构建Document对象：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();</span><br><span class="line">DocumentBuilder db = bdf.newDocumentBuilder();</span><br><span class="line">InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(xml文件);</span><br><span class="line">Document doc = bd.parse(is);</span><br></pre></td></tr></table></figure></li>
+<li>②遍历DOM对象<ul>
+<li>Document：    XML文档对象，由解析器获取</li>
+<li>NodeList：    节点数组</li>
+<li>Node：    节点(包括element、# text)</li>
+<li>Element：    元素，可用于获取属性参数</li>
+</ul>
+</li>
+</ul>
+<h1 id="2-SAX-Simple-API-for-XML-解析"><a href="#2-SAX-Simple-API-for-XML-解析" class="headerlink" title="(2)SAX(Simple API for XML)解析"></a>(2)SAX(Simple API for XML)解析</h1><blockquote>
+<p>流型中的”推”模型分析方式。通过事件驱动，每发现一个节点就引发一个事件，事件推给事件处理器，通过回调方法<br>完成解析工作，解析XML文档的逻辑需要应用程序完成</p>
+</blockquote>
+<h2 id="【优势】"><a href="#【优势】" class="headerlink" title="【优势】"></a>【优势】</h2><ul>
+<li>①不需要等待所有数据都被处理，分析就能立即开始。</li>
+<li>②只在读取数据时检查数据，不需要保存在内存中。</li>
+<li>③可以在某个条件得到满足时停止解析，不必解析整个文档。</li>
+<li>④效率和性能较高，能解析大于系统内存的文档。</li>
+</ul>
+<h2 id="【缺点】-1"><a href="#【缺点】-1" class="headerlink" title="【缺点】"></a>【缺点】</h2><ul>
+<li>①需要应用程序自己负责TAG的处理逻辑（例如维护父/子关系等），文档越复杂程序就越复杂。</li>
+<li>②单向导航，无法定位文档层次，很难同时访问同一文档的不同部分数据，不支持XPath。</li>
+</ul>
+<h2 id="【原理】"><a href="#【原理】" class="headerlink" title="【原理】"></a>【原理】</h2><p>简单的说就是对文档进行顺序扫描，当扫描到文档(document)开始与结束、元素(element)开始与结束时通知事件处理函数(回调函数)，进行相应处理，直到文档结束</p>
+<h2 id="【事件处理器类型】"><a href="#【事件处理器类型】" class="headerlink" title="【事件处理器类型】"></a>【事件处理器类型】</h2><ul>
+<li>①访问XML DTD：DTDHandler</li>
+<li>②低级访问解析错误：ErrorHandler</li>
+<li>③访问文档内容：ContextHandler</li>
+</ul>
+<h2 id="【DefaultHandler类】"><a href="#【DefaultHandler类】" class="headerlink" title="【DefaultHandler类】"></a>【DefaultHandler类】</h2><p>SAX事件处理程序的默认基类，实现了DTDHandler、ErrorHandler、ContextHandler和EntityResolver接口，通常做法是，继承该基类，重写需要的方法，如startDocument()</p>
+<h2 id="【创建SAX解析器】"><a href="#【创建SAX解析器】" class="headerlink" title="【创建SAX解析器】"></a>【创建SAX解析器】</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SAXParserFactory saxf = SAXParserFactory.newInstance();</span><br><span class="line">SAXParser sax = saxf.newSAXParser();</span><br></pre></td></tr></table></figure>
+<p>注：关于遍历</p>
+<ul>
+<li>①深度优先遍历(Depthi-First Traserval)</li>
+<li>②广度优先遍历(Width-First Traserval)</li>
+</ul>
+<h1 id="3-JDOM-Java-based-Document-Object-Model"><a href="#3-JDOM-Java-based-Document-Object-Model" class="headerlink" title="(3)JDOM(Java-based Document Object Model)"></a>(3)JDOM(Java-based Document Object Model)</h1><blockquote>
+<p>Java特定的文档对象模型。自身不包含解析器，使用SAX</p>
+</blockquote>
+<h2 id="【优点】-1"><a href="#【优点】-1" class="headerlink" title="【优点】"></a>【优点】</h2><ul>
+<li>①使用具体类而不是接口，简化了DOM的API。</li>
+<li>②大量使用了Java集合类，方便了Java开发人员。</li>
+</ul>
+<h2 id="【缺点】-2"><a href="#【缺点】-2" class="headerlink" title="【缺点】"></a>【缺点】</h2><ul>
+<li>①没有较好的灵活性。</li>
+<li>②性能较差。</li>
+</ul>
+<h1 id="4-DOM4J-Document-Object-Model-for-Java"><a href="#4-DOM4J-Document-Object-Model-for-Java" class="headerlink" title="(4)DOM4J(Document Object Model for Java)"></a>(4)DOM4J(Document Object Model for Java)</h1><blockquote>
+<p>简单易用，采用Java集合框架，并完全支持DOM、SAX和JAXP</p>
+</blockquote>
+<h2 id="【优点】-2"><a href="#【优点】-2" class="headerlink" title="【优点】"></a>【优点】</h2><ul>
+<li>①大量使用了Java集合类，方便Java开发人员，同时提供一些提高性能的替代方法。</li>
+<li>②支持XPath。</li>
+<li>③有很好的性能。</li>
+</ul>
+<h2 id="【缺点】-3"><a href="#【缺点】-3" class="headerlink" title="【缺点】"></a>【缺点】</h2><ul>
+<li>①大量使用了接口，API较为复杂。</li>
+</ul>
+<h1 id="5-StAX-Streaming-API-for-XML"><a href="#5-StAX-Streaming-API-for-XML" class="headerlink" title="(5)StAX(Streaming API for XML)"></a>(5)StAX(Streaming API for XML)</h1><blockquote>
+<p>流模型中的拉模型分析方式。提供基于指针和基于迭代器两种方式的支持,JDK1.6新特性</p>
+</blockquote>
+<h2 id="【和推式解析相比的优点】"><a href="#【和推式解析相比的优点】" class="headerlink" title="【和推式解析相比的优点】"></a>【和推式解析相比的优点】</h2><ul>
+<li>①在拉式解析中，事件是由解析应用产生的，因此拉式解析中向客户端提供的是解析规则，而不是解析器。</li>
+<li>②同推式解析相比，拉式解析的代码更简单，而且不用那么多库。</li>
+<li>③拉式解析客户端能够一次读取多个XML文件。</li>
+<li>④拉式解析允许你过滤XML文件和跳过解析事件。</li>
+</ul>
+<h2 id="【简介】"><a href="#【简介】" class="headerlink" title="【简介】"></a>【简介】</h2><p>StAX API的实现是使用了Java Web服务开发（JWSDP）1.6，并结合了Sun Java流式XML分析器(SJSXP)-它位于<br>javax.xml.stream包中。XMLStreamReader接口用于分析一个XML文档，而XMLStreamWriter接口用于生成一个<br>XML文档。XMLEventReader负责使用一个对象事件迭代子分析XML事件-这与XMLStreamReader所使用的光标机制<br>形成对照。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>DOM4J</p>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Java/"># Java</a>
+                    
+                        <a href="/tags/XML/"># XML</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/02/28/RPC%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D/">RPC框架介绍</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© YiLongZhang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+	<script src="/js/canvas-nest.js"></script>
+</body>
+</html>

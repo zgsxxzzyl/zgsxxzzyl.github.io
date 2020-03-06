@@ -39,7 +39,44 @@
 
     
     
-        
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
     
 
 
@@ -190,7 +227,7 @@
                         <span class="post-category">
                     分类:
                             
-                                <a href="/categories/Linux/">Linux</a>
+                                <a href="/categories/%E9%83%A8%E7%BD%B2%E6%96%87%E6%A1%A3/">部署文档</a>
                             
                         </span>
                     
@@ -265,7 +302,7 @@
 
 <h3 id="解压发行版文件"><a href="#解压发行版文件" class="headerlink" title="解压发行版文件"></a>解压发行版文件</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local</span><br><span class="line"><span class="meta">#</span><span class="bash">tar zxvf /path/to/mysql-VERSION-OS.tar.gz 如果是.gz结尾</span></span><br><span class="line">tar xvf /path/to/mysql-VERSION-OS.tar</span><br></pre></td></tr></table></figure>
 
-<h3 id="创建软链接"><a href="#创建软链接" class="headerlink" title="创建软链接"></a>创建软链接</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 链接，这里建议使用全路径</span></span><br><span class="line">ln -s full-path-to-mysql-VERSION-OS mysql</span><br></pre></td></tr></table></figure>
+<h3 id="创建软链接"><a href="#创建软链接" class="headerlink" title="创建软链接"></a>创建软链接</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 链接，这里建议使用全路径</span></span><br><span class="line">ln -s full-path-to-mysql-VERSION-OS mysql</span><br><span class="line"><span class="meta">#</span><span class="bash"> 解压创建软链接，并且修改所属用户和组</span></span><br><span class="line">chown -R mysql:mysql mysql</span><br></pre></td></tr></table></figure>
 
 <h3 id="创建并授权"><a href="#创建并授权" class="headerlink" title="创建并授权"></a>创建并授权</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd mysql</span><br><span class="line">mkdir mysql-files</span><br><span class="line">chown mysql:mysql mysql-files</span><br><span class="line">chmod 750 mysql-files</span><br></pre></td></tr></table></figure>
 
@@ -294,7 +331,7 @@
 <li>创建文件</li>
 </ul>
 <p>这两个路径任意一个都可以</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">touch /etc/systemd/system/mysqld.service</span><br><span class="line">touch /usr/lib/systemd/system/mysqld.service</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">touch /etc/systemd/system/mysqld.service</span><br><span class="line"><span class="meta">#</span><span class="bash"> 建议创建到这个路径下面</span></span><br><span class="line">touch /usr/lib/systemd/system/mysqld.service</span><br></pre></td></tr></table></figure>
 
 <p>这里注意pid的路径，写入下面内容</p>
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="attr">Description</span>=MySQL Server</span><br><span class="line"><span class="attr">Documentation</span>=man:mysqld(<span class="number">8</span>)</span><br><span class="line"><span class="attr">Documentation</span>=http://dev.mysql.com/doc/refman/en/using-systemd.html</span><br><span class="line"><span class="attr">After</span>=network.target</span><br><span class="line"><span class="attr">After</span>=syslog.target</span><br><span class="line"></span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span>=multi-user.target</span><br><span class="line"></span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">User</span>=mysql</span><br><span class="line"><span class="attr">Group</span>=mysql</span><br><span class="line"></span><br><span class="line"><span class="comment"># Have mysqld write its state to the systemd notify socket</span></span><br><span class="line"><span class="attr">Type</span>=forking</span><br><span class="line"></span><br><span class="line"><span class="attr">PIDFile</span>=/var/run/mysql/mysqld.pid</span><br><span class="line"></span><br><span class="line"><span class="comment"># Disable service start and stop timeout logic of systemd for mysqld service.</span></span><br><span class="line"><span class="attr">TimeoutSec</span>=<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Start main service</span></span><br><span class="line"><span class="attr">ExecStart</span>=/usr/local/mysql/bin/mysqld --daemonize --pid-file=/var/run/mysql/mysqld.pid <span class="variable">$MYSQLD_OPTS</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Use this to switch malloc implementation</span></span><br><span class="line"><span class="attr">EnvironmentFile</span>=-/etc/sysconfig/mysql</span><br><span class="line"></span><br><span class="line"><span class="comment"># Sets open_files_limit</span></span><br><span class="line"><span class="attr">LimitNOFILE</span> = <span class="number">10000</span></span><br><span class="line"></span><br><span class="line"><span class="attr">Restart</span>=<span class="literal">on</span>-failure</span><br><span class="line"></span><br><span class="line"><span class="attr">RestartPreventExitStatus</span>=<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Set environment variable MYSQLD_PARENT_PID. This is required for restart.</span></span><br><span class="line"><span class="attr">Environment</span>=MYSQLD_PARENT_PID=<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="attr">PrivateTmp</span>=<span class="literal">false</span></span><br></pre></td></tr></table></figure>
