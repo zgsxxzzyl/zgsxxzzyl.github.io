@@ -80,7 +80,7 @@
     
 
 
-</head>
+<meta name="generator" content="Hexo 4.2.0"></head>
 <body>
     <div class="wrapper">
         <header>
@@ -89,7 +89,7 @@
             <div class="navbar-header header-logo"><a href="/">博客</a></div>
             <div class="menu navbar-right">
                 
-                    <a class="menu-item" href="/archives">推文</a>
+                    <a class="menu-item" href="/archives">文章</a>
                 
                     <a class="menu-item" href="/category">分类</a>
                 
@@ -97,10 +97,10 @@
                 
                     <a class="menu-item" href="/about">关于</a>
                 
+                <a href="/search/">搜索</a>
                 <input id="switch_default" type="checkbox" class="switch_default">
                 <label for="switch_default" class="toggleBtn"></label>
             </div>
-
         </div>
     </nav>
 
@@ -115,7 +115,7 @@
             </div>
             <div class="menu" id="mobile-menu">
                 
-                    <a class="menu-item" href="/archives">推文</a>
+                    <a class="menu-item" href="/archives">文章</a>
                 
                     <a class="menu-item" href="/category">分类</a>
                 
@@ -145,7 +145,7 @@
             <div class="container">
     
     
-        <div class="post-toc">
+    <div class="post-toc">
     <div class="tocbot-list">
     </div>
     <div class="tocbot-list-menu">
@@ -213,18 +213,22 @@
         <header class="post-header">
             <h1 class="post-title">Java开发规范</h1>
             
-                <div class="post-meta">
-                    
-                        作者: <a itemprop="author" rel="author" href="/">YiLongZhang</a>
-                    
+            <div class="post-meta">
+                
+                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                
 
-                    
-                        <span class="post-time">
-                        创建日期: <a href="#">十月 24, 2019&nbsp;&nbsp;9:23:32</a>
-                        </span>
-                    
-                    
-                </div>
+                
+                <span class="post-time">
+                    创建日期： <a
+                        href="#">十月 24, 2019&nbsp;&nbsp;9:23:32</a>
+                </span>&nbsp;
+                
+                
+                
+                状态：<a href="#">SNAPSHOT</a>
+                
+            </div>
             
         </header>
 
@@ -297,10 +301,10 @@
 <p>工具类是一堆静态字段和函数的集合，其不应该被实例化；但是，Java 为每个没有明确定义构造函数的类添加了一个隐式公有构造函数，为了避免不必要的实例化，应该显式定义私有构造函数来屏蔽这个隐式公有构造函数。</p>
 </blockquote>
 <p>反例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PasswordUtils</span> </span>&#123;</span><br><span class="line">    <span class="comment">//工具类构造函数反例</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOG = LoggerFactory.getLogger(PasswordUtils.class);</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String DEFAULT_CRYPT_ALGO = <span class="string">"PBEWithMD5AndDES"</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">encryptPassword</span><span class="params">(String aPassword)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> PasswordUtils(aPassword).encrypt();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PasswordUtils</span> </span>&#123;</span><br><span class="line">    <span class="comment">//工具类构造函数反例</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOG = LoggerFactory.getLogger(PasswordUtils<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String DEFAULT_CRYPT_ALGO = <span class="string">"PBEWithMD5AndDES"</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">encryptPassword</span><span class="params">(String aPassword)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> PasswordUtils(aPassword).encrypt();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
 <p>正例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PasswordUtils</span> </span>&#123;</span><br><span class="line">    <span class="comment">//工具类构造函数正例</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOG = LoggerFactory.getLogger(PasswordUtils.class);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//定义私有构造函数来屏蔽这个隐式公有构造函数</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">PasswordUtils</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String DEFAULT_CRYPT_ALGO = <span class="string">"PBEWithMD5AndDES"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">encryptPassword</span><span class="params">(String aPassword)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> PasswordUtils(aPassword).encrypt();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PasswordUtils</span> </span>&#123;</span><br><span class="line">    <span class="comment">//工具类构造函数正例</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOG = LoggerFactory.getLogger(PasswordUtils<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//定义私有构造函数来屏蔽这个隐式公有构造函数</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">PasswordUtils</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String DEFAULT_CRYPT_ALGO = <span class="string">"PBEWithMD5AndDES"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">encryptPassword</span><span class="params">(String aPassword)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> PasswordUtils(aPassword).encrypt();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="十、删除多余的异常捕获并跑出"><a href="#十、删除多余的异常捕获并跑出" class="headerlink" title="十、删除多余的异常捕获并跑出"></a>十、删除多余的异常捕获并跑出</h2><blockquote>
 <p>用catch 语句捕获异常后，若什么也不进行处理，就只是让异常重新抛出，这跟不捕获异常的效果一样，可以删除这块代码或添加别的处理。</p>
@@ -371,34 +375,31 @@
         
         <section class="post-tags">
             <div>
-                <span>标签:</span>
+                <span>标签：</span>
                 <span class="tag">
                     
                     
-                        <a href="/tags/Java/"># Java</a>
+                    <a href="/tags/Java/"># Java</a>
                     
-                        
+                    
                 </span>
             </div>
             <div>
-                <a href="javascript:window.history.back();">后退</a>
+                <a href="javascript：window.history.back();">后退</a>
                 <span>· </span>
                 <a href="/">主页</a>
             </div>
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2019/10/24/Docker%E4%B8%AD%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2MySQL/">Docker中安装部署MySQL</a>
+            <a class="prev" rel="prev" href="/2019/10/24/Docker%E4%B8%AD%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2MySQL/">Docker中安装部署MySQL</a>
             
             
             <a class="next" rel="next" href="/2019/10/23/Docker%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/">Docker安装部署</a>
             
         </section>
-
-
     </article>
 </div>
-
         </div>
         <footer id="footer" class="footer">
     <div class="copyright">
@@ -407,6 +408,5 @@
 </footer>
 
     </div>
-	<script src="/js/canvas-nest.js"></script>
 </body>
 </html>

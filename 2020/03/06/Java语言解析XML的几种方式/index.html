@@ -80,7 +80,7 @@
     
 
 
-</head>
+<meta name="generator" content="Hexo 4.2.0"></head>
 <body>
     <div class="wrapper">
         <header>
@@ -89,7 +89,7 @@
             <div class="navbar-header header-logo"><a href="/">博客</a></div>
             <div class="menu navbar-right">
                 
-                    <a class="menu-item" href="/archives">推文</a>
+                    <a class="menu-item" href="/archives">文章</a>
                 
                     <a class="menu-item" href="/category">分类</a>
                 
@@ -97,10 +97,10 @@
                 
                     <a class="menu-item" href="/about">关于</a>
                 
+                <a href="/search/">搜索</a>
                 <input id="switch_default" type="checkbox" class="switch_default">
                 <label for="switch_default" class="toggleBtn"></label>
             </div>
-
         </div>
     </nav>
 
@@ -115,7 +115,7 @@
             </div>
             <div class="menu" id="mobile-menu">
                 
-                    <a class="menu-item" href="/archives">推文</a>
+                    <a class="menu-item" href="/archives">文章</a>
                 
                     <a class="menu-item" href="/category">分类</a>
                 
@@ -145,7 +145,7 @@
             <div class="container">
     
     
-        <div class="post-toc">
+    <div class="post-toc">
     <div class="tocbot-list">
     </div>
     <div class="tocbot-list-menu">
@@ -213,18 +213,22 @@
         <header class="post-header">
             <h1 class="post-title">Java语言解析XML的几种方式</h1>
             
-                <div class="post-meta">
-                    
-                        作者: <a itemprop="author" rel="author" href="/">YiLongZhang</a>
-                    
+            <div class="post-meta">
+                
+                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                
 
-                    
-                        <span class="post-time">
-                        创建日期: <a href="#">三月 6, 2020&nbsp;&nbsp;14:53:04</a>
-                        </span>
-                    
-                    
-                </div>
+                
+                <span class="post-time">
+                    创建日期： <a
+                        href="#">三月 6, 2020&nbsp;&nbsp;14:53:04</a>
+                </span>&nbsp;
+                
+                
+                
+                状态：<a href="#">SNAPSHOT</a>
+                
+            </div>
             
         </header>
 
@@ -238,7 +242,7 @@
 </ul>
 <h2 id="【缺点】"><a href="#【缺点】" class="headerlink" title="【缺点】"></a>【缺点】</h2><p>①通常需要加载整个XML文档来构造层次结构，消耗资源大。</p>
 <h2 id="【解析详解】"><a href="#【解析详解】" class="headerlink" title="【解析详解】"></a>【解析详解】</h2><ul>
-<li>①构建Document对象：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();</span><br><span class="line">DocumentBuilder db = bdf.newDocumentBuilder();</span><br><span class="line">InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(xml文件);</span><br><span class="line">Document doc = bd.parse(is);</span><br></pre></td></tr></table></figure></li>
+<li>①构建Document对象：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DocumentBuilderFactory dbf &#x3D; DocumentBuilderFactory.newInstance();</span><br><span class="line">DocumentBuilder db &#x3D; bdf.newDocumentBuilder();</span><br><span class="line">InputStream is &#x3D; Thread.currentThread().getContextClassLoader().getResourceAsStream(xml文件);</span><br><span class="line">Document doc &#x3D; bd.parse(is);</span><br></pre></td></tr></table></figure></li>
 <li>②遍历DOM对象<ul>
 <li>Document：    XML文档对象，由解析器获取</li>
 <li>NodeList：    节点数组</li>
@@ -267,7 +271,7 @@
 <li>③访问文档内容：ContextHandler</li>
 </ul>
 <h2 id="【DefaultHandler类】"><a href="#【DefaultHandler类】" class="headerlink" title="【DefaultHandler类】"></a>【DefaultHandler类】</h2><p>SAX事件处理程序的默认基类，实现了DTDHandler、ErrorHandler、ContextHandler和EntityResolver接口，通常做法是，继承该基类，重写需要的方法，如startDocument()</p>
-<h2 id="【创建SAX解析器】"><a href="#【创建SAX解析器】" class="headerlink" title="【创建SAX解析器】"></a>【创建SAX解析器】</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SAXParserFactory saxf = SAXParserFactory.newInstance();</span><br><span class="line">SAXParser sax = saxf.newSAXParser();</span><br></pre></td></tr></table></figure>
+<h2 id="【创建SAX解析器】"><a href="#【创建SAX解析器】" class="headerlink" title="【创建SAX解析器】"></a>【创建SAX解析器】</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SAXParserFactory saxf &#x3D; SAXParserFactory.newInstance();</span><br><span class="line">SAXParser sax &#x3D; saxf.newSAXParser();</span><br></pre></td></tr></table></figure>
 <p>注：关于遍历</p>
 <ul>
 <li>①深度优先遍历(Depthi-First Traserval)</li>
@@ -312,34 +316,33 @@
         
         <section class="post-tags">
             <div>
-                <span>标签:</span>
+                <span>标签：</span>
                 <span class="tag">
                     
                     
-                        <a href="/tags/Java/"># Java</a>
+                    <a href="/tags/Java/"># Java</a>
                     
-                        <a href="/tags/XML/"># XML</a>
+                    <a href="/tags/XML/"># XML</a>
                     
-                        
+                    
                 </span>
             </div>
             <div>
-                <a href="javascript:window.history.back();">后退</a>
+                <a href="javascript：window.history.back();">后退</a>
                 <span>· </span>
                 <a href="/">主页</a>
             </div>
         </section>
         <section class="post-nav">
             
+            <a class="prev" rel="prev" href="/2020/03/10/Maven%E7%A7%81%E6%9C%8D%E6%90%AD%E5%BB%BA/">Maven私服搭建</a>
+            
             
             <a class="next" rel="next" href="/2020/02/28/RPC%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D/">RPC框架介绍</a>
             
         </section>
-
-
     </article>
 </div>
-
         </div>
         <footer id="footer" class="footer">
     <div class="copyright">
@@ -348,6 +351,5 @@
 </footer>
 
     </div>
-	<script src="/js/canvas-nest.js"></script>
 </body>
 </html>

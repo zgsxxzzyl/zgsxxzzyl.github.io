@@ -1267,6 +1267,12 @@ header label {
   font-family: Menlo, Monaco, Consolas, Courier New, monospace;
   font-size: 12px;
 }
+.post-content h1 code {
+  font-size: 1.2em;
+}
+.post-content h2 code {
+  font-size: 1em;
+}
 .post-content pre {
   padding: 10px;
   overflow: auto;
@@ -1341,4 +1347,8 @@ header label {
 .post-content pre .keyword,
 .post-content pre .javascript .function {
   color: #8959a8;
+}
+.search-keyword {
+  font-style: normal;
+  color: #c00;
 }

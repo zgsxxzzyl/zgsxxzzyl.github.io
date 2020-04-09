@@ -80,7 +80,7 @@
     
 
 
-</head>
+<meta name="generator" content="Hexo 4.2.0"></head>
 <body>
     <div class="wrapper">
         <header>
@@ -89,7 +89,7 @@
             <div class="navbar-header header-logo"><a href="/">博客</a></div>
             <div class="menu navbar-right">
                 
-                    <a class="menu-item" href="/archives">推文</a>
+                    <a class="menu-item" href="/archives">文章</a>
                 
                     <a class="menu-item" href="/category">分类</a>
                 
@@ -97,10 +97,10 @@
                 
                     <a class="menu-item" href="/about">关于</a>
                 
+                <a href="/search/">搜索</a>
                 <input id="switch_default" type="checkbox" class="switch_default">
                 <label for="switch_default" class="toggleBtn"></label>
             </div>
-
         </div>
     </nav>
 
@@ -115,7 +115,7 @@
             </div>
             <div class="menu" id="mobile-menu">
                 
-                    <a class="menu-item" href="/archives">推文</a>
+                    <a class="menu-item" href="/archives">文章</a>
                 
                     <a class="menu-item" href="/category">分类</a>
                 
@@ -145,7 +145,7 @@
             <div class="container">
     
     
-        <div class="post-toc">
+    <div class="post-toc">
     <div class="tocbot-list">
     </div>
     <div class="tocbot-list-menu">
@@ -213,18 +213,22 @@
         <header class="post-header">
             <h1 class="post-title">MySQL-锁</h1>
             
-                <div class="post-meta">
-                    
-                        作者: <a itemprop="author" rel="author" href="/">YiLongZhang</a>
-                    
+            <div class="post-meta">
+                
+                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                
 
-                    
-                        <span class="post-time">
-                        创建日期: <a href="#">十一月 13, 2019&nbsp;&nbsp;10:03:22</a>
-                        </span>
-                    
-                    
-                </div>
+                
+                <span class="post-time">
+                    创建日期： <a
+                        href="#">十一月 13, 2019&nbsp;&nbsp;10:03:22</a>
+                </span>&nbsp;
+                
+                
+                
+                状态：<a href="#">SNAPSHOT</a>
+                
+            </div>
             
         </header>
 
@@ -250,7 +254,7 @@
 <h2 id="2-如何加表锁"><a href="#2-如何加表锁" class="headerlink" title="2. 如何加表锁"></a>2. 如何加表锁</h2><p>MyISAM在执行查询语句（SELECT）前，会自动给涉及的所有表加读锁，在执行更新操作（UPDATE、DELETE、INSERT等）前，会自动给涉及的表加写锁，这个过程并不需要用户干预，因此，用户一般不需要直接用LOCK  TABLE命令给MyISAM表显式加锁。</p>
 <h2 id="3-MyISAM表锁优化建议"><a href="#3-MyISAM表锁优化建议" class="headerlink" title="3. MyISAM表锁优化建议"></a>3. MyISAM表锁优化建议</h2><p>对于MyISAM存储引擎，虽然使用表级锁定在锁定实现的过程中比实现行级锁定或者页级锁所带来的附加成本都要小，锁定本身所消耗的资源也是最少。但是由于锁定的颗粒度比较到，所以造成锁定资源的争用情况也会比其他的锁定级别都要多，从而在较大程度上会降低并发处理能力。所以，在优化MyISAM存储引擎锁定问题的时候，最关键的就是如何让其提高并发度。由于锁定级别是不可能改变的了，所以我们首先需要尽可能让锁定的时间变短，然后就是让可能并发进行的操作尽可能的并发。</p>
 <h3 id="（1）查询表级锁争用情况"><a href="#（1）查询表级锁争用情况" class="headerlink" title="（1）查询表级锁争用情况"></a>（1）查询表级锁争用情况</h3><p>MySQL内部有两组专门的状态变量记录系统内部锁资源争用情况：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show status like &apos;table%&apos;;</span><br><span class="line">+----------------------------+---------+</span><br><span class="line">| Variable_name              | Value   |</span><br><span class="line">+----------------------------+---------+</span><br><span class="line">| Table_locks_immediate      | 100     |</span><br><span class="line">| Table_locks_waited         | 11      |</span><br><span class="line">+----------------------------+---------+</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show status like &#39;table%&#39;;</span><br><span class="line">+----------------------------+---------+</span><br><span class="line">| Variable_name              | Value   |</span><br><span class="line">+----------------------------+---------+</span><br><span class="line">| Table_locks_immediate      | 100     |</span><br><span class="line">| Table_locks_waited         | 11      |</span><br><span class="line">+----------------------------+---------+</span><br></pre></td></tr></table></figure>
 
 <p>这里有两个状态变量记录MySQL内部表级锁定的情况，两个变量说明如下：</p>
 <ul>
@@ -337,7 +341,7 @@
 <li>（1）使用LOCK  TABLES虽然可以给InnoDB加表级锁，但必须说明的是，表锁不是由InnoDB存储引擎层管理的，而是由其上一层──MySQL  Server负责的，仅当autocommit=0、InnoDB_table_locks=1（默认设置）时，InnoDB层才能知道MySQL加的表锁，MySQL   Server也才能感知InnoDB加的行锁，这种情况下，InnoDB才能自动识别涉及表级锁的死锁，否则，InnoDB将无法自动检测并处理这种死锁。</li>
 <li>（2）在用  LOCK TABLES对InnoDB表加锁时要注意，要将AUTOCOMMIT设为0，否则MySQL不会给表加锁；事务结束前，不要用UNLOCK  TABLES释放表锁，因为UNLOCK TABLES会隐含地提交事务；COMMIT或ROLLBACK并不能释放用LOCK  TABLES加的表级锁，必须用UNLOCK TABLES释放表锁。正确的方式见如下语句：<br>例如，如果需要写表t1并从表t读，可以按如下做：</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SET AUTOCOMMIT=0;</span><br><span class="line">LOCK TABLES t1 WRITE, t2 READ, ...;</span><br><span class="line">[do something with tables t1 and t2 here];</span><br><span class="line">COMMIT;</span><br><span class="line">UNLOCK TABLES;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SET AUTOCOMMIT&#x3D;0;</span><br><span class="line">LOCK TABLES t1 WRITE, t2 READ, ...;</span><br><span class="line">[do something with tables t1 and t2 here];</span><br><span class="line">COMMIT;</span><br><span class="line">UNLOCK TABLES;</span><br></pre></td></tr></table></figure>
 
 <h2 id="6-InnoDB行锁优化建议"><a href="#6-InnoDB行锁优化建议" class="headerlink" title="6. InnoDB行锁优化建议"></a>6. InnoDB行锁优化建议</h2><p>InnoDB存储引擎由于实现了行级锁定，虽然在锁定机制的实现方面所带来的性能损耗可能比表级锁定会要更高一些，但是在整体并发处理能力方面要远远优于MyISAM的表级锁定的。当系统并发量较高的时候，InnoDB的整体性能和MyISAM相比就会有比较明显的优势了。但是，InnoDB的行级锁定同样也有其脆弱的一面，当我们使用不当的时候，可能会让InnoDB的整体性能表现不仅不能比MyISAM高，甚至可能会更差。</p>
 <ul>
@@ -355,7 +359,7 @@
 <li>c) 对于非常容易产生死锁的业务部分，可以尝试使用升级锁定颗粒度，通过表级锁定来减少死锁产生的概率。</li>
 </ul>
 </li>
-<li>（3）可以通过检查InnoDB_row_lock状态变量来分析系统上的行锁的争夺情况：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show status like &apos;InnoDB_row_lock%&apos;;</span><br><span class="line">+-------------------------------+-------+</span><br><span class="line">| Variable_name                 | Value |</span><br><span class="line">+-------------------------------+-------+</span><br><span class="line">| InnoDB_row_lock_current_waits | 0     |</span><br><span class="line">| InnoDB_row_lock_time          | 0     |</span><br><span class="line">| InnoDB_row_lock_time_avg      | 0     |</span><br><span class="line">| InnoDB_row_lock_time_max      | 0     |</span><br><span class="line">| InnoDB_row_lock_waits         | 0     |</span><br><span class="line">+-------------------------------+-------+</span><br></pre></td></tr></table></figure>
+<li>（3）可以通过检查InnoDB_row_lock状态变量来分析系统上的行锁的争夺情况：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show status like &#39;InnoDB_row_lock%&#39;;</span><br><span class="line">+-------------------------------+-------+</span><br><span class="line">| Variable_name                 | Value |</span><br><span class="line">+-------------------------------+-------+</span><br><span class="line">| InnoDB_row_lock_current_waits | 0     |</span><br><span class="line">| InnoDB_row_lock_time          | 0     |</span><br><span class="line">| InnoDB_row_lock_time_avg      | 0     |</span><br><span class="line">| InnoDB_row_lock_time_max      | 0     |</span><br><span class="line">| InnoDB_row_lock_waits         | 0     |</span><br><span class="line">+-------------------------------+-------+</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
@@ -370,7 +374,7 @@
 <p>对于这5个状态变量，比较重要的主要是InnoDB_row_lock_time_avg（等待平均时长），InnoDB_row_lock_waits（等待总次数）以及InnoDB_row_lock_time（等待总时长）这三项。尤其是当等待次数很高，而且每次等待时长也不小的时候，我们就需要分析系统中为什么会有如此多的等待，然后根据分析结果着手指定优化计划。</p>
 <p>如果发现锁争用比较严重，如InnoDB_row_lock_waits和InnoDB_row_lock_time_avg的值比较高，还可以通过设置InnoDB Monitors 来进一步观察发生锁冲突的表、数据行等，并分析锁争用的原因。</p>
 <p>锁冲突的表、数据行等，并分析锁争用的原因。具体方法如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table InnoDB_monitor(a INT) engine=InnoDB;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table InnoDB_monitor(a INT) engine&#x3D;InnoDB;</span><br></pre></td></tr></table></figure>
 
 <p>然后就可以用下面的语句来进行查看：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show engine InnoDB status;</span><br></pre></td></tr></table></figure>
@@ -389,34 +393,31 @@
         
         <section class="post-tags">
             <div>
-                <span>标签:</span>
+                <span>标签：</span>
                 <span class="tag">
                     
                     
-                        <a href="/tags/MySQL/"># MySQL</a>
+                    <a href="/tags/MySQL/"># MySQL</a>
                     
-                        
+                    
                 </span>
             </div>
             <div>
-                <a href="javascript:window.history.back();">后退</a>
+                <a href="javascript：window.history.back();">后退</a>
                 <span>· </span>
                 <a href="/">主页</a>
             </div>
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2019/11/14/Java%E6%B3%9B%E5%9E%8B%E7%9A%84%E5%8D%8F%E5%8F%98%E4%B8%8E%E9%80%86%E5%8F%98/">Java泛型的协变与逆变</a>
+            <a class="prev" rel="prev" href="/2019/11/14/Java%E6%B3%9B%E5%9E%8B%E7%9A%84%E5%8D%8F%E5%8F%98%E4%B8%8E%E9%80%86%E5%8F%98/">Java泛型的协变与逆变</a>
             
             
             <a class="next" rel="next" href="/2019/11/12/MySQL%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">MySQL性能优化</a>
             
         </section>
-
-
     </article>
 </div>
-
         </div>
         <footer id="footer" class="footer">
     <div class="copyright">
@@ -425,6 +426,5 @@
 </footer>
 
     </div>
-	<script src="/js/canvas-nest.js"></script>
 </body>
 </html>

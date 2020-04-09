@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="YiLongZhang">
+
+
+
+
+
+<title>JVM参数文档 | 乾坤多畏途,何处无波澜</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <a href="/search/">搜索</a>
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">JVM参数文档</h1>
+            
+            <div class="post-meta">
+                
+                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                
+
+                
+                <span class="post-time">
+                    创建日期： <a
+                        href="#">三月 16, 2020&nbsp;&nbsp;11:11:36</a>
+                </span>&nbsp;
+                
+                
+                
+                状态：<a href="#">SNAPSHOT</a>
+                
+            </div>
+            
+        </header>
+
+        <div class="post-content">
+            <blockquote>
+<p><a href="https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/index.html" target="_blank" rel="noopener">https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/index.html</a></p>
+<p><a href="https://docs.oracle.com/javase/8/docs/technotes/tools/unix/java.html" target="_blank" rel="noopener">https://docs.oracle.com/javase/8/docs/technotes/tools/unix/java.html</a></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="center">参数名称 <div style="width:100px;"></div></th>
+<th align="left">含义</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>-Xms</code></td>
+<td align="left">设置堆的初始大小（以字节为单位）</td>
+<td>初始大小将设置为为老一代和年轻一代分配的大小之和</td>
+<td>此值必须是1024的倍数且大于1 MB。在字母后面加上<code>k</code>或<code>K</code>表示千字节，<code>m</code>或<code>M</code>表示兆字节，<code>g</code>或<code>G</code>表示千兆字节。</td>
+</tr>
+<tr>
+<td align="center"><code>-Xmx</code></td>
+<td align="left">指定内存分配池的最大大小（以字节为单位）</td>
+<td>默认值是在运行时根据系统配置选择的</td>
+<td>此值必须是1024的倍数且大于2 MB</td>
+</tr>
+</tbody></table>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_OPTIONS="$&#123;JAVA_OPTIONS&#125; -server -Xms6144m -Xmx6144m -Xmn2048m -Xss256k -XX:PermSize=512m -XX:MaxPermSize=1024m  -XX:SurvivorRatio=2 -XX:+UseConcMarkSweepGC</span><br><span class="line">         -XX:+CMSParallelRemarkEnabled </span><br><span class="line">         -XX:+UseCMSCompactAtFullCollection </span><br><span class="line">         -XX:CMSFullGCsBeforeCompaction=3</span><br><span class="line">         -XX:+UseFastAccessorMethods </span><br><span class="line">         -XX:+UseCMSInitiatingOccupancyOnly </span><br><span class="line">         -XX:CMSInitiatingOccupancyFraction=80</span><br><span class="line">         -XX:+DoEscapeAnalysis </span><br><span class="line">         -XX:+EliminateAllocations</span><br><span class="line">         -XX:+HeapDumpOnOutOfMemoryError </span><br><span class="line">         -XX:-UseGCOverheadLimit </span><br><span class="line">         -XX:+TraceClassLoading </span><br><span class="line">         -XX:+CMSClassUnloadingEnabled </span><br><span class="line">         -XX:+PrintClassHistogram</span><br><span class="line">         -Djava.awt.headless=true </span><br><span class="line">         -XX:+UseParNewGC</span><br><span class="line">         -XX:ParallelGCThreads=4</span><br><span class="line">         -Doracle.jdbc.useThreadLocalBufferCache=false</span><br><span class="line">         -Doracle.jdbc.maxCachedBufferSize=0</span><br><span class="line">         -Dfile.encoding=utf-8i</span><br><span class="line">         -Dsun.zip.disableMemoryMapping=true</span><br><span class="line">        -Djava.rmi.server.hostname=192.168.99.67 -Dcom.sun.management.jmxremote.port=8989 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Djavax.management.builder.initial=weblogic.management.jmx.mbeanserver.WLSMBeanServerBuilder"</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>标签：</span>
+                <span class="tag">
+                    
+                    
+                    <a href="/tags/Java/"># Java</a>
+                    
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript：window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            <a class="prev" rel="prev" href="/2020/03/16/Java%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%93%8D%E4%BD%9C%E6%96%B9%E6%B3%95/">Java二进制操作方法</a>
+            
+            
+            <a class="next" rel="next" href="/2020/03/10/Maven%E7%A7%81%E6%9C%8D%E6%90%AD%E5%BB%BA/">Maven私服搭建</a>
+            
+        </section>
+    </article>
+</div>
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© YiLongZhang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

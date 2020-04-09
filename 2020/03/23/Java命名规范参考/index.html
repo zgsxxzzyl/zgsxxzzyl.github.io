@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="YiLongZhang">
+
+
+
+
+
+<title>Java命名规范参考 | 乾坤多畏途,何处无波澜</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <a href="/search/">搜索</a>
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+    <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部折叠"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Java命名规范参考</h1>
+            
+            <div class="post-meta">
+                
+                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                
+
+                
+                <span class="post-time">
+                    创建日期： <a
+                        href="#">三月 23, 2020&nbsp;&nbsp;10:42:24</a>
+                </span>&nbsp;
+                
+                
+                
+                状态：<a href="#">SNAPSHOT</a>
+                
+            </div>
+            
+        </header>
+
+        <div class="post-content">
+            <blockquote>
+<p>转自：<a href="https://mp.weixin.qq.com/s/O7U4XU-4QysmvL6cRfVfvw" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/O7U4XU-4QysmvL6cRfVfvw</a></p>
+</blockquote>
+<h2 id="一，Java中的命名规范"><a href="#一，Java中的命名规范" class="headerlink" title="一，Java中的命名规范"></a>一，Java中的命名规范</h2><p>好的命名能体现出代码的特征，含义或者是用途，让阅读者可以根据名称的含义快速厘清程序的脉络。不同语言中采用的命名形式大相径庭，Java中常用到的命名形式共有三种，既首字母大写的UpperCamelCase，首字母小写的lowerCamelCase以及全部大写的并用下划线分割单词的UPPERCAMELUNSER_SCORE。通常约定，<strong>类一般采用大驼峰命名，方法和局部变量使用小驼峰命名，而大写下划线命名通常是常量和枚举中使用。</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">类型(名)</th>
+<th align="center">约束</th>
+<th align="center">例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">项目</td>
+<td align="center">全部小写 多个单词用中划线分隔‘-’</td>
+<td align="center">spring-cloud</td>
+</tr>
+<tr>
+<td align="center">包</td>
+<td align="center">全部小写</td>
+<td align="center">com.alibaba.fastjson</td>
+</tr>
+<tr>
+<td align="center">类</td>
+<td align="center">单词首字母大写</td>
+<td align="center">Feature, FieldDeserializer</td>
+</tr>
+<tr>
+<td align="center">变量</td>
+<td align="center">首字母小写 多个单词组成时， 除首个单词 其他单词首字母都要大写</td>
+<td align="center">password,  userName</td>
+</tr>
+<tr>
+<td align="center">常量</td>
+<td align="center">全部大写，多个单词，用’_’分隔</td>
+<td align="center">CACHEEXPIREDTIME</td>
+</tr>
+<tr>
+<td align="center">方法</td>
+<td align="center">同变量</td>
+<td align="center">read(),  getById(Long id)</td>
+</tr>
+</tbody></table>
+<h2 id="二，包命名"><a href="#二，包命名" class="headerlink" title="二，包命名"></a>二，包命名</h2><p><strong>包名</strong>统一使用<strong>小写</strong>，<strong>点分隔符</strong>之间有且仅有一个自然语义的英文单词或者多个单词自然连接到一块（如 springframework，deepspace不需要使用任何分割）。包名统一使用单数形式，如果类命有复数含义，则可以使用复数形式。</p>
+<p>包名的构成可以分为以下几四部分【前缀】 【发起者名】【项目名】【模块名】。常见的前缀可以分为以下几种：</p>
+<table>
+<thead>
+<tr>
+<th align="center">前缀</th>
+<th align="center">例</th>
+<th align="center">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">indi 或 onem</td>
+<td align="center">indi.发起者名.项目名.模块名.……</td>
+<td align="center">个体项目 个人发起，但非自己独自完成 可公开或私有项目， copyright主要属于发起者。</td>
+</tr>
+<tr>
+<td align="center">pers</td>
+<td align="center">pers.个人名.项目名.模块名.……</td>
+<td align="center">个人项目 指个人发起，独自完成， 可分享的项目 copyright主要属于个人</td>
+</tr>
+<tr>
+<td align="center">priv</td>
+<td align="center">priv.个人名.项目名.模块名.……</td>
+<td align="center">私有项目，指个人发起，独自完成 非公开的私人使用的项目， copyright属于个人。</td>
+</tr>
+<tr>
+<td align="center">team</td>
+<td align="center">team.团队名.项目名.模块名.……</td>
+<td align="center">团队项目，指由团队发起 并由该团队开发的项目 copyright属于该团队所有</td>
+</tr>
+<tr>
+<td align="center">顶级域名</td>
+<td align="center">com.公司名.项目名.模块名.……</td>
+<td align="center">公司项目 copyright由项目发起的公司所有</td>
+</tr>
+</tbody></table>
+<h2 id="三，类命名"><a href="#三，类命名" class="headerlink" title="三，类命名"></a>三，类命名</h2><p><strong>类名使用大驼峰命名形式</strong>，类命通常时<strong>名词或名词短语</strong>，接口名除了用名词和名词短语以外，还可以使用形容词或形容词短语，如Cloneable，Callable等，表示实现该接口的类有某种功能或能力。对于测试类则以它要测试的类开头，以Test结尾，如HashMapTest。</p>
+<p>对于一些特殊特有名词缩写也可以使用全大写命名，比如XMLHttpRequest，不过笔者认为缩写三个字母以内都大写，超过三个字母则按照要给单词算。这个没有标准如阿里巴巴中fastjson用JSONObject作为类命，而google则使用JsonObjectRequest命名，对于这种特殊的缩写，原则是统一就好。</p>
+<table>
+<thead>
+<tr>
+<th align="left">属性(类)</th>
+<th align="left">约束</th>
+<th align="left">例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">抽象</td>
+<td align="left">Abstract  或 Base 开头</td>
+<td align="left">BaseUserService</td>
+</tr>
+<tr>
+<td align="left">枚举</td>
+<td align="left">Enum 作为后缀</td>
+<td align="left">OSType</td>
+</tr>
+<tr>
+<td align="left">工具</td>
+<td align="left">Utils作为后缀</td>
+<td align="left">StringUtils</td>
+</tr>
+<tr>
+<td align="left">异常</td>
+<td align="left">Exception结尾</td>
+<td align="left">RuntimeException</td>
+</tr>
+<tr>
+<td align="left">接口实现</td>
+<td align="left">接口名+ Impl</td>
+<td align="left">UserServiceImpl</td>
+</tr>
+<tr>
+<td align="left">领域模型相</td>
+<td align="left">/DO/DTO/VO/DAO</td>
+<td align="left">正例：UserDAO 反例：UserDao</td>
+</tr>
+<tr>
+<td align="left">设计模式相关</td>
+<td align="left">Builder，Factory等</td>
+<td align="left">当使用到设计模式时 要使用对应的设计模式作为后缀 如ThreadFactory</td>
+</tr>
+<tr>
+<td align="left">处理特定功能</td>
+<td align="left">Handler，Predicate Validator</td>
+<td align="left">表示处理器，校验器，断言 这些类工厂还有配套的方法名 如handle，predicate，validate</td>
+</tr>
+<tr>
+<td align="left">测试</td>
+<td align="left">Test后缀</td>
+<td align="left">UserServiceTest 表示用来测试UserService类的</td>
+</tr>
+<tr>
+<td align="left">MVC分层</td>
+<td align="left">Controller，Service ServiceImpl，DAO 后缀</td>
+<td align="left">UserManageController UserManageDAO</td>
+</tr>
+</tbody></table>
+<h2 id="四，方法"><a href="#四，方法" class="headerlink" title="四，方法"></a>四，方法</h2><p><strong>方法命名采用小驼峰的形式</strong>，首字小写，往后的每个单词首字母都要大写。和类名不同的是，方法命名一般为<strong>动词或动词短语</strong>，与参数或参数名共同组成动宾短语，即动词 + 名词。一个好的函数名一般能通过名字直接获知该函数实现什么样的功能。</p>
+<h3 id="4-1-返回真伪值的方法"><a href="#4-1-返回真伪值的方法" class="headerlink" title="4.1 返回真伪值的方法"></a>4.1 返回真伪值的方法</h3><p>注：pre- prefix前缀，suf- suffix后缀，alo-alone 单独使用</p>
+<table>
+<thead>
+<tr>
+<th align="left">位置</th>
+<th align="left">单词</th>
+<th align="left">意义</th>
+<th align="left">例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">pre</td>
+<td align="left">is</td>
+<td align="left">对象是否符合期待的状态</td>
+<td align="left">isValid</td>
+</tr>
+<tr>
+<td align="left">pre</td>
+<td align="left">can</td>
+<td align="left">对象<strong>能否执行</strong>所期待的动作</td>
+<td align="left">canRemove</td>
+</tr>
+<tr>
+<td align="left">pre</td>
+<td align="left">should</td>
+<td align="left">调用方执行某个命令 或方法是<strong>好还是不好</strong> <strong>应不应该</strong>， 或者说<strong>推荐还是不推荐</strong></td>
+<td align="left">shouldMigrate</td>
+</tr>
+<tr>
+<td align="left">pre</td>
+<td align="left">has</td>
+<td align="left">对象<strong>是否持有</strong> 所期待的数据和属性</td>
+<td align="left">hasObservers</td>
+</tr>
+<tr>
+<td align="left">pre</td>
+<td align="left">needs</td>
+<td align="left">调用方<strong>是否需要</strong> 执行某个命令或方法</td>
+<td align="left">needsMigrate</td>
+</tr>
+</tbody></table>
+<h3 id="4-2-用来检查的方法"><a href="#4-2-用来检查的方法" class="headerlink" title="4.2 用来检查的方法"></a>4.2 用来检查的方法</h3><table>
+<thead>
+<tr>
+<th align="left">单词</th>
+<th align="left">意义</th>
+<th align="left">例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">ensure</td>
+<td align="left">检查是否为期待的状态 不是则抛出异常或返回error code</td>
+<td align="left">ensureCapacity</td>
+</tr>
+<tr>
+<td align="left">validate</td>
+<td align="left">检查是否为正确的状态 不是则抛出异常或返回error code</td>
+<td align="left">validateInputs</td>
+</tr>
+</tbody></table>
+<h3 id="4-3-按需求才执行的方法"><a href="#4-3-按需求才执行的方法" class="headerlink" title="4.3 按需求才执行的方法"></a>4.3 按需求才执行的方法</h3><table>
+<thead>
+<tr>
+<th align="left">位置</th>
+<th align="left">单词</th>
+<th align="left">意义</th>
+<th align="left">例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">suf</td>
+<td align="left">IfNeeded</td>
+<td align="left">需要的时候执行 不需要则什么都不做</td>
+<td align="left">drawIfNeeded</td>
+</tr>
+<tr>
+<td align="left">pre</td>
+<td align="left">might</td>
+<td align="left">同上</td>
+<td align="left">mightCreate</td>
+</tr>
+<tr>
+<td align="left">pre</td>
+<td align="left">try</td>
+<td align="left">尝试执行 失败时抛出异常 或是返回errorcode</td>
+<td align="left">tryCreate</td>
+</tr>
+<tr>
+<td align="left">suf</td>
+<td align="left">OrDefault</td>
+<td align="left">尝试执行 失败时返回默认值</td>
+<td align="left">getOrDefault</td>
+</tr>
+<tr>
+<td align="left">suf</td>
+<td align="left">OrElse</td>
+<td align="left">尝试执行 失败时返回 实际参数中指定的值</td>
+<td align="left">getOrElse</td>
+</tr>
+<tr>
+<td align="left">pre</td>
+<td align="left">force</td>
+<td align="left">强制尝试执行 error抛出异常或是返回值</td>
+<td align="left">forceCreate,  forceStop</td>
+</tr>
+</tbody></table>
+<h3 id="4-4-异步相关方法"><a href="#4-4-异步相关方法" class="headerlink" title="4.4 异步相关方法"></a>4.4 异步相关方法</h3><table>
+<thead>
+<tr>
+<th align="left">位置</th>
+<th align="left">单词</th>
+<th align="left">意义</th>
+<th align="left">例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">pre</td>
+<td align="left">blocking</td>
+<td align="left">线程阻塞方法</td>
+<td align="left">blockingGetUser</td>
+</tr>
+<tr>
+<td align="left">suf</td>
+<td align="left">InBackground</td>
+<td align="left">执行在后台线程</td>
+<td align="left">doInBackground</td>
+</tr>
+<tr>
+<td align="left">suf</td>
+<td align="left">Async</td>
+<td align="left">异步方法</td>
+<td align="left">sendAsync</td>
+</tr>
+<tr>
+<td align="left">suf</td>
+<td align="left">Sync</td>
+<td align="left">同步方法</td>
+<td align="left">sendSync</td>
+</tr>
+<tr>
+<td align="left">pre / alo</td>
+<td align="left">schedule</td>
+<td align="left">Job和Tas k放入队列</td>
+<td align="left">schedule,  scheduleJob</td>
+</tr>
+<tr>
+<td align="left">pre / alo</td>
+<td align="left">post</td>
+<td align="left">同上</td>
+<td align="left">postJob</td>
+</tr>
+<tr>
+<td align="left">pre / alo</td>
+<td align="left">execute</td>
+<td align="left">执行异步 或同步方法</td>
+<td align="left">execute, executeTask</td>
+</tr>
+<tr>
+<td align="left">pre / alo</td>
+<td align="left">start</td>
+<td align="left">同上</td>
+<td align="left">star, tstartJob</td>
+</tr>
+<tr>
+<td align="left">pre / alo</td>
+<td align="left">cancel</td>
+<td align="left">停止异步方法</td>
+<td align="left">cance, cancelJob</td>
+</tr>
+<tr>
+<td align="left">pre / alo</td>
+<td align="left">stop</td>
+<td align="left">同上</td>
+<td align="left">stop,stopJob</td>
+</tr>
+</tbody></table>
+<h3 id="4-5-回调方法"><a href="#4-5-回调方法" class="headerlink" title="4.5 回调方法"></a>4.5 回调方法</h3><table>
+<thead>
+<tr>
+<th align="left">位置</th>
+<th align="left">单词</th>
+<th align="left">意义</th>
+<th align="left">例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">pre</td>
+<td align="left">on</td>
+<td align="left">事件发生时执行</td>
+<td align="left">onCompleted</td>
+</tr>
+<tr>
+<td align="left">pre</td>
+<td align="left">before</td>
+<td align="left">事件发生前执行</td>
+<td align="left">beforeUpdate</td>
+</tr>
+<tr>
+<td align="left">pre</td>
+<td align="left">pre</td>
+<td align="left">同上</td>
+<td align="left">preUpdate</td>
+</tr>
+<tr>
+<td align="left">pre</td>
+<td align="left">will</td>
+<td align="left">同上</td>
+<td align="left">willUpdate</td>
+</tr>
+<tr>
+<td align="left">pre</td>
+<td align="left">after</td>
+<td align="left">事件发生后执行</td>
+<td align="left">afterUpdate</td>
+</tr>
+<tr>
+<td align="left">pre</td>
+<td align="left">post</td>
+<td align="left">同上</td>
+<td align="left">postUpdate</td>
+</tr>
+<tr>
+<td align="left">pre</td>
+<td align="left">did</td>
+<td align="left">同上</td>
+<td align="left">didUpdate</td>
+</tr>
+<tr>
+<td align="left">pre</td>
+<td align="left">should</td>
+<td align="left">确认事件 是否可以执行</td>
+<td align="left">shouldUpdate</td>
+</tr>
+</tbody></table>
+<h3 id="4-6-操作对象生命周期的方法"><a href="#4-6-操作对象生命周期的方法" class="headerlink" title="4.6 操作对象生命周期的方法"></a>4.6 操作对象生命周期的方法</h3><table>
+<thead>
+<tr>
+<th align="left">单词</th>
+<th align="left">意义</th>
+<th align="left">例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">initialize</td>
+<td align="left">初始化或延迟初始化使用</td>
+<td align="left">initialize</td>
+</tr>
+<tr>
+<td align="left">pause</td>
+<td align="left">暂停</td>
+<td align="left">onPause , pause</td>
+</tr>
+<tr>
+<td align="left">stop</td>
+<td align="left">停止</td>
+<td align="left">onStop, stop</td>
+</tr>
+<tr>
+<td align="left">abandon</td>
+<td align="left">销毁的替代</td>
+<td align="left">abandon</td>
+</tr>
+<tr>
+<td align="left">destroy</td>
+<td align="left">同上</td>
+<td align="left">destroy</td>
+</tr>
+<tr>
+<td align="left">dispose</td>
+<td align="left">同上</td>
+<td align="left">dispose</td>
+</tr>
+</tbody></table>
+<h3 id="4-7-与集合操作相关的方法"><a href="#4-7-与集合操作相关的方法" class="headerlink" title="4.7 与集合操作相关的方法"></a>4.7 与集合操作相关的方法</h3><table>
+<thead>
+<tr>
+<th align="left">单词</th>
+<th align="left">意义</th>
+<th align="left">例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">contains</td>
+<td align="left">是包含指定对象相同的对象</td>
+<td align="left">contains</td>
+</tr>
+<tr>
+<td align="left">add</td>
+<td align="left">添加</td>
+<td align="left">addJob</td>
+</tr>
+<tr>
+<td align="left">append</td>
+<td align="left">添加</td>
+<td align="left">appendJob</td>
+</tr>
+<tr>
+<td align="left">insert</td>
+<td align="left">插入到下标n</td>
+<td align="left">insertJob</td>
+</tr>
+<tr>
+<td align="left">put</td>
+<td align="left">添加与key对应的元素</td>
+<td align="left">putJob</td>
+</tr>
+<tr>
+<td align="left">remove</td>
+<td align="left">移除元素</td>
+<td align="left">removeJob</td>
+</tr>
+<tr>
+<td align="left">enqueue</td>
+<td align="left">添加到队列的最末位</td>
+<td align="left">enqueueJob</td>
+</tr>
+<tr>
+<td align="left">dequeue</td>
+<td align="left">从队列中头部取出并移除</td>
+<td align="left">dequeueJob</td>
+</tr>
+<tr>
+<td align="left">push</td>
+<td align="left">添加到栈头</td>
+<td align="left">pushJob</td>
+</tr>
+<tr>
+<td align="left">pop</td>
+<td align="left">从栈头取出并移除</td>
+<td align="left">popJob</td>
+</tr>
+<tr>
+<td align="left">peek</td>
+<td align="left">从栈头取出但不移除</td>
+<td align="left">peekJob</td>
+</tr>
+<tr>
+<td align="left">find</td>
+<td align="left">寻找符合条件的某物</td>
+<td align="left">findById</td>
+</tr>
+</tbody></table>
+<h3 id="4-8-与数据相关的方法"><a href="#4-8-与数据相关的方法" class="headerlink" title="4.8 与数据相关的方法"></a>4.8 与数据相关的方法</h3><table>
+<thead>
+<tr>
+<th align="left">单词</th>
+<th align="left">意义</th>
+<th align="left">例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">create</td>
+<td align="left">新创建</td>
+<td align="left">createAccount</td>
+</tr>
+<tr>
+<td align="left">new</td>
+<td align="left">新创建</td>
+<td align="left">newAccount</td>
+</tr>
+<tr>
+<td align="left">from</td>
+<td align="left">从既有的某物新建 或是从其他的数据新建</td>
+<td align="left">fromConfig</td>
+</tr>
+<tr>
+<td align="left">to</td>
+<td align="left">转换</td>
+<td align="left">toString</td>
+</tr>
+<tr>
+<td align="left">update</td>
+<td align="left">更新既有某物</td>
+<td align="left">updateAccount</td>
+</tr>
+<tr>
+<td align="left">load</td>
+<td align="left">读取</td>
+<td align="left">loadAccount</td>
+</tr>
+<tr>
+<td align="left">fetch</td>
+<td align="left">远程读取</td>
+<td align="left">fetchAccount</td>
+</tr>
+<tr>
+<td align="left">delete</td>
+<td align="left">删除</td>
+<td align="left">deleteAccount</td>
+</tr>
+<tr>
+<td align="left">remove</td>
+<td align="left">删除</td>
+<td align="left">removeAccount</td>
+</tr>
+<tr>
+<td align="left">save</td>
+<td align="left">保存</td>
+<td align="left">saveAccount</td>
+</tr>
+<tr>
+<td align="left">store</td>
+<td align="left">保存</td>
+<td align="left">storeAccount</td>
+</tr>
+<tr>
+<td align="left">commit</td>
+<td align="left">保存</td>
+<td align="left">commitChange</td>
+</tr>
+<tr>
+<td align="left">apply</td>
+<td align="left">保存或应用</td>
+<td align="left">applyChange</td>
+</tr>
+<tr>
+<td align="left">clear</td>
+<td align="left">清除或是恢复到初始状态</td>
+<td align="left">clearAll</td>
+</tr>
+<tr>
+<td align="left">reset</td>
+<td align="left">清除或是恢复到初始状态</td>
+<td align="left">resetAll</td>
+</tr>
+</tbody></table>
+<h3 id="4-9-成对出现的动词"><a href="#4-9-成对出现的动词" class="headerlink" title="4.9 成对出现的动词"></a>4.9 成对出现的动词</h3><table>
+<thead>
+<tr>
+<th align="left">单词</th>
+<th align="left">意义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">get获取</td>
+<td align="left">set 设置</td>
+</tr>
+<tr>
+<td align="left">add 增加</td>
+<td align="left">remove 删除</td>
+</tr>
+<tr>
+<td align="left">create 创建</td>
+<td align="left">destory 移除</td>
+</tr>
+<tr>
+<td align="left">start 启动</td>
+<td align="left">stop 停止</td>
+</tr>
+<tr>
+<td align="left">open 打开</td>
+<td align="left">close 关闭</td>
+</tr>
+<tr>
+<td align="left">read 读取</td>
+<td align="left">write 写入</td>
+</tr>
+<tr>
+<td align="left">load 载入</td>
+<td align="left">save 保存</td>
+</tr>
+<tr>
+<td align="left">create 创建</td>
+<td align="left">destroy 销毁</td>
+</tr>
+<tr>
+<td align="left">begin 开始</td>
+<td align="left">end 结束</td>
+</tr>
+<tr>
+<td align="left">backup 备份</td>
+<td align="left">restore 恢复</td>
+</tr>
+<tr>
+<td align="left">import 导入</td>
+<td align="left">export 导出</td>
+</tr>
+<tr>
+<td align="left">split 分割</td>
+<td align="left">merge 合并</td>
+</tr>
+<tr>
+<td align="left">inject 注入</td>
+<td align="left">extract 提取</td>
+</tr>
+<tr>
+<td align="left">attach 附着</td>
+<td align="left">detach 脱离</td>
+</tr>
+<tr>
+<td align="left">bind 绑定</td>
+<td align="left">separate 分离</td>
+</tr>
+<tr>
+<td align="left">view 查看</td>
+<td align="left">browse 浏览</td>
+</tr>
+<tr>
+<td align="left">edit 编辑</td>
+<td align="left">modify 修改</td>
+</tr>
+<tr>
+<td align="left">select 选取</td>
+<td align="left">mark 标记</td>
+</tr>
+<tr>
+<td align="left">copy 复制</td>
+<td align="left">paste 粘贴</td>
+</tr>
+<tr>
+<td align="left">undo 撤销</td>
+<td align="left">redo 重做</td>
+</tr>
+<tr>
+<td align="left">insert 插入</td>
+<td align="left">delete 移除</td>
+</tr>
+<tr>
+<td align="left">add 加入</td>
+<td align="left">append 添加</td>
+</tr>
+<tr>
+<td align="left">clean 清理</td>
+<td align="left">clear 清除</td>
+</tr>
+<tr>
+<td align="left">index 索引</td>
+<td align="left">sort 排序</td>
+</tr>
+<tr>
+<td align="left">find 查找</td>
+<td align="left">search 搜索</td>
+</tr>
+<tr>
+<td align="left">increase 增加</td>
+<td align="left">decrease 减少</td>
+</tr>
+<tr>
+<td align="left">play 播放</td>
+<td align="left">pause 暂停</td>
+</tr>
+<tr>
+<td align="left">launch 启动</td>
+<td align="left">run 运行</td>
+</tr>
+<tr>
+<td align="left">compile 编译</td>
+<td align="left">execute 执行</td>
+</tr>
+<tr>
+<td align="left">debug 调试</td>
+<td align="left">trace 跟踪</td>
+</tr>
+<tr>
+<td align="left">observe 观察</td>
+<td align="left">listen 监听</td>
+</tr>
+<tr>
+<td align="left">build 构建</td>
+<td align="left">publish 发布</td>
+</tr>
+<tr>
+<td align="left">input 输入</td>
+<td align="left">output 输出</td>
+</tr>
+<tr>
+<td align="left">encode 编码</td>
+<td align="left">decode 解码</td>
+</tr>
+<tr>
+<td align="left">encrypt 加密</td>
+<td align="left">decrypt 解密</td>
+</tr>
+<tr>
+<td align="left">compress 压缩</td>
+<td align="left">decompress 解压缩</td>
+</tr>
+<tr>
+<td align="left">pack 打包</td>
+<td align="left">unpack 解包</td>
+</tr>
+<tr>
+<td align="left">parse 解析</td>
+<td align="left">emit 生成</td>
+</tr>
+<tr>
+<td align="left">connect 连接</td>
+<td align="left">disconnect 断开</td>
+</tr>
+<tr>
+<td align="left">send 发送</td>
+<td align="left">receive 接收</td>
+</tr>
+<tr>
+<td align="left">download 下载</td>
+<td align="left">upload 上传</td>
+</tr>
+<tr>
+<td align="left">refresh 刷新</td>
+<td align="left">synchronize 同步</td>
+</tr>
+<tr>
+<td align="left">update 更新</td>
+<td align="left">revert 复原</td>
+</tr>
+<tr>
+<td align="left">lock 锁定</td>
+<td align="left">unlock 解锁</td>
+</tr>
+<tr>
+<td align="left">check out 签出</td>
+<td align="left">check in 签入</td>
+</tr>
+<tr>
+<td align="left">submit 提交</td>
+<td align="left">commit 交付</td>
+</tr>
+<tr>
+<td align="left">push 推</td>
+<td align="left">pull 拉</td>
+</tr>
+<tr>
+<td align="left">expand 展开</td>
+<td align="left">collapse 折叠</td>
+</tr>
+<tr>
+<td align="left">begin 起始</td>
+<td align="left">end 结束</td>
+</tr>
+<tr>
+<td align="left">start 开始</td>
+<td align="left">finish 完成</td>
+</tr>
+<tr>
+<td align="left">enter 进入</td>
+<td align="left">exit 退出</td>
+</tr>
+<tr>
+<td align="left">abort 放弃</td>
+<td align="left">quit 离开</td>
+</tr>
+<tr>
+<td align="left">obsolete 废弃</td>
+<td align="left">depreciate 废旧</td>
+</tr>
+<tr>
+<td align="left">collect 收集</td>
+<td align="left">aggregate 聚集</td>
+</tr>
+</tbody></table>
+<h2 id="五，变量-amp-常量命名"><a href="#五，变量-amp-常量命名" class="headerlink" title="五，变量&amp;常量命名"></a>五，变量&amp;常量命名</h2><h3 id="5-1-变量命名"><a href="#5-1-变量命名" class="headerlink" title="5.1 变量命名"></a>5.1 变量命名</h3><p>变量是指在程序运行中可以改变其值的量，包括成员变量和局部变量。变量名由多单词组成时，第一个单词的首字母小写，其后单词的首字母大写，俗称骆驼式命名法（也称驼峰命名法），如 computedValues，index、变量命名时，尽量简短且能清楚的表达变量的作用，命名体现具体的业务含义即可。</p>
+<p>变量名不应以下划线或美元符号开头，尽管这在语法上是允许的。变量名应简短且富于描述。变量名的选用应该易于记忆，即，能够指出其用途。尽量避免单个字符的变量名，除非是一次性的临时变量。pojo中的布尔变量，都不要加is(数据库中的布尔字段全都要加 is_ 前缀)。</p>
+<h3 id="5-2-常量命名"><a href="#5-2-常量命名" class="headerlink" title="5.2 常量命名"></a>5.2 常量命名</h3><p>常量命名CONSTANT_CASE，一般采用全部大写（作为方法参数时除外），单词间用下划线分割。那么什么是常量呢？</p>
+<p>常量是在作用域内保持不变的值，一般使用final进行修饰。一般分为三种，全局常量（public static final修饰），类内常量（private static final 修饰）以及局部常量（方法内，或者参数中的常量），局部常量比较特殊，通常采用小驼峰命名即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 一个demo</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Jann Lee</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2019-12-07 00:25</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWorld</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 局部常量(正例)</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> USER_MESSAGE_CACHE_EXPIRE_TIME = <span class="number">3600</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 局部常量(反例，命名不清晰）</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> MESSAGE_CACHE_TIME = <span class="number">3600</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 全局常量</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String ERROR_MESSAGE = <span class="string">" error message"</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 成员变量</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> currentUserId;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 控制台打印 &#123;<span class="doctag">@code</span> message&#125; 信息</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> message 消息体，局部常量</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(<span class="keyword">final</span> String message)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Hello world!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>常量一般都有自己的业务含义,<strong>不要害怕长度过长而进行省略或者缩写</strong>。如，用户消息缓存过期时间的表示，那种方式更佳清晰，交给你来评判。更多BAT经验文章，可以在订阅号“码匠笔记”后台回复“经验”，N+1篇热文免费获取。</p>
+<h2 id="通用命名规则"><a href="#通用命名规则" class="headerlink" title="通用命名规则"></a>通用命名规则</h2><ol>
+<li>尽量不要使用拼音；<strong>杜绝拼音和英文混用</strong>。对于一些通用的表示或者难以用英文描述的可以采用拼音，一旦采用拼音就坚决不能和英文混用。正例：BeiJing， HangZhou 反例：validateCanShu</li>
+<li>命名过程中尽量不要出现特殊的字符，常量除外。</li>
+<li>尽量不要和jdk或者框架中已存在的类重名，也不能使用java中的关键字命名。</li>
+<li>妙用介词，如for(可以用同音的4代替), to(可用同音的2代替), from, with，of等。如类名采用User4RedisDO，方法名getUserInfoFromRedis，convertJson2Map等。</li>
+</ol>
+<h2 id="六，代码注解"><a href="#六，代码注解" class="headerlink" title="六，代码注解"></a>六，代码注解</h2><h3 id="6-1-注解的原则"><a href="#6-1-注解的原则" class="headerlink" title="6.1 注解的原则"></a>6.1 注解的原则</h3><p>好的命名增加代码阅读性，代码的命名往往有严格的限制。而注解不同，程序员往往可以自由发挥，单并不意味着可以为所欲为之胡作非为。优雅的注解通常要满足三要素。</p>
+<ol>
+<li>Nothing is strange 没有注解的代码对于阅读者非常不友好，哪怕代码写的在清除，阅读者至少从心理上会有抵触，更何况代码中往往有许多复杂的逻辑，所以一定要写注解，不仅要记录代码的逻辑，还有说清楚修改的逻辑。</li>
+<li>Less is more 从代码维护角度来讲，代码中的注解一定是精华中的精华。合理清晰的命名能让代码易于理解，对于逻辑简单且命名规范，能够清楚表达代码功能的代码不需要注解。滥用注解会增加额外的负担，更何况大部分都是废话。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 根据id获取信息【废话注解】</span></span><br><span class="line">getMessageById(id)</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>Advance with the time 注解应该随着代码的变动而改变，注解表达的信息要与代码中完全一致。通常情况下修改代码后一定要修改注解。</li>
+</ol>
+<h3 id="6-2-注解格式"><a href="#6-2-注解格式" class="headerlink" title="6.2 注解格式"></a>6.2 注解格式</h3><p>注解大体上可以分为两种，一种是javadoc注解，另一种是简单注解。javadoc注解可以生成JavaAPI为外部用户提供有效的支持javadoc注解通常在使用IDEA，或者Eclipse等开发工具时都可以自动生成，也支持自定义的注解模板，仅需要对对应的字段进行解释。参与同一项目开发的同学，尽量设置成相同的注解模板。</p>
+<h4 id="a-包注解"><a href="#a-包注解" class="headerlink" title="a. 包注解"></a>a. 包注解</h4><p>包注解在工作中往往比较特殊，通过包注解可以快速知悉当前包下代码是用来实现哪些功能，强烈建议工作中加上，尤其是对于一些比较复杂的包，包注解一般在包的根目录下，名称统一为package-info.java。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 落地也质量检测</span></span><br><span class="line"><span class="comment"> * 1. 用来解决什么问题对广告主投放的广告落地页进行性能检测，模拟不同的系统，如Android，IOS等; 模拟不同的网络：2G，3G，4G，wifi等</span></span><br><span class="line"><span class="comment"> * 2. 如何实现基于chrome浏览器，用chromedriver驱动浏览器，设置对应的网络，OS参数，获取到浏览器返回结果。</span></span><br><span class="line"><span class="comment"> * 注意：网络环境配置信息&#123;<span class="doctag">@link</span> cn.mycookies.landingpagecheck.meta.NetWorkSpeedEnum&#125;目前使用是常规速度，可以根据实际情况进行调整</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> cruder</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@time</span> 2019/12/7 20:3 下午</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">package</span> cn.mycookies.landingpagecheck;</span><br></pre></td></tr></table></figure>
+
+<h4 id="b-类注接"><a href="#b-类注接" class="headerlink" title="b. 类注接"></a>b. 类注接</h4><p>javadoc注解中，每个类都必须有注解。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Copyright (C), 2019-2020, Jann  balabala...</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* 类的介绍：这是一个用来做什么事情的类，有哪些功能，用到的技术.....</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* <span class="doctag">@author</span>   类创建者姓名 保持对齐</span></span><br><span class="line"><span class="comment">* <span class="doctag">@date</span>     创建日期 保持对齐</span></span><br><span class="line"><span class="comment">* <span class="doctag">@version</span>  版本号 保持对齐</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="c-属性注解"><a href="#c-属性注解" class="headerlink" title="c. 属性注解"></a>c. 属性注解</h4><p>在每个属性前面必须加上属性注释，通常有一下两种形式，至于怎么选择，你高兴就好，不过一个项目中要保持统一。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 提示信息 */</span></span><br><span class="line"><span class="keyword">private</span> String userName;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 密码</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> String password;</span><br></pre></td></tr></table></figure>
+
+<h4 id="d-方法注释"><a href="#d-方法注释" class="headerlink" title="d. 方法注释"></a>d. 方法注释</h4><p>在每个方法前面必须加上方法注释，对于方法中的每个参数，以及返回值都要有说明。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * 方法的详细说明，能干嘛，怎么实现的，注意事项...</span></span><br><span class="line"><span class="comment">  *</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@param</span> xxx      参数1的使用说明， 能否为null</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@return</span> 返回结果的说明， 不同情况下会返回怎样的结果</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@throws</span> 异常类型   注明从此类方法中抛出异常的说明</span></span><br><span class="line"><span class="comment">  */</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="e-构造方法注释"><a href="#e-构造方法注释" class="headerlink" title="e. 构造方法注释"></a>e. 构造方法注释</h4><p>在每个构造方法前面必须加上注释，注释模板如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * 构造方法的详细说明</span></span><br><span class="line"><span class="comment">  *</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@param</span> xxx      参数1的使用说明， 能否为null</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@throws</span> 异常类型   注明从此类方法中抛出异常的说明</span></span><br><span class="line"><span class="comment">  */</span></span><br></pre></td></tr></table></figure>
+
+<p>而简单注解往往是需要工程师字节定义，在使用注解时应该注意一下几点：</p>
+<ol>
+<li>枚举类的各个属性值都要使用注解，枚举可以理解为是常量，通常不会发生改变，通常会被在多个地方引用，对枚举的修改和添加属性通常会带来很大的影响。</li>
+<li>保持排版整洁，不要使用行尾注释；双斜杠和星号之后要用1个空格分隔。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> id = <span class="number">1</span>; <span class="comment">// 反例：不要使用行尾注释</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//反例：换行符与注释之间没有缩进</span></span><br><span class="line"><span class="keyword">int</span> age = <span class="number">18</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 正例：姓名</span></span><br><span class="line">String name;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * 1. 多行注释</span></span><br><span class="line"><span class="comment">  *</span></span><br><span class="line"><span class="comment">  * 2. 对于不同的逻辑说明，可以用空行分隔</span></span><br><span class="line"><span class="comment">  */</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>无论是命名和注解，他们的目的都是为了让代码和工程师进行对话，增强代码的可读性，可维护性。优秀的代码往往能够见名知意，注解往往是对命名的补充和完善。命名太难了！</p>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>标签：</span>
+                <span class="tag">
+                    
+                    
+                    <a href="/tags/Java/"># Java</a>
+                    
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript：window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            <a class="prev" rel="prev" href="/2020/03/23/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">排序算法</a>
+            
+            
+            <a class="next" rel="next" href="/2020/03/21/JavaScript%E7%BB%84%E4%BB%B6%E5%8C%96%E5%BC%80%E5%8F%91/">JavaScript组件化开发</a>
+            
+        </section>
+    </article>
+</div>
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© YiLongZhang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

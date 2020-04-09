@@ -80,7 +80,7 @@
     
 
 
-</head>
+<meta name="generator" content="Hexo 4.2.0"></head>
 <body>
     <div class="wrapper">
         <header>
@@ -89,7 +89,7 @@
             <div class="navbar-header header-logo"><a href="/">博客</a></div>
             <div class="menu navbar-right">
                 
-                    <a class="menu-item" href="/archives">推文</a>
+                    <a class="menu-item" href="/archives">文章</a>
                 
                     <a class="menu-item" href="/category">分类</a>
                 
@@ -97,10 +97,10 @@
                 
                     <a class="menu-item" href="/about">关于</a>
                 
+                <a href="/search/">搜索</a>
                 <input id="switch_default" type="checkbox" class="switch_default">
                 <label for="switch_default" class="toggleBtn"></label>
             </div>
-
         </div>
     </nav>
 
@@ -115,7 +115,7 @@
             </div>
             <div class="menu" id="mobile-menu">
                 
-                    <a class="menu-item" href="/archives">推文</a>
+                    <a class="menu-item" href="/archives">文章</a>
                 
                     <a class="menu-item" href="/category">分类</a>
                 
@@ -145,7 +145,7 @@
             <div class="container">
     
     
-        <div class="post-toc">
+    <div class="post-toc">
     <div class="tocbot-list">
     </div>
     <div class="tocbot-list-menu">
@@ -213,25 +213,29 @@
         <header class="post-header">
             <h1 class="post-title">MySQL安装部署</h1>
             
-                <div class="post-meta">
-                    
-                        作者: <a itemprop="author" rel="author" href="/">YiLongZhang</a>
-                    
+            <div class="post-meta">
+                
+                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                
 
+                
+                <span class="post-time">
+                    创建日期： <a
+                        href="#">十月 22, 2019&nbsp;&nbsp;14:33:20</a>
+                </span>&nbsp;
+                
+                
+                <span class="post-category">
+                    分类：
                     
-                        <span class="post-time">
-                        创建日期: <a href="#">十月 22, 2019&nbsp;&nbsp;14:33:20</a>
-                        </span>
+                    <a href="/categories/%E9%83%A8%E7%BD%B2%E6%96%87%E6%A1%A3/">部署文档</a>&nbsp;
                     
-                    
-                        <span class="post-category">
-                    分类:
-                            
-                                <a href="/categories/%E9%83%A8%E7%BD%B2%E6%96%87%E6%A1%A3/">部署文档</a>
-                            
-                        </span>
-                    
-                </div>
+                </span>
+                
+                
+                状态：<a href="#">SNAPSHOT</a>
+                
+            </div>
             
         </header>
 
@@ -351,9 +355,18 @@
 </blockquote>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysql</span><br><span class="line">chmod +x /etc/init.d/mysql</span><br><span class="line">chkconfig --add mysql</span><br><span class="line"><span class="meta">#</span><span class="bash"> 某些系统可能用下面命令 </span></span><br><span class="line">chkconfig --level 345 mysql on</span><br></pre></td></tr></table></figure>
 
-<h2 id="相关问题"><a href="#相关问题" class="headerlink" title="相关问题"></a>相关问题</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR 2002 (HY000): Can&apos;t connect to local MySQL server through socket &apos;/tmp/mysql.sock&apos; (2)</span><br></pre></td></tr></table></figure>
+<h2 id="相关问题"><a href="#相关问题" class="headerlink" title="相关问题"></a>相关问题</h2><ul>
+<li>1<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR 2002 (HY000): Can&#39;t connect to local MySQL server through socket &#39;&#x2F;tmp&#x2F;mysql.sock&#39; (2)</span><br></pre></td></tr></table></figure>
 
+</li>
+</ul>
 <p>解决办法： <code>ln -s /var/lib/mysql/mysql.sock mysql.sock</code></p>
+<ul>
+<li>重启无法创建PID</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir /var/run/mysql</span><br><span class="line">chonw mysql:mysql -R /var/run/mysql</span><br></pre></td></tr></table></figure>
+
+
 <h2 id="相关命令"><a href="#相关命令" class="headerlink" title="相关命令"></a>相关命令</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 关闭防火墙</span></span><br><span class="line">systemctl stop firewalld</span><br><span class="line"><span class="comment"># 永久关闭防火墙</span></span><br><span class="line">systemctl <span class="built_in">disable</span> firewalld</span><br></pre></td></tr></table></figure>
 
 <h1 id="相关文档"><a href="#相关文档" class="headerlink" title="相关文档"></a>相关文档</h1><ul>
@@ -366,34 +379,31 @@
         
         <section class="post-tags">
             <div>
-                <span>标签:</span>
+                <span>标签：</span>
                 <span class="tag">
                     
                     
-                        <a href="/tags/MySQL/"># MySQL</a>
+                    <a href="/tags/MySQL/"># MySQL</a>
                     
-                        
+                    
                 </span>
             </div>
             <div>
-                <a href="javascript:window.history.back();">后退</a>
+                <a href="javascript：window.history.back();">后退</a>
                 <span>· </span>
                 <a href="/">主页</a>
             </div>
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2019/10/22/Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Docker常用命令</a>
+            <a class="prev" rel="prev" href="/2019/10/22/Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Docker常用命令</a>
             
             
             <a class="next" rel="next" href="/2019/10/22/JDK%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/">JDK安装部署</a>
             
         </section>
-
-
     </article>
 </div>
-
         </div>
         <footer id="footer" class="footer">
     <div class="copyright">
@@ -402,6 +412,5 @@
 </footer>
 
     </div>
-	<script src="/js/canvas-nest.js"></script>
 </body>
 </html>

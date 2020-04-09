@@ -80,7 +80,7 @@
     
 
 
-</head>
+<meta name="generator" content="Hexo 4.2.0"></head>
 <body>
     <div class="wrapper">
         <header>
@@ -89,7 +89,7 @@
             <div class="navbar-header header-logo"><a href="/">博客</a></div>
             <div class="menu navbar-right">
                 
-                    <a class="menu-item" href="/archives">推文</a>
+                    <a class="menu-item" href="/archives">文章</a>
                 
                     <a class="menu-item" href="/category">分类</a>
                 
@@ -97,10 +97,10 @@
                 
                     <a class="menu-item" href="/about">关于</a>
                 
+                <a href="/search/">搜索</a>
                 <input id="switch_default" type="checkbox" class="switch_default">
                 <label for="switch_default" class="toggleBtn"></label>
             </div>
-
         </div>
     </nav>
 
@@ -115,7 +115,7 @@
             </div>
             <div class="menu" id="mobile-menu">
                 
-                    <a class="menu-item" href="/archives">推文</a>
+                    <a class="menu-item" href="/archives">文章</a>
                 
                     <a class="menu-item" href="/category">分类</a>
                 
@@ -145,7 +145,7 @@
             <div class="container">
     
     
-        <div class="post-toc">
+    <div class="post-toc">
     <div class="tocbot-list">
     </div>
     <div class="tocbot-list-menu">
@@ -213,25 +213,29 @@
         <header class="post-header">
             <h1 class="post-title">缓存算法</h1>
             
-                <div class="post-meta">
-                    
-                        作者: <a itemprop="author" rel="author" href="/">YiLongZhang</a>
-                    
+            <div class="post-meta">
+                
+                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                
 
+                
+                <span class="post-time">
+                    创建日期： <a
+                        href="#">十二月 25, 2019&nbsp;&nbsp;10:56:52</a>
+                </span>&nbsp;
+                
+                
+                <span class="post-category">
+                    分类：
                     
-                        <span class="post-time">
-                        创建日期: <a href="#">十二月 25, 2019&nbsp;&nbsp;10:56:52</a>
-                        </span>
+                    <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>&nbsp;
                     
-                    
-                        <span class="post-category">
-                    分类:
-                            
-                                <a href="/categories/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/">算法基础</a>
-                            
-                        </span>
-                    
-                </div>
+                </span>
+                
+                
+                状态：<a href="#">SNAPSHOT</a>
+                
+            </div>
             
         </header>
 
@@ -253,13 +257,13 @@
 </ol>
 <p>实现：最朴素的思想就是用数组+时间戳的方式，不过这样做效率较低。因此，我们可以用双向链表（LinkedList）+哈希表（HashMap）实现（链表用来表示位置，哈希表用来存储和查找），在Java里有对应的数据结构<strong>LinkedHashMap</strong>。</p>
 <h2 id="LInkedHashMap"><a href="#LInkedHashMap" class="headerlink" title="LInkedHashMap"></a>LInkedHashMap</h2><p>利用<code>Java</code>的<code>LinkedHashMap</code>用非常简单的代码来实现基于LRU算法的Cache功能</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Copyimport java.util.LinkedHashMap;</span><br><span class="line">import java.util.Map;</span><br><span class="line">/**</span><br><span class="line"> * 简单用LinkedHashMap来实现的LRU算法的缓存</span><br><span class="line"> */</span><br><span class="line">public class LRUCache&lt;K, V&gt; extends LinkedHashMap&lt;K, V&gt; &#123;</span><br><span class="line">    private int cacheSize;</span><br><span class="line">    public LRUCache(int cacheSize) &#123;</span><br><span class="line">        super(16, (float) 0.75, true);</span><br><span class="line">        this.cacheSize = cacheSize;</span><br><span class="line">    &#125;</span><br><span class="line">    protected boolean removeEldestEntry(Map.Entry&lt;K, V&gt; eldest) &#123;</span><br><span class="line">        return size() &gt; cacheSize;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Copyimport java.util.LinkedHashMap;</span><br><span class="line">import java.util.Map;</span><br><span class="line">&#x2F;**</span><br><span class="line"> * 简单用LinkedHashMap来实现的LRU算法的缓存</span><br><span class="line"> *&#x2F;</span><br><span class="line">public class LRUCache&lt;K, V&gt; extends LinkedHashMap&lt;K, V&gt; &#123;</span><br><span class="line">    private int cacheSize;</span><br><span class="line">    public LRUCache(int cacheSize) &#123;</span><br><span class="line">        super(16, (float) 0.75, true);</span><br><span class="line">        this.cacheSize &#x3D; cacheSize;</span><br><span class="line">    &#125;</span><br><span class="line">    protected boolean removeEldestEntry(Map.Entry&lt;K, V&gt; eldest) &#123;</span><br><span class="line">        return size() &gt; cacheSize;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>测试：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">Copyimport org.slf4j.Logger;</span><br><span class="line">import org.slf4j.LoggerFactory;</span><br><span class="line"></span><br><span class="line">public class LRUCacheTest &#123;</span><br><span class="line">    private static final Logger log = LoggerFactory.getLogger(LRUCacheTest.class);</span><br><span class="line">    private static LRUCache&lt;String, Integer&gt; cache = new LRUCache&lt;&gt;(10);</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        for (int i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">            cache.put(&quot;k&quot; + i, i);</span><br><span class="line">        &#125;</span><br><span class="line">        log.info(&quot;all cache :&apos;&#123;&#125;&apos;&quot;,cache);</span><br><span class="line">        cache.get(&quot;k3&quot;);</span><br><span class="line">        log.info(&quot;get k3 :&apos;&#123;&#125;&apos;&quot;, cache);</span><br><span class="line">        cache.get(&quot;k4&quot;);</span><br><span class="line">        log.info(&quot;get k4 :&apos;&#123;&#125;&apos;&quot;, cache);</span><br><span class="line">        cache.get(&quot;k4&quot;);</span><br><span class="line">        log.info(&quot;get k4 :&apos;&#123;&#125;&apos;&quot;, cache);</span><br><span class="line">        cache.put(&quot;k&quot; + 10, 10);</span><br><span class="line">        log.info(&quot;After running the LRU algorithm cache :&apos;&#123;&#125;&apos;&quot;, cache);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">Copyimport org.slf4j.Logger;</span><br><span class="line">import org.slf4j.LoggerFactory;</span><br><span class="line"></span><br><span class="line">public class LRUCacheTest &#123;</span><br><span class="line">    private static final Logger log &#x3D; LoggerFactory.getLogger(LRUCacheTest.class);</span><br><span class="line">    private static LRUCache&lt;String, Integer&gt; cache &#x3D; new LRUCache&lt;&gt;(10);</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        for (int i &#x3D; 0; i &lt; 10; i++) &#123;</span><br><span class="line">            cache.put(&quot;k&quot; + i, i);</span><br><span class="line">        &#125;</span><br><span class="line">        log.info(&quot;all cache :&#39;&#123;&#125;&#39;&quot;,cache);</span><br><span class="line">        cache.get(&quot;k3&quot;);</span><br><span class="line">        log.info(&quot;get k3 :&#39;&#123;&#125;&#39;&quot;, cache);</span><br><span class="line">        cache.get(&quot;k4&quot;);</span><br><span class="line">        log.info(&quot;get k4 :&#39;&#123;&#125;&#39;&quot;, cache);</span><br><span class="line">        cache.get(&quot;k4&quot;);</span><br><span class="line">        log.info(&quot;get k4 :&#39;&#123;&#125;&#39;&quot;, cache);</span><br><span class="line">        cache.put(&quot;k&quot; + 10, 10);</span><br><span class="line">        log.info(&quot;After running the LRU algorithm cache :&#39;&#123;&#125;&#39;&quot;, cache);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>Output:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Copyall cache :&apos;&#123;k0=0, k1=1, k2=2, k3=3, k4=4, k5=5, k6=6, k7=7, k8=8, k9=9&#125;&apos;</span><br><span class="line">get k3 :&apos;&#123;k0=0, k1=1, k2=2, k4=4, k5=5, k6=6, k7=7, k8=8, k9=9, k3=3&#125;&apos;</span><br><span class="line">get k4 :&apos;&#123;k0=0, k1=1, k2=2, k5=5, k6=6, k7=7, k8=8, k9=9, k3=3, k4=4&#125;&apos;</span><br><span class="line">get k4 :&apos;&#123;k0=0, k1=1, k2=2, k5=5, k6=6, k7=7, k8=8, k9=9, k3=3, k4=4&#125;&apos;</span><br><span class="line">After running the LRU algorithm cache :&apos;&#123;k1=1, k2=2, k5=5, k6=6, k7=7, k8=8, k9=9, k3=3, k4=4, k10=10&#125;&apos;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Copyall cache :&#39;&#123;k0&#x3D;0, k1&#x3D;1, k2&#x3D;2, k3&#x3D;3, k4&#x3D;4, k5&#x3D;5, k6&#x3D;6, k7&#x3D;7, k8&#x3D;8, k9&#x3D;9&#125;&#39;</span><br><span class="line">get k3 :&#39;&#123;k0&#x3D;0, k1&#x3D;1, k2&#x3D;2, k4&#x3D;4, k5&#x3D;5, k6&#x3D;6, k7&#x3D;7, k8&#x3D;8, k9&#x3D;9, k3&#x3D;3&#125;&#39;</span><br><span class="line">get k4 :&#39;&#123;k0&#x3D;0, k1&#x3D;1, k2&#x3D;2, k5&#x3D;5, k6&#x3D;6, k7&#x3D;7, k8&#x3D;8, k9&#x3D;9, k3&#x3D;3, k4&#x3D;4&#125;&#39;</span><br><span class="line">get k4 :&#39;&#123;k0&#x3D;0, k1&#x3D;1, k2&#x3D;2, k5&#x3D;5, k6&#x3D;6, k7&#x3D;7, k8&#x3D;8, k9&#x3D;9, k3&#x3D;3, k4&#x3D;4&#125;&#39;</span><br><span class="line">After running the LRU algorithm cache :&#39;&#123;k1&#x3D;1, k2&#x3D;2, k5&#x3D;5, k6&#x3D;6, k7&#x3D;7, k8&#x3D;8, k9&#x3D;9, k3&#x3D;3, k4&#x3D;4, k10&#x3D;10&#125;&#39;</span><br></pre></td></tr></table></figure>
 
 <h1 id="LFU算法"><a href="#LFU算法" class="headerlink" title="LFU算法"></a>LFU算法</h1><p>LFU（Least Frequently Used ，最近最少使用算法）也是一种常见的缓存算法。</p>
 <p>顾名思义，LFU算法的思想是：<strong>如果一个数据在最近一段时间很少被访问到，那么可以认为在将来它被访问的可能性也很小。因此，当空间满时，最小频率访问的数据最先被淘汰</strong>。</p>
@@ -276,30 +280,27 @@
         
         <section class="post-tags">
             <div>
-                <span>标签:</span>
+                <span>标签：</span>
                 <span class="tag">
                     
                 </span>
             </div>
             <div>
-                <a href="javascript:window.history.back();">后退</a>
+                <a href="javascript：window.history.back();">后退</a>
                 <span>· </span>
                 <a href="/">主页</a>
             </div>
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2019/12/31/GitLab%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/">GitLab安装部署</a>
+            <a class="prev" rel="prev" href="/2019/12/31/GitLab%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/">GitLab安装部署</a>
             
             
             <a class="next" rel="next" href="/2019/12/24/MacBook%E5%AE%9E%E7%94%A8%E6%8A%80%E8%83%BD/">MacBook实用技能</a>
             
         </section>
-
-
     </article>
 </div>
-
         </div>
         <footer id="footer" class="footer">
     <div class="copyright">
@@ -308,6 +309,5 @@
 </footer>
 
     </div>
-	<script src="/js/canvas-nest.js"></script>
 </body>
 </html>

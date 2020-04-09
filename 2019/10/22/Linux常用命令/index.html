@@ -80,7 +80,7 @@
     
 
 
-</head>
+<meta name="generator" content="Hexo 4.2.0"></head>
 <body>
     <div class="wrapper">
         <header>
@@ -89,7 +89,7 @@
             <div class="navbar-header header-logo"><a href="/">博客</a></div>
             <div class="menu navbar-right">
                 
-                    <a class="menu-item" href="/archives">推文</a>
+                    <a class="menu-item" href="/archives">文章</a>
                 
                     <a class="menu-item" href="/category">分类</a>
                 
@@ -97,10 +97,10 @@
                 
                     <a class="menu-item" href="/about">关于</a>
                 
+                <a href="/search/">搜索</a>
                 <input id="switch_default" type="checkbox" class="switch_default">
                 <label for="switch_default" class="toggleBtn"></label>
             </div>
-
         </div>
     </nav>
 
@@ -115,7 +115,7 @@
             </div>
             <div class="menu" id="mobile-menu">
                 
-                    <a class="menu-item" href="/archives">推文</a>
+                    <a class="menu-item" href="/archives">文章</a>
                 
                     <a class="menu-item" href="/category">分类</a>
                 
@@ -145,7 +145,7 @@
             <div class="container">
     
     
-        <div class="post-toc">
+    <div class="post-toc">
     <div class="tocbot-list">
     </div>
     <div class="tocbot-list-menu">
@@ -213,18 +213,22 @@
         <header class="post-header">
             <h1 class="post-title">Linux常用命令</h1>
             
-                <div class="post-meta">
-                    
-                        作者: <a itemprop="author" rel="author" href="/">YiLongZhang</a>
-                    
+            <div class="post-meta">
+                
+                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                
 
-                    
-                        <span class="post-time">
-                        创建日期: <a href="#">十月 22, 2019&nbsp;&nbsp;15:05:25</a>
-                        </span>
-                    
-                    
-                </div>
+                
+                <span class="post-time">
+                    创建日期： <a
+                        href="#">十月 22, 2019&nbsp;&nbsp;15:05:25</a>
+                </span>&nbsp;
+                
+                
+                
+                状态：<a href="#">SNAPSHOT</a>
+                
+            </div>
             
         </header>
 
@@ -233,15 +237,23 @@
 
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 可以查看所有用户的列表</span></span><br><span class="line">cat /etc/passwd</span><br><span class="line"><span class="comment"># 查看用户组</span></span><br><span class="line">cat /etc/group</span><br><span class="line"><span class="comment"># 查看当前登录用户的组内成员</span></span><br><span class="line">groups</span><br><span class="line"><span class="comment"># 查看gliethttp用户所在的组,以及组内成员</span></span><br><span class="line">groups gliethttp</span><br><span class="line"><span class="comment"># 查看当前登录用户名</span></span><br><span class="line">whoami</span><br></pre></td></tr></table></figure>
 
-<h1 id="修改IP"><a href="#修改IP" class="headerlink" title="修改IP"></a>修改IP</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 通过修改配置文件</span></span><br><span class="line">vim /etc/sysconfig/network-scripts/ifcfg-eth0</span><br><span class="line"><span class="comment"># 重启网络</span></span><br><span class="line">service network restart</span><br></pre></td></tr></table></figure>
+<h1 id="修改IP"><a href="#修改IP" class="headerlink" title="修改IP"></a>修改IP</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 通过修改配置文件</span></span><br><span class="line">vim /etc/sysconfig/network-scripts/ifcfg-eth0</span><br><span class="line"><span class="comment"># 重启网络</span></span><br><span class="line">service network restart</span><br><span class="line"><span class="comment"># 查看改动后的效果</span></span><br><span class="line">ip addr</span><br></pre></td></tr></table></figure>
 
-<h1 id="chmod"><a href="#chmod" class="headerlink" title="chmod"></a>chmod</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">chmod 更改权限</span><br><span class="line">o 所有者 g 组 o 其他</span><br><span class="line">r--4 w--2 x--1</span><br><span class="line">-R 处理指定目录以及其子目录下的所有文件</span><br><span class="line"></span><br><span class="line">chmod u+x,g+x index.html</span><br><span class="line">chmod 755 index.html</span><br><span class="line">chmod -R o+x fa</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>指定IP</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">IPADDR=192.168.0.230 #静态IP</span><br><span class="line">GATEWAY=192.168.0.1 #默认网关</span><br><span class="line">NETMASK=255.255.255.0 #子网掩码</span><br><span class="line">DNS1=192.168.0.1 #DNS 配置</span><br><span class="line">DNS2=8.8.8.8</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>自动获取IP</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BOOTPROTO=dhcp</span><br><span class="line">ONBOOT=yes</span><br></pre></td></tr></table></figure>
+<h1 id="chmod"><a href="#chmod" class="headerlink" title="chmod"></a>chmod</h1></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">chmod 更改权限</span><br><span class="line">o 所有者 g 组 o 其他</span><br><span class="line">r--4 w--2 x--1</span><br><span class="line">-R 处理指定目录以及其子目录下的所有文件</span><br><span class="line"></span><br><span class="line">chmod u+x,g+x index.html</span><br><span class="line">chmod 755 index.html</span><br><span class="line">chmod -R o+x fa</span><br></pre></td></tr></table></figure>
 
 <h1 id="chown"><a href="#chown" class="headerlink" title="chown"></a>chown</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">chown 将指定文件的拥有者改为指定的用户或组</span><br><span class="line"></span><br><span class="line">chown [选项]... [所有者][:[组]] 文件...</span><br><span class="line"></span><br><span class="line">-R 处理指定目录以及其子目录下的所有文件</span><br><span class="line"></span><br><span class="line">chown weblogic:bea index.html </span><br><span class="line">chown -R weblogic:bea test1</span><br></pre></td></tr></table></figure>
 
 <h1 id="lsof"><a href="#lsof" class="headerlink" title="lsof"></a>lsof</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看使用某端口的进程</span></span><br><span class="line">lsof -i:8090</span><br><span class="line">netstat -ap|grep 8090</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看到进程id之后，使用netstat命令查看其占用的端口</span></span><br><span class="line">netstat -nap|grep 7779</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看PID</span></span><br><span class="line">ps -aux|grep chat.js| grep -v grep | awk <span class="string">'&#123;print $2&#125;'</span></span><br></pre></td></tr></table></figure>
 
-<h1 id="nohup"><a href="#nohup" class="headerlink" title="nohup"></a>nohup</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">nohup 加 &amp;大家都知道是后台运行并把stdout输出到文件nohup.out中。其实&amp;是后台运行的命令。</span><br><span class="line"></span><br><span class="line">一般都是在linux下nohup格式：</span><br><span class="line"></span><br><span class="line">nohup command_line</span><br><span class="line"></span><br><span class="line">或者</span><br><span class="line"></span><br><span class="line">nohup command_line &amp;</span><br><span class="line"></span><br><span class="line">这之间的差别是带&amp;的命令行，即使terminal关闭，或者电脑死机程序依然运行（前提是你把程序递交到服务器上）；</span><br><span class="line"></span><br><span class="line">它把标准输出（STDOUT）和标准错误（STDERR）结果输出到nohup.txt文件这个看似很方便，但是当输出很大的时候，nohup.txt文件会非常大，或者多个后台命令的时候大家都会输出到nohup.txt文件，不利于查找结果和调试程序。</span><br><span class="line"></span><br><span class="line">所以能够重定向输出会非常方便。下面要介绍标准输出，标准输入 和标准错误了。</span><br><span class="line"></span><br><span class="line">其实我门一直都在用，只是没有注意到，</span><br><span class="line"></span><br><span class="line">比如</span><br><span class="line"></span><br><span class="line">\&gt;./command.sh &gt; output</span><br><span class="line"></span><br><span class="line">\#这其中的&gt;就是标准输出符号，其实是 1&gt;output 的缩写</span><br><span class="line"></span><br><span class="line">\&gt;./command.sh 2&gt; output</span><br><span class="line"></span><br><span class="line">＃这里的2&gt;就是将标准错误输出到output文件里。</span><br><span class="line"></span><br><span class="line">而0&lt; 则是标准输入了。</span><br><span class="line"></span><br><span class="line">下面步入正题，重定向后台命令</span><br><span class="line"></span><br><span class="line">\&gt;nohup ./command.sh &gt; output 2&gt;&amp;1 &amp;</span><br><span class="line"></span><br><span class="line">ls xxx &gt;out.txt 2&gt;&amp;1, 实际上可换成 ls xxx 1&gt;out.txt 2&gt;&amp;1；重定向符号&gt;默认是1,错误和输出都传到out.txt了。</span><br><span class="line"></span><br><span class="line">解释：前面的nohup 和后面的&amp;我想大家都能明白了把。</span><br><span class="line"></span><br><span class="line">主要是中间的 2&gt;&amp;1的意思</span><br><span class="line"></span><br><span class="line">这个意思是把标准错误（2）重定向到标准输出中（1），而标准输出又导入文件output里面，</span><br><span class="line"></span><br><span class="line">所以结果是标准错误和标准输出都导入文件output里面了。</span><br><span class="line"></span><br><span class="line">至于为什么需要将标准错误重定向到标准输出的原因，那就归结为标准错误没有缓冲区，而stdout有。</span><br><span class="line"></span><br><span class="line">这就会导致 &gt;output 2&gt;output 文件output被两次打开，而stdout和stderr将会竞争覆盖，这肯定不是我门想要的.</span><br><span class="line"></span><br><span class="line">这就是为什么有人会写成：</span><br><span class="line"></span><br><span class="line">nohup ./command.sh &gt;output 2&gt;output出错的原因了</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">\##########################</span><br><span class="line"></span><br><span class="line">最后谈一下/dev/null文件的作用</span><br><span class="line"></span><br><span class="line">这是一个无底洞，任何东西都可以定向到这里，但是却无法打开。</span><br><span class="line"></span><br><span class="line">所以一般很大的stdou和stderr当你不关心的时候可以利用stdout和stderr定向到这里&gt;./command.sh &gt;/dev/null 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+<h1 id="nohup"><a href="#nohup" class="headerlink" title="nohup"></a>nohup</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">nohup 加 &amp;大家都知道是后台运行并把stdout输出到文件nohup.out中。其实&amp;是后台运行的命令。</span><br><span class="line"></span><br><span class="line">一般都是在linux下nohup格式：</span><br><span class="line"></span><br><span class="line">nohup command_line</span><br><span class="line"></span><br><span class="line">或者</span><br><span class="line"></span><br><span class="line">nohup command_line &amp;</span><br><span class="line"></span><br><span class="line">这之间的差别是带&amp;的命令行，即使terminal关闭，或者电脑死机程序依然运行（前提是你把程序递交到服务器上）；</span><br><span class="line"></span><br><span class="line">它把标准输出（STDOUT）和标准错误（STDERR）结果输出到nohup.txt文件这个看似很方便，但是当输出很大的时候，nohup.txt文件会非常大，或者多个后台命令的时候大家都会输出到nohup.txt文件，不利于查找结果和调试程序。</span><br><span class="line"></span><br><span class="line">所以能够重定向输出会非常方便。下面要介绍标准输出，标准输入 和标准错误了。</span><br><span class="line"></span><br><span class="line">其实我门一直都在用，只是没有注意到，</span><br><span class="line"></span><br><span class="line">比如</span><br><span class="line"></span><br><span class="line">\&gt;.&#x2F;command.sh &gt; output</span><br><span class="line"></span><br><span class="line">\#这其中的&gt;就是标准输出符号，其实是 1&gt;output 的缩写</span><br><span class="line"></span><br><span class="line">\&gt;.&#x2F;command.sh 2&gt; output</span><br><span class="line"></span><br><span class="line">＃这里的2&gt;就是将标准错误输出到output文件里。</span><br><span class="line"></span><br><span class="line">而0&lt; 则是标准输入了。</span><br><span class="line"></span><br><span class="line">下面步入正题，重定向后台命令</span><br><span class="line"></span><br><span class="line">\&gt;nohup .&#x2F;command.sh &gt; output 2&gt;&amp;1 &amp;</span><br><span class="line"></span><br><span class="line">ls xxx &gt;out.txt 2&gt;&amp;1, 实际上可换成 ls xxx 1&gt;out.txt 2&gt;&amp;1；重定向符号&gt;默认是1,错误和输出都传到out.txt了。</span><br><span class="line"></span><br><span class="line">解释：前面的nohup 和后面的&amp;我想大家都能明白了把。</span><br><span class="line"></span><br><span class="line">主要是中间的 2&gt;&amp;1的意思</span><br><span class="line"></span><br><span class="line">这个意思是把标准错误（2）重定向到标准输出中（1），而标准输出又导入文件output里面，</span><br><span class="line"></span><br><span class="line">所以结果是标准错误和标准输出都导入文件output里面了。</span><br><span class="line"></span><br><span class="line">至于为什么需要将标准错误重定向到标准输出的原因，那就归结为标准错误没有缓冲区，而stdout有。</span><br><span class="line"></span><br><span class="line">这就会导致 &gt;output 2&gt;output 文件output被两次打开，而stdout和stderr将会竞争覆盖，这肯定不是我门想要的.</span><br><span class="line"></span><br><span class="line">这就是为什么有人会写成：</span><br><span class="line"></span><br><span class="line">nohup .&#x2F;command.sh &gt;output 2&gt;output出错的原因了</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">\##########################</span><br><span class="line"></span><br><span class="line">最后谈一下&#x2F;dev&#x2F;null文件的作用</span><br><span class="line"></span><br><span class="line">这是一个无底洞，任何东西都可以定向到这里，但是却无法打开。</span><br><span class="line"></span><br><span class="line">所以一般很大的stdou和stderr当你不关心的时候可以利用stdout和stderr定向到这里&gt;.&#x2F;command.sh &gt;&#x2F;dev&#x2F;null 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
 
 <h1 id="ps"><a href="#ps" class="headerlink" title="ps"></a>ps</h1><ul>
 <li><code>ps -aux</code></li>
@@ -347,39 +359,40 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hostnamectl <span class="built_in">set</span>-hostname name</span><br><span class="line">hostnamectl status</span><br></pre></td></tr></table></figure>
 
 <h1 id="查看磁盘占用"><a href="#查看磁盘占用" class="headerlink" title="查看磁盘占用"></a>查看磁盘占用</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">du -sh *</span><br><span class="line">du -sh /var/lib/mysql</span><br></pre></td></tr></table></figure>
+
+<h1 id="某某人的心得"><a href="#某某人的心得" class="headerlink" title="某某人的心得"></a>某某人的心得</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">sed -i <span class="string">'s/SELINUX=enforcing/SELINUX=disabled/g'</span> /etc/selinux/config  <span class="comment">#关闭selinux</span></span><br><span class="line">sed -i <span class="string">'s/#GSSAPIAuthentication yes/GSSAPIAuthentication no/g'</span> /etc/ssh/sshd_config</span><br><span class="line">sed -i <span class="string">'s/#UseDNS yes/UseDNS no/g'</span> /etc/ssh/sshd_config</span><br><span class="line">sed -i <span class="string">'s/BOOTPROTO="dhcp"/BOOTPROTO="static"/g'</span> /etc/sysconfig/network-scripts/ifcfg-eth0</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"IPADDR='192.168.99.2'"</span>  &gt;&gt; /etc/sysconfig/network-scripts/ifcfg-eth0</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"PREFIX=21"</span> &gt;&gt; /etc/sysconfig/network-scripts/ifcfg-eth0</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"GATEWAY='192.168.100.1'"</span> &gt;&gt; /etc/sysconfig/network-scripts/ifcfg-eth0</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"DNS1='219.141.136.10'"</span> &gt;&gt; /etc/sysconfig/network-scripts/ifcfg-eth0</span><br><span class="line"></span><br><span class="line">systemctl <span class="built_in">set</span>-default multi-user.target</span><br><span class="line">systemctl stop firewalld.service</span><br><span class="line">systemctl <span class="built_in">disable</span> firewalld.service</span><br></pre></td></tr></table></figure>
+
+
         </div>
 
         
         <section class="post-tags">
             <div>
-                <span>标签:</span>
+                <span>标签：</span>
                 <span class="tag">
                     
                     
-                        <a href="/tags/Linux/"># Linux</a>
+                    <a href="/tags/Linux/"># Linux</a>
                     
-                        
+                    
                 </span>
             </div>
             <div>
-                <a href="javascript:window.history.back();">后退</a>
+                <a href="javascript：window.history.back();">后退</a>
                 <span>· </span>
                 <a href="/">主页</a>
             </div>
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2019/10/22/Jenkins%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/">Jenkins安装部署</a>
+            <a class="prev" rel="prev" href="/2019/10/22/Jenkins%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/">Jenkins安装部署</a>
             
             
             <a class="next" rel="next" href="/2019/10/22/Maven%E6%89%93%E5%8C%85%E4%BB%8B%E7%BB%8D/">Maven打包介绍</a>
             
         </section>
-
-
     </article>
 </div>
-
         </div>
         <footer id="footer" class="footer">
     <div class="copyright">
@@ -388,6 +401,5 @@
 </footer>
 
     </div>
-	<script src="/js/canvas-nest.js"></script>
 </body>
 </html>

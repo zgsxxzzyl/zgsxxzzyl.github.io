@@ -80,7 +80,7 @@
     
 
 
-</head>
+<meta name="generator" content="Hexo 4.2.0"></head>
 <body>
     <div class="wrapper">
         <header>
@@ -89,7 +89,7 @@
             <div class="navbar-header header-logo"><a href="/">博客</a></div>
             <div class="menu navbar-right">
                 
-                    <a class="menu-item" href="/archives">推文</a>
+                    <a class="menu-item" href="/archives">文章</a>
                 
                     <a class="menu-item" href="/category">分类</a>
                 
@@ -97,10 +97,10 @@
                 
                     <a class="menu-item" href="/about">关于</a>
                 
+                <a href="/search/">搜索</a>
                 <input id="switch_default" type="checkbox" class="switch_default">
                 <label for="switch_default" class="toggleBtn"></label>
             </div>
-
         </div>
     </nav>
 
@@ -115,7 +115,7 @@
             </div>
             <div class="menu" id="mobile-menu">
                 
-                    <a class="menu-item" href="/archives">推文</a>
+                    <a class="menu-item" href="/archives">文章</a>
                 
                     <a class="menu-item" href="/category">分类</a>
                 
@@ -145,7 +145,7 @@
             <div class="container">
     
     
-        <div class="post-toc">
+    <div class="post-toc">
     <div class="tocbot-list">
     </div>
     <div class="tocbot-list-menu">
@@ -213,25 +213,29 @@
         <header class="post-header">
             <h1 class="post-title">二进制基础</h1>
             
-                <div class="post-meta">
-                    
-                        作者: <a itemprop="author" rel="author" href="/">YiLongZhang</a>
-                    
+            <div class="post-meta">
+                
+                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                
 
+                
+                <span class="post-time">
+                    创建日期： <a
+                        href="#">十一月 14, 2019&nbsp;&nbsp;14:29:01</a>
+                </span>&nbsp;
+                
+                
+                <span class="post-category">
+                    分类：
                     
-                        <span class="post-time">
-                        创建日期: <a href="#">十一月 14, 2019&nbsp;&nbsp;14:29:01</a>
-                        </span>
+                    <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>&nbsp;
                     
-                    
-                        <span class="post-category">
-                    分类:
-                            
-                                <a href="/categories/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/">算法基础</a>
-                            
-                        </span>
-                    
-                </div>
+                </span>
+                
+                
+                状态：<a href="#">SNAPSHOT</a>
+                
+            </div>
             
         </header>
 
@@ -244,7 +248,7 @@
 <p>因为第一位是符号位，所以机器数的形式值就不等于真正的数值。例如上面的有符号数 10000011，其最高位1代表负，其真正数值是 -3 而不是形式值131（10000011转换成十进制等于131）。所以，为区别起见，将带符号位的机器数对应的真正数值称为机器数的真值。</p>
 </blockquote>
 <p>例：0000 0001的真值 = +000 0001 = +1，1000 0001的真值 = –000 0001 = –1</p>
-<h1 id="二-原码-反码-补码的基础概念和计算方法"><a href="#二-原码-反码-补码的基础概念和计算方法" class="headerlink" title="二. 原码, 反码, 补码的基础概念和计算方法."></a>二. 原码, 反码, 补码的基础概念和计算方法.</h1><p>在探求为何机器要使用补码之前, 让我们先了解原码, 反码和补码的概念.对于一个数, 计算机要使用一定的编码方式进行存储. 原码, 反码, 补码是机器存储一个具体数字的编码方式.</p>
+<h1 id="二-原码-反码-补码的基础概念和计算方法"><a href="#二-原码-反码-补码的基础概念和计算方法" class="headerlink" title="二. 原码, 反码, 补码的基础概念和计算方法"></a>二. 原码, 反码, 补码的基础概念和计算方法</h1><p>在探求为何机器要使用补码之前, 让我们先了解原码, 反码和补码的概念.对于一个数, 计算机要使用一定的编码方式进行存储. 原码, 反码, 补码是机器存储一个具体数字的编码方式.</p>
 <h2 id="1-原码"><a href="#1-原码" class="headerlink" title="1. 原码"></a>1. 原码</h2><p>原码就是符号位加上真值的绝对值, 即用第一位表示符号, 其余位表示值. 比如如果是8位二进制:</p>
 <blockquote>
 <p>[+1]原 = 0000 0001</p>
@@ -275,6 +279,10 @@
 <p>[-1] = [10000001]原 = [11111110]反 = [11111111]补</p>
 </blockquote>
 <p>对于负数, 补码表示方式也是人脑无法直观看出其数值的. 通常也需要转换成原码在计算其数值.</p>
+<h2 id="4-理解"><a href="#4-理解" class="headerlink" title="4. 理解"></a>4. 理解</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">一个字节8位</span><br><span class="line"></span><br><span class="line">* 譬如一个10进制数 27</span><br><span class="line">* 转成二进制 00011011</span><br><span class="line"></span><br><span class="line">-27 的二进制</span><br><span class="line">* 先计算原码： 00011011</span><br><span class="line">* 反码：      11100100</span><br><span class="line">* 补码：      11100101</span><br></pre></td></tr></table></figure>
+
+
+
 <h1 id="三-为何要使用原码-反码和补码"><a href="#三-为何要使用原码-反码和补码" class="headerlink" title="三. 为何要使用原码, 反码和补码"></a>三. 为何要使用原码, 反码和补码</h1><p>在开始深入学习前, 我的学习建议是先”死记硬背”上面的原码, 反码和补码的表示方式以及计算方法.</p>
 <p>现在我们知道了计算机可以有三种编码方式表示一个数. 对于正数因为三种编码方式的结果都相同:</p>
 <blockquote>
@@ -309,7 +317,7 @@
 <p>-1-127的结果应该是-128, 在用补码运算的结果中, [1000 0000]补 就是-128. 但是注意因为实际上是使用以前的-0的补码来表示-128, 所以-128并没有原码和反码表示.(对-128的补码表示[1000 0000]补算出来的原码是[0000 0000]原, 这是不正确的)</p>
 <p>使用补码, 不仅仅修复了0的符号以及存在两个编码的问题, 而且还能够多表示一个最低数. 这就是为什么8位二进制, 使用原码或反码表示的范围为[-127, +127], 而使用补码表示的范围为[-128, 127].</p>
 <p>因为机器使用补码, 所以对于编程中常用到的32位int类型, 可以表示范围是: [-231, 231-1] 因为第一位表示的是符号位.而使用补码表示时又可以多保存一个最小值.</p>
-<h1 id="四-原码-反码-补码-再深入"><a href="#四-原码-反码-补码-再深入" class="headerlink" title="四. 原码, 反码, 补码 再深入*"></a>四. 原码, 反码, 补码 再深入*</h1><p>计算机巧妙地把符号位参与运算, 并且将减法变成了加法, 背后蕴含了怎样的数学原理呢?</p>
+<h1 id="四-原码-反码-补码-再深入"><a href="#四-原码-反码-补码-再深入" class="headerlink" title="四. 原码, 反码, 补码 再深入"></a>四. 原码, 反码, 补码 再深入</h1><p>计算机巧妙地把符号位参与运算, 并且将减法变成了加法, 背后蕴含了怎样的数学原理呢?</p>
 <p>将钟表想象成是一个1位的12进制数. 如果当前时间是6点, 我希望将时间设置成4点, 需要怎么做呢?我们可以:</p>
 <blockquote>
 <ol>
@@ -337,7 +345,7 @@
 <p>所以4, 16, 28关于模 12 同余.</p>
 <h2 id="负数取模"><a href="#负数取模" class="headerlink" title="负数取模"></a>负数取模</h2><p>正数进行mod运算是很简单的. 但是负数呢?</p>
 <p>下面是关于mod运算的数学定义:</p>
-<p><a href="http://images.cnblogs.com/cnblogs_com/zhangziqiu/201103/201103302155507894.jpg" target="_blank" rel="noopener"><img src="http://images.cnblogs.com/cnblogs_com/zhangziqiu/201103/201103302155504514.jpg" alt="clip_image001"></a></p>
+<p><img src="/images/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%9F%BA%E7%A1%80/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%9F%BA%E7%A1%80.jpg" alt=""></p>
 <p>上面是截图, “取下界”符号找不到如何输入(word中粘贴过来后乱码). 下面是使用”L”和”J”替换上图的”取下界”符号:</p>
 <blockquote>
 <p>x mod y = x - y L x / y J</p>
@@ -436,34 +444,31 @@
         
         <section class="post-tags">
             <div>
-                <span>标签:</span>
+                <span>标签：</span>
                 <span class="tag">
                     
                     
-                        <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"># 数据结构</a>
+                    <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"># 数据结构</a>
                     
-                        
+                    
                 </span>
             </div>
             <div>
-                <a href="javascript:window.history.back();">后退</a>
+                <a href="javascript：window.history.back();">后退</a>
                 <span>· </span>
                 <a href="/">主页</a>
             </div>
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2019/11/28/%E5%85%B3%E4%BA%8EJava%E4%B8%AD%E7%9A%84%E5%8F%98%E9%87%8F/">关于Java中的变量</a>
+            <a class="prev" rel="prev" href="/2019/11/28/%E5%85%B3%E4%BA%8EJava%E4%B8%AD%E7%9A%84%E5%8F%98%E9%87%8F/">关于Java中的变量</a>
             
             
             <a class="next" rel="next" href="/2019/11/14/Java%E6%B3%9B%E5%9E%8B%E7%9A%84%E5%8D%8F%E5%8F%98%E4%B8%8E%E9%80%86%E5%8F%98/">Java泛型的协变与逆变</a>
             
         </section>
-
-
     </article>
 </div>
-
         </div>
         <footer id="footer" class="footer">
     <div class="copyright">
@@ -472,6 +477,5 @@
 </footer>
 
     </div>
-	<script src="/js/canvas-nest.js"></script>
 </body>
 </html>
