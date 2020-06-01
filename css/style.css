@@ -1265,7 +1265,7 @@ header label {
   padding: 2px 4px;
   background: #f7f7f7;
   font-family: Menlo, Monaco, Consolas, Courier New, monospace;
-  font-size: 12px;
+  font-size: 1em;
 }
 .post-content h1 code {
   font-size: 1.2em;

@@ -34,7 +34,7 @@ var searchFunc = function(path, search_id, content_id) {
             if ($("#local-search-input").length > 0) {
                 $input.addEventListener('input', function () {
                     var str = '<ul class=\"search-result-list\">';
-                    var keywords = this.value.trim().split(/[\s\-]+/);
+                    var keywords = this.value.trim().split(/\s+/);      //以任何空白字符为分界
                     $resultContent.innerHTML = "";
                     if (this.value.trim().length <= 0) {
                         return;
@@ -80,6 +80,15 @@ var searchFunc = function(path, search_id, content_id) {
                         }
                         // show search results
                         if (isMatch) {
+                            if(index_title > -1){
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, (m)=>{
+                                        return "<em class=\"search-keyword\">" + m + "</em>"
+                                    });
+                                });
+                                
+                            }
                             str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
                             var content = data_content;
                             if (first_occur >= 0) {

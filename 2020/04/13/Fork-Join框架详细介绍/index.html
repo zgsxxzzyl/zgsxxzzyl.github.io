@@ -12,7 +12,7 @@
 
 
 
-<title>SonarQube扫描配置 | 乾坤多畏途,何处无波澜</title>
+<title>Fork/Join框架详细介绍 | 乾坤多畏途,何处无波澜</title>
 
 
 
@@ -145,11 +145,73 @@
             <div class="container">
     
     
+    <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部折叠"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
 
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">SonarQube扫描配置</h1>
+            <h1 class="post-title">Fork/Join框架详细介绍</h1>
             
             <div class="post-meta">
                 
@@ -159,19 +221,37 @@
                 
                 <span class="post-time">
                     创建日期： <a
-                        href="#">四月 9, 2020&nbsp;&nbsp;9:56:57</a>
+                        href="#">四月 13, 2020&nbsp;&nbsp;12:00:55</a>
                 </span>&nbsp;
                 
                 
-                
+                <!-- 
                 状态：<a href="#">SNAPSHOT</a>
-                
+                 -->
             </div>
             
         </header>
 
         <div class="post-content">
-            
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>理解这个框架前，我们需要知道这个框架设计的目标是为了解决什么问题？</p>
+<p>为什么不可以用已有的框架来解决？</p>
+<p>举例说明：对一个数组进行求和操作，如果这个数组非常大，我们会选择分段求和最后汇总</p>
+<p><img src="/images/ForkJoin%E6%A1%86%E6%9E%B6%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D/%E6%95%B0%E7%BB%84%E6%B1%82%E5%92%8C.png" alt="数组求和"></p>
+<p>上图所示，0-999表示数组的下标，如果使用<code>ThreadPoolExecutor</code>创建线程池，可以考虑一下分割成上面的任务需要多少个线程。这里需要用到7个线程来实现求和，如果再分割多次，最后需要的线程会很多，显然不是我们所想要的。</p>
+<p>为了满足我们的需求，Java从JDK7开始引入了Fork/Join框架来解决这类问题，利用多个处理器，是为可以递归分解为较小部分的工作而设计的。目标是使用所有可用的处理能力来增强应用程序的性能。</p>
+<p>Fork/Join是<code>ExecutorService</code>接口的实现（这个接口用来实现线程池的，譬如我们常用的<code>ThreadPoolExecutor</code>），与其他实现<code>ExecutorService</code>的线程池一样，Fork/Join框架将任务分配给线程池中的工作线程。</p>
+<p>与其他线程池不同的是，它使用了工作窃取算法（<em>work-stealing</em>），工作用尽的工作线程可以从其他仍很忙的线程中窃取任务。举个例子，0-499这个线程的子线程都计算完了，500-999子线程还在计算500-749，如果0-499这个线程等待500-999这个线程返回结果再去汇总这样会浪费资源，工作窃取算法会使执行0-499这个线程执行750-999，这样可以提高效率。</p>
+<h1 id="Fork-Join核心类"><a href="#Fork-Join核心类" class="headerlink" title="Fork/Join核心类"></a>Fork/Join核心类</h1><ul>
+<li><p><code>ForkJoinPool</code> </p>
+</li>
+<li><p><code>ForkJoinTask</code></p>
+</li>
+<li><p><code>RecursiveAction</code></p>
+</li>
+<li><p><code>RecursiveTask</code></p>
+</li>
+</ul>
+
         </div>
 
         
@@ -179,6 +259,10 @@
             <div>
                 <span>标签：</span>
                 <span class="tag">
+                    
+                    
+                    <a href="/tags/Java/"># Java</a>
+                    
                     
                 </span>
             </div>
@@ -189,6 +273,8 @@
             </div>
         </section>
         <section class="post-nav">
+            
+            <a class="prev" rel="prev" href="/2020/04/13/Java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E4%BB%8B%E7%BB%8D/">Java线程池介绍</a>
             
             
             <a class="next" rel="next" href="/2020/04/08/char%E3%80%81varchar%E3%80%81varchar2%E7%9A%84%E5%8C%BA%E5%88%AB/">char、varchar、varchar2的区别</a>

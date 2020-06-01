@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="YiLongZhang">
+
+
+
+
+
+<title>MySQL5.7基于GTID及多线程主从复制 | 乾坤多畏途,何处无波澜</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <a href="/search/">搜索</a>
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+    <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部折叠"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">MySQL5.7基于GTID及多线程主从复制</h1>
+            
+            <div class="post-meta">
+                
+                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                
+
+                
+                <span class="post-time">
+                    创建日期： <a
+                        href="#">四月 17, 2020&nbsp;&nbsp;9:41:39</a>
+                </span>&nbsp;
+                
+                
+                <!-- 
+                状态：<a href="#">SNAPSHOT</a>
+                 -->
+            </div>
+            
+        </header>
+
+        <div class="post-content">
+            <blockquote>
+<p>转自：<a href="https://www.sundayle.com/mysql-gtid-relication/" target="_blank" rel="noopener">https://www.sundayle.com/mysql-gtid-relication/</a></p>
+</blockquote>
+<h1 id="MySQL主从同步原理"><a href="#MySQL主从同步原理" class="headerlink" title="MySQL主从同步原理"></a>MySQL主从同步原理</h1><blockquote>
+<p><a href="https://dev.mysql.com/doc/refman/5.7/en/replication-gtids.html" target="_blank" rel="noopener">参考文档</a></p>
+</blockquote>
+<p>MySQL主从同步是在MySQL主从复制(Master-Slave Replication)基础上实现的，通过设置在Master MySQL上的binlog(使其处于打开状态)，Slave MySQL上通过一个I/O线程从Master MySQL上读取binlog，然后传输到Slave MySQL的中继日志中，然后Slave MySQL的SQL线程从中继日志中读取中继日志，然后应用到Slave MySQL的数据库中。这样实现了主从数据同步功能。</p>
+<h1 id="MySQL中主从复制的优点"><a href="#MySQL中主从复制的优点" class="headerlink" title="MySQL中主从复制的优点"></a>MySQL中主从复制的优点</h1><ul>
+<li>横向扩展解决方案<br>在多个从库之间扩展负载以提高性能。在这种环境中，所有写入和更新在主库上进行。但是，读取可能发生在一个或多个从库上。该模型可以提高写入的性能（由于主库专用于更新），同时在多个从库上读取，可以大大提高读取速度。</li>
+<li>数据安全性<br>由于主库数据被复制到从库，从库可以暂停复制过程，可以在从库上运行备份服务，而不会破坏对应的主库数据。</li>
+<li>分析<br>可以在主库上创建实时数据，而信息分析可以在从库上进行，而不会影响主服务器的性能。</li>
+</ul>
+<h1 id="GTID概念"><a href="#GTID概念" class="headerlink" title="GTID概念"></a>GTID概念</h1><p>从 MySQL 5.6.5 开始新增了一种基于 GTID 的复制方式。通过 GTID保证了每个在主库上提交的事务在集群中有一个唯一的ID。这种方式强化了数据库的主备一致性，故障恢复以及容错能力。<br>在原来基于二进制日志的复制中，从库需要告知主库要从哪个偏移量进行增量同步，如果指定错误会造成数据的遗漏，从而造成数据的不一致。借助GTID，在发生主备切换的情况下，MySQL的其它从库可以自动在新主库上找到正确的复制位置，这大大简化了复杂复制拓扑下集群的维护，也减少了人为设置复制位置发生误操作的风险。另外，基于GTID的复制可以忽略已经执行过的事务，减少了数据发生不一致的风险。</p>
+<h2 id="什么是GTID"><a href="#什么是GTID" class="headerlink" title="什么是GTID"></a>什么是GTID</h2><p>GTID (Global Transaction ID) 是对于一个已提交事务的编号，并且是一个全局唯一的编号。 GTID 实际上是由UUID+TID 组成的。其中 UUID 是一个 MySQL 实例的唯一标识。TID代表了该实例上已经提交的事务数量，并且随着事务提交单调递增。<br>下面是一个GTID的具体形式：</p>
+<p>3E11FA47-71CA-11E1-9E33-C80AA9429562:23，冒号分割前边为uuid，后边为TID。</p>
+<p>GTID 集合可以包含来自多个 MySQL 实例的事务，它们之间用逗号分隔。如果来自同一MySQL实例的事务序号有多个范围区间，各组范围之间用冒号分隔。</p>
+<p>例如：</p>
+<p>e6954592-8dba-11e6-af0e-fa163e1cf111:1-5:11-18,</p>
+<p>e6954592-8dba-11e6-af0e-fa163e1cf3f2:1-27</p>
+<p>可以使用show master status实时查看当前事务执行数。</p>
+<h2 id="GTID的作用"><a href="#GTID的作用" class="headerlink" title="GTID的作用"></a>GTID的作用</h2><p>GTID采用了新的复制协议，旧协议是，首先从服务器上在一个特定的偏移量位置连接到主服务器上一个给定的二进制日志文件，然后主服务器再从给定的连接点开始发送所有的事件。<br>新协议有所不同，支持以全局统一事务ID (GTID)为基础的复制。当在主库上提交事务或者被从库应用时，可以定位和追踪每一个事务。GTID复制是全部以事务为基础，使得检查主从一致性变得非常简单。如果所有主库上提交的事务也同样提交到从库上，一致性就得到了保证。</p>
+<h2 id="GTID的工作原理"><a href="#GTID的工作原理" class="headerlink" title="GTID的工作原理"></a>GTID的工作原理</h2><p>①当一个事务在主库端执行并提交时，产生GTID，一同记录到binlog日志中。<br>②binlog传输到slave,并存储到slave的relaylog后，读取这个GTID的这个值设置gtid_next变量，即告诉Slave，下一个要执行的GTID值。<br>③sql线程从relay log中获取GTID，然后对比slave端的binlog是否有该GTID。<br>④如果有记录，说明该GTID的事务已经执行，slave会忽略。<br>⑤如果没有记录，slave就会执行该GTID事务，并记录该GTID到自身的binlog，<br>在读取执行事务前会先检查其他session持有该GTID，确保不被重复执行。<br>⑥在解析过程中会判断是否有主键，如果没有就用二级索引，如果没有就用全部扫描。</p>
+<h1 id="操作环境"><a href="#操作环境" class="headerlink" title="操作环境"></a>操作环境</h1><p>系统：CentOS 7<br>数据库：MySQL 5.7<br>主库：192.168.11.31<br>从库：192.168.11.32</p>
+<h1 id="主库配置"><a href="#主库配置" class="headerlink" title="主库配置"></a>主库配置</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">datadir&#x3D;&#x2F;data&#x2F;mysql&#x2F;3306</span><br><span class="line">socket&#x3D;&#x2F;tmp&#x2F;mysql.sock</span><br><span class="line">symbolic-links&#x3D;0</span><br><span class="line"></span><br><span class="line">#服务器ID</span><br><span class="line">server-id&#x3D;169</span><br><span class="line">#二进制日志文件名</span><br><span class="line">log-bin&#x3D;master-bin</span><br><span class="line">#强烈建议，其他格式可能造成数据不一致</span><br><span class="line">binlog_format &#x3D; row</span><br><span class="line">#是否记录从服务器同步数据动作</span><br><span class="line">log-slave-updates &#x3D; 1</span><br><span class="line">#启用gitd功能</span><br><span class="line">gtid-mode &#x3D; on</span><br><span class="line">#开启强制GTID一致性</span><br><span class="line">enforce-gtid-consistency &#x3D; 1</span><br><span class="line">#记录IO线程读取已经读取到的master binlog位置，用于slave宕机后IO线程根据文件中的POS点重新拉取binlog日志</span><br><span class="line">master-info-repository &#x3D; TABLE</span><br><span class="line">#记录SQL线程读取Master binlog的位置，用于slave宕机后根据文件中记录的pos点恢复Sql线程</span><br><span class="line">relay-log-info-repository &#x3D; TABLE</span><br><span class="line">#启用确保无信息丢失；任何一个事务提交后, 将二进制日志的文件名及事件位置记录到文件中</span><br><span class="line">sync-master-info &#x3D; 1</span><br><span class="line">#设定从服务器的复制线程数；0表示关闭多线程复制功能</span><br><span class="line">slave-parallel-workers &#x3D; 2</span><br><span class="line">#设置binlog校验算法（循环冗余校验码）</span><br><span class="line">binlog-checksum &#x3D; CRC32</span><br><span class="line">#设置主服务器是否校验</span><br><span class="line">master-verify-checksum &#x3D; 1</span><br><span class="line">#设置从服务器是否校验</span><br><span class="line">slave-sql-verify-checksum &#x3D; 1</span><br><span class="line">#用于在二进制日志记录事件相关的信息，可降低故障排除的复杂度</span><br><span class="line">binlog-rows-query-log_events &#x3D; 1</span><br><span class="line">#保证master crash safe，该参数必须设置为1</span><br><span class="line">sync_binlog &#x3D; 1</span><br><span class="line">#保证master crash safe，该参数必须设置为1</span><br><span class="line">innodb_flush_log_at_trx_commit &#x3D; 1</span><br></pre></td></tr></table></figure>
+
+<h1 id="从库配置"><a href="#从库配置" class="headerlink" title="从库配置"></a>从库配置</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">server_id &#x3D; 32</span><br><span class="line">log-bin&#x3D;mysql-bin</span><br><span class="line">binlog_format &#x3D; row</span><br><span class="line">gtid-mode &#x3D; on</span><br><span class="line">enforce-gtid-consistency &#x3D; 1</span><br><span class="line">master-info-repository &#x3D; TABLE</span><br><span class="line">relay-log-info-repository &#x3D; TABLE</span><br><span class="line">sync-master-info &#x3D; 1</span><br><span class="line">slave-parallel-workers &#x3D; 4</span><br><span class="line">binlog-checksum &#x3D; CRC32</span><br><span class="line">master-verify-checksum &#x3D; 1</span><br><span class="line">slave-sql-verify-checksum &#x3D; 1</span><br><span class="line">binlog-rows-query-log_events &#x3D; 1</span><br><span class="line">#sync_binlog &#x3D; 1</span><br><span class="line">#innodb_flush_log_at_trx_commit &#x3D; 1</span><br><span class="line">log-slave-updates &#x3D; 0 				# crash safe slave 5.6版本需要开启</span><br><span class="line">relay_log_recovery &#x3D; 1  			# crash safe slave</span><br><span class="line">read_only&#x3D;on        				#设置一般用户为只读模式</span><br><span class="line">super_read_only&#x3D;on      			#设置super（root）用户为只读模式</span><br><span class="line">#tx_read_only&#x3D;on     				#设置事务为只读模式</span><br></pre></td></tr></table></figure>
+
+<h1 id="主库权限设置"><a href="#主库权限设置" class="headerlink" title="主库权限设置"></a>主库权限设置</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql &gt; grant replication slave on *.* to slave@&#39;192.168.11.32&#39; identified by &#39;slave123&#39;;</span><br><span class="line">mysql &gt; flush privileges;</span><br></pre></td></tr></table></figure>
+
+<h1 id="自动同步连接主库-方法一"><a href="#自动同步连接主库-方法一" class="headerlink" title="自动同步连接主库(方法一)"></a>自动同步连接主库(方法一)</h1><p>适用于master也是新建不久的情况。</p>
+<ol>
+<li>如果你的master所有的binlog还在。可以安装slave，slave直接change master to到master端。</li>
+<li>原理是直接获取master所有的GTID并执行。</li>
+<li>优点：简单方便。</li>
+<li>缺点：如果binlog太多，数据完全同步需要时间较长，并且master一开始就启用了GTUD。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">change master to </span><br><span class="line">master_host&#x3D;&#39;192.168.11.31&#39;,</span><br><span class="line">master_user&#x3D;&#39;slave&#39;,</span><br><span class="line">master_password&#x3D;&#39;slave123&#39;,</span><br><span class="line">master_port&#x3D;3306,</span><br><span class="line">master_auto_position&#x3D;1</span><br><span class="line">#master_auto_position&#x3D;1 从库自动找同步点</span><br></pre></td></tr></table></figure>
+
+<h1 id="备份导入连接主库-方法二"><a href="#备份导入连接主库-方法二" class="headerlink" title="备份导入连接主库(方法二)"></a>备份导入连接主库(方法二)</h1><ol>
+<li>Xtrabackup_binlog_info文件中，包含<code>global.gtid_purged=&#39;XXXXXX:XXXX&#39;</code>的信息。</li>
+<li>然后到slave去手工的 <code>SET @@GLOBAL.GTID_PURGED=&#39;XXXXXX:XXXX&#39;</code>。</li>
+<li>恢复备份，开启change master to 命令。</li>
+</ol>
+<h1 id="备份导入连接主库-方法三"><a href="#备份导入连接主库-方法三" class="headerlink" title="备份导入连接主库(方法三)"></a>备份导入连接主库(方法三)</h1><p>适用于拥有较大数据的情况。（推荐）</p>
+<ol>
+<li>通过master或者其他slave的备份搭建新的slave。</li>
+<li>原理：获取master的数据和这些数据对应的GTID范围，然后通过slave设置master_auto_position=1,自动同步，跳过备份包含的gtid。</li>
+<li>缺点：相对来说有点复杂。</li>
+</ol>
+<h2 id="将主库设为只读模式"><a href="#将主库设为只读模式" class="headerlink" title="将主库设为只读模式"></a>将主库设为只读模式</h2><p>注：生产环境会影响不能写入数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; flush tables with read lock;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; set global read_only&#x3D;on;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="主库使用mysqldump导出"><a href="#主库使用mysqldump导出" class="headerlink" title="主库使用mysqldump导出"></a>主库使用mysqldump导出</h2><p>可以同时导出多个数据库，如music、record</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysqldump --databases &lt;数据库名&gt;  --single-transaction --order-by-primary -r &lt;备份文件名&gt; --routines -h&lt;服务器地址&gt;  -P&lt;端口号&gt; -u&lt;用户名&gt; -p&lt;密码&gt;</span><br><span class="line">mysqldump --default-character-set&#x3D;utf8mb4 --single-transaction --triggers --routines --events --hex-blob --databases muisc record &gt; music_record.sql</span><br></pre></td></tr></table></figure>
+
+<p>记录GTID_PURGED</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grep -r &quot;GLOBAL.GTID_PURGED&quot; music_record.sql</span><br><span class="line">SET @@GLOBAL.GTID_PURGED&#x3D;&#39;3cdb9ce6-0d7e-11e8-abe4-001517b5a5f0:1-698887&#39;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：mysql服务器内置的库包括mysql库和test库不需要导出。</p>
+</blockquote>
+<h2 id="将主库设为可读写模式"><a href="#将主库设为可读写模式" class="headerlink" title="将主库设为可读写模式"></a>将主库设为可读写模式</h2><p>数据库导出完成后将主库重新设为可读写模式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; set global read_only&#x3D;off;</span><br><span class="line">mysql&gt; unlock tables;</span><br></pre></td></tr></table></figure>
+
+<h2 id="从库数据导入"><a href="#从库数据导入" class="headerlink" title="从库数据导入"></a>从库数据导入</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#mysql&gt; create database &#96;music&#96;;</span><br><span class="line">#mysql -u root -p muisc &lt; &#x2F;root&#x2F;music.sql</span><br><span class="line">mysql -u root -p &lt; &#x2F;root&#x2F;music_record.sql </span><br><span class="line">mysql&gt; reset slave all;</span><br><span class="line">mysql&gt; reset master;</span><br><span class="line">mysql&gt; SET @@GLOBAL.GTID_PURGED&#x3D;&#39;3cdb9ce6-0d7e-11e8-abe4-001517b5a5f0:1-698887&#39;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="从库连接主库"><a href="#从库连接主库" class="headerlink" title="从库连接主库"></a>从库连接主库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">change master to </span><br><span class="line">master_host&#x3D;&#39;192.168.11.31&#39;,</span><br><span class="line">master_user&#x3D;&#39;slave&#39;,</span><br><span class="line">master_password&#x3D;&#39;slave123&#39;,</span><br><span class="line">master_port&#x3D;3306,</span><br><span class="line">master_auto_position&#x3D;1;</span><br></pre></td></tr></table></figure>
+
+<h1 id="从库启动复制线程"><a href="#从库启动复制线程" class="headerlink" title="从库启动复制线程"></a>从库启动复制线程</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; start slave;</span><br></pre></td></tr></table></figure>
+
+<h1 id="从库查看复制状态"><a href="#从库查看复制状态" class="headerlink" title="从库查看复制状态"></a>从库查看复制状态</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show slave status\G;</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">               Slave_IO_State: Waiting for master to send event</span><br><span class="line">                  Master_Host: 192.168.11.31</span><br><span class="line">                  Master_User: slave</span><br><span class="line">                  Master_Port: 3306</span><br><span class="line">                Connect_Retry: 60</span><br><span class="line">              Master_Log_File: master-bin.000002</span><br><span class="line">          Read_Master_Log_Pos: 149375983</span><br><span class="line">               Relay_Log_File: db2-relay-bin.000002</span><br><span class="line">                Relay_Log_Pos: 321</span><br><span class="line">        Relay_Master_Log_File: master-bin.000002</span><br><span class="line">             Slave_IO_Running: Yes</span><br><span class="line">            Slave_SQL_Running: Yes</span><br><span class="line">              Replicate_Do_DB: </span><br><span class="line">          Replicate_Ignore_DB: </span><br><span class="line">           Replicate_Do_Table: </span><br><span class="line">       Replicate_Ignore_Table: </span><br><span class="line">      Replicate_Wild_Do_Table: </span><br><span class="line">  Replicate_Wild_Ignore_Table: </span><br><span class="line">                   Last_Errno: 0</span><br><span class="line">                   Last_Error: </span><br><span class="line">                 Skip_Counter: 0</span><br><span class="line">          Exec_Master_Log_Pos: 149375983</span><br><span class="line">              Relay_Log_Space: 526</span><br><span class="line">              Until_Condition: None</span><br><span class="line">               Until_Log_File: </span><br><span class="line">                Until_Log_Pos: 0</span><br><span class="line">           Master_SSL_Allowed: No</span><br><span class="line">           Master_SSL_CA_File: </span><br><span class="line">           Master_SSL_CA_Path: </span><br><span class="line">              Master_SSL_Cert: </span><br><span class="line">            Master_SSL_Cipher: </span><br><span class="line">               Master_SSL_Key: </span><br><span class="line">        Seconds_Behind_Master: 0</span><br><span class="line">Master_SSL_Verify_Server_Cert: No</span><br><span class="line">                Last_IO_Errno: 0</span><br><span class="line">                Last_IO_Error: </span><br><span class="line">               Last_SQL_Errno: 0</span><br><span class="line">               Last_SQL_Error: </span><br><span class="line">  Replicate_Ignore_Server_Ids: </span><br><span class="line">             Master_Server_Id: 31</span><br><span class="line">                  Master_UUID: 834449ff-4487-11e8-8b27-000c294b06ca</span><br><span class="line">             Master_Info_File: mysql.slave_master_info</span><br><span class="line">                    SQL_Delay: 0</span><br><span class="line">          SQL_Remaining_Delay: NULL</span><br><span class="line">      Slave_SQL_Running_State: Slave has read all relay log; waiting for more updates</span><br><span class="line">           Master_Retry_Count: 86400</span><br><span class="line">                  Master_Bind: </span><br><span class="line">      Last_IO_Error_Timestamp: </span><br><span class="line">     Last_SQL_Error_Timestamp: </span><br><span class="line">               Master_SSL_Crl: </span><br><span class="line">           Master_SSL_Crlpath: </span><br><span class="line">           Retrieved_Gtid_Set: </span><br><span class="line">            Executed_Gtid_Set: </span><br><span class="line">                Auto_Position: 0</span><br><span class="line">         Replicate_Rewrite_DB: </span><br><span class="line">                 Channel_Name: </span><br><span class="line">           Master_TLS_Version: </span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">ERROR: </span><br><span class="line">No query specified</span><br></pre></td></tr></table></figure>
+
+<p>检查主从复制通信状态</p>
+<p>Slave_IO_State #从站的当前状态<br>Slave_IO_Running： Yes #读取主程序二进制日志的I/O线程是否正在运行<br>Slave_SQL_Running： Yes #执行读取主服务器中二进制日志事件的SQL线程是否正在运行。与I/O线程一样<br>Seconds_Behind_Master #是否为0，0就是已经同步了</p>
+<p>如果再次查询状态仍然 发现Slave_IO_Running 或者Slave_SQL_Running 不同时为YES,尝试执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; stop slave;</span><br><span class="line">mysql&gt; reset slave;</span><br><span class="line">mysql&gt; start slave;</span><br></pre></td></tr></table></figure>
+
+<h1 id="主库查看状态"><a href="#主库查看状态" class="headerlink" title="主库查看状态"></a>主库查看状态</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show master status;</span><br><span class="line">+-------------------+-----------+--------------+------------------+--------------------------------------------+</span><br><span class="line">| File              | Position  | Binlog_Do_DB | Binlog_Ignore_DB | Executed_Gtid_Set                          |</span><br><span class="line">+-------------------+-----------+--------------+------------------+--------------------------------------------+</span><br><span class="line">| master-bin.000002 | 149375983 |              |                  | 834449ff-4487-11e8-8b27-000c294b06ca:1-254 |</span><br><span class="line">+-------------------+-----------+--------------+------------------+--------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; show slave hosts;</span><br><span class="line">+-----------+------+------+-----------+--------------------------------------+</span><br><span class="line">| Server_id | Host | Port | Master_id | Slave_UUID                           |</span><br><span class="line">+-----------+------+------+-----------+--------------------------------------+</span><br><span class="line">|        32 |      | 3306 |        31 | 68303133-4489-11e8-84e9-000c293eaee6 |</span><br><span class="line">+-----------+------+------+-----------+--------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; show global variables like &#39;%gtid%&#39;;</span><br><span class="line">+----------------------------------+--------------------------------------------+</span><br><span class="line">| Variable_name                    | Value                                      |</span><br><span class="line">+----------------------------------+--------------------------------------------+</span><br><span class="line">| binlog_gtid_simple_recovery      | ON                                         |</span><br><span class="line">| enforce_gtid_consistency         | ON                                         |</span><br><span class="line">| gtid_executed                    | 834449ff-4487-11e8-8b27-000c294b06ca:1-255 |</span><br><span class="line">| gtid_executed_compression_period | 1000                                       |</span><br><span class="line">| gtid_mode                        | ON                                         |</span><br><span class="line">| gtid_owned                       |                                            |</span><br><span class="line">| gtid_purged                      |                                            |</span><br><span class="line">| session_track_gtids              | OFF                                        |</span><br><span class="line">+----------------------------------+--------------------------------------------+</span><br><span class="line">8 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h1 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show binlog events;</span><br><span class="line">mysql&gt; show binlog events in &#39;master-bin.000001&#39;;</span><br><span class="line">mysql&gt; show master logs;mysql&gt; show processlist</span><br><span class="line">mysql&gt; show full processlist;</span><br></pre></td></tr></table></figure>
+
+<h1 id="GTID与crash-safe-slave"><a href="#GTID与crash-safe-slave" class="headerlink" title="GTID与crash safe slave"></a>GTID与crash safe slave</h1><p>查看错误</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from performance_schema.replication_applier_status_by_worker where LAST_ERROR_NUMBER&#x3D;1007\G;</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://docs.azure.cn/zh-cn/mysql/mysql-database-data-replication" target="_blank" rel="noopener">https://docs.azure.cn/zh-cn/mysql/mysql-database-data-replication</a><br><a href="https://segmentfault.com/a/1190000010362745#articleHeader1" target="_blank" rel="noopener">GTID原理和一些问题解答</a><br><a href="http://www.cnblogs.com/zhoujinyi/p/5704567.html" target="_blank" rel="noopener">MySQL 5.7 Replication 相关新功能说明</a></p>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>标签：</span>
+                <span class="tag">
+                    
+                    
+                    <a href="/tags/MySQL/"># MySQL</a>
+                    
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript：window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            <a class="prev" rel="prev" href="/2020/04/17/MySQL-Replication-Binary/">MySQL复制-基于二进制日志文件</a>
+            
+            
+            <a class="next" rel="next" href="/2020/04/15/javaagent%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/">javaagent开发指南</a>
+            
+        </section>
+    </article>
+</div>
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© YiLongZhang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

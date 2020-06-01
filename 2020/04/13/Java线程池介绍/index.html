@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="YiLongZhang">
+
+
+
+
+
+<title>Java线程池介绍 | 乾坤多畏途,何处无波澜</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <a href="/search/">搜索</a>
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+    <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部折叠"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Java线程池介绍</h1>
+            
+            <div class="post-meta">
+                
+                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                
+
+                
+                <span class="post-time">
+                    创建日期： <a
+                        href="#">四月 13, 2020&nbsp;&nbsp;13:24:52</a>
+                </span>&nbsp;
+                
+                
+                <!-- 
+                状态：<a href="#">SNAPSHOT</a>
+                 -->
+            </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="参数介绍"><a href="#参数介绍" class="headerlink" title="参数介绍"></a>参数介绍</h1><h2 id="int-corePoolSize"><a href="#int-corePoolSize" class="headerlink" title="int corePoolSize"></a><code>int corePoolSize</code></h2><blockquote>
+<p>该线程池中核心线程数最大值</p>
+</blockquote>
+<p>核心线程：线程池新建线程的时候，如果当前线程总数小于<code>corePoolSize</code>，则新建的是核心线程，如果超过<code>corePoolSize</code>，则新建的是非核心线程，核心线程默认情况下会一直存活在线程池中，即使这个核心线程啥也不干(闲置状态)。<br>如果指定<code>ThreadPoolExecutor</code>的<code>allowCoreThreadTimeOut</code>这个属性为<code>true</code>，那么核心线程如果不干活(闲置状态)的话，超过一定时间(时长下面参数决定)，就会被销毁掉。</p>
+<h2 id="int-maximumPoolSize"><a href="#int-maximumPoolSize" class="headerlink" title="int maximumPoolSize"></a><code>int maximumPoolSize</code></h2><blockquote>
+<p>该线程池中线程总数最大值</p>
+</blockquote>
+<p>线程总数 = 核心线程数 + 非核心线程数。</p>
+<h2 id="long-keepAliveTime"><a href="#long-keepAliveTime" class="headerlink" title="long keepAliveTime"></a><code>long keepAliveTime</code></h2><blockquote>
+<p>该线程池中非核心线程闲置超时时长</p>
+</blockquote>
+<p>一个非核心线程，如果不干活(闲置状态)的时长超过这个参数所设定的时长，就会被销毁掉，如果设置<code>allowCoreThreadTimeOut = true</code>，则会作用于核心线程。</p>
+<h2 id="TimeUnit-unit"><a href="#TimeUnit-unit" class="headerlink" title="TimeUnit unit"></a><code>TimeUnit unit</code></h2><blockquote>
+<p><code>keepAliveTime</code>的单位</p>
+</blockquote>
+<p><code>TimeUnit</code>是一个枚举类型，其包括：</p>
+<ul>
+<li><code>NANOSECONDS</code> : 1微毫秒 = 1微秒 / 1000</li>
+<li><code>MICROSECONDS</code> : 1微秒 = 1毫秒 / 1000</li>
+<li><code>MILLISECONDS</code> : 1毫秒 = 1秒 /1000</li>
+<li><code>SECONDS</code> : 秒</li>
+<li><code>MINUTES</code> : 分</li>
+<li><code>HOURS</code> : 小时</li>
+<li><code>DAYS</code> : 天</li>
+</ul>
+<h2 id="BlockingQueue-lt-Runnable-gt-workQueue"><a href="#BlockingQueue-lt-Runnable-gt-workQueue" class="headerlink" title="BlockingQueue&lt;Runnable&gt; workQueue"></a><code>BlockingQueue&lt;Runnable&gt; workQueue</code></h2><blockquote>
+<p>该线程池中的任务队列：维护着等待执行的Runnable对象</p>
+</blockquote>
+<p>当所有的核心线程都在干活时，新添加的任务会被添加到这个队列中等待处理，如果队列满了，则新建非核心线程执行任务。</p>
+<p>常用的<code>workQueue</code>类型：</p>
+<ul>
+<li><code>SynchronousQueue</code>：这个队列接收到任务的时候，会直接提交给线程处理，而不保留它，如果所有线程都在工作怎么办？那就新建一个线程来处理这个任务！所以为了保证不出现&lt;线程数达到了<code>maximumPoolSize</code>而不能新建线程&gt;的错误，使用这个类型队列的时候，<code>maximumPoolSize</code>一般指定成<code>Integer.MAX_VALUE</code>，即无限大</li>
+<li><code>LinkedBlockingQueue</code>：这个队列接收到任务的时候，如果当前线程数小于核心线程数，则新建线程(核心线程)处理任务；如果当前线程数等于核心线程数，则进入队列等待。由于这个队列没有最大值限制，即所有超过核心线程数的任务都将被添加到队列中，这也就导致了<code>maximumPoolSize</code>的设定失效，因为总线程数永远不会超过<code>corePoolSize</code></li>
+<li><code>ArrayBlockingQueue</code>：可以限定队列的长度，接收到任务的时候，如果没有达到<code>corePoolSize</code>的值，则新建线程(核心线程)执行任务，如果达到了，则入队等候，如果队列已满，则新建线程(非核心线程)执行任务，又如果总线程数到了<code>maximumPoolSize</code>，并且队列也满了，则发生错误</li>
+<li><code>DelayQueue</code>：队列内元素必须实现Delayed接口，这就意味着你传进去的任务必须先实现Delayed接口。这个队列接收到任务时，首先先入队，只有达到了指定的延时时间，才会执行任务</li>
+</ul>
+<h2 id="ThreadFactory-threadFactory"><a href="#ThreadFactory-threadFactory" class="headerlink" title="ThreadFactory threadFactory"></a><code>ThreadFactory threadFactory</code></h2><blockquote>
+<p>创建线程的工厂，这是一个接口，你new他的时候需要实现他的<code>Thread newThread(Runnable r)</code>方法，一般用不上。</p>
+</blockquote>
+<h2 id="RejectedExecutionHandler-handler"><a href="#RejectedExecutionHandler-handler" class="headerlink" title="RejectedExecutionHandler handler"></a><code>RejectedExecutionHandler handler</code></h2><blockquote>
+<p>超出<code>maximumPoolSize</code>异常处理类，这玩意儿就是抛出异常专用的</p>
+</blockquote>
+<h1 id="线程池运行机制"><a href="#线程池运行机制" class="headerlink" title="线程池运行机制"></a>线程池运行机制</h1><ol>
+<li>线程数量未达到corePoolSize，则新建一个线程(核心线程)执行任务</li>
+<li>线程数量达到了corePools，则将任务移入队列等待</li>
+<li>队列已满，新建线程(非核心线程)执行任务</li>
+<li>队列已满，总线程数又达到了maximumPoolSize，就会由(RejectedExecutionHandler)抛出异常</li>
+</ol>
+<h1 id="Java通过Executors提供四种线程池"><a href="#Java通过Executors提供四种线程池" class="headerlink" title="Java通过Executors提供四种线程池"></a>Java通过Executors提供四种线程池</h1><p>分别为：</p>
+<ul>
+<li><p><code>newCachedThreadPool</code>创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。</p>
+</li>
+<li><p><code>newFixedThreadPool</code> 创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。</p>
+</li>
+<li><p><code>newScheduledThreadPool</code> 创建一个定长线程池，支持定时及周期性任务执行。</p>
+</li>
+<li><p><code>newSingleThreadExecutor</code> 创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。</p>
+</li>
+</ul>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>标签：</span>
+                <span class="tag">
+                    
+                    
+                    <a href="/tags/Java/"># Java</a>
+                    
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript：window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            <a class="prev" rel="prev" href="/2020/04/15/%E5%A6%82%E4%BD%95%E4%BF%9D%E6%8A%A4%E8%87%AA%E5%B7%B1%E7%9A%84Java%E4%BB%A3%E7%A0%81/">如何保护自己的Java代码</a>
+            
+            
+            <a class="next" rel="next" href="/2020/04/13/Fork-Join%E6%A1%86%E6%9E%B6%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D/">Fork/Join框架详细介绍</a>
+            
+        </section>
+    </article>
+</div>
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© YiLongZhang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

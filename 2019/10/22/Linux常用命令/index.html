@@ -225,9 +225,9 @@
                 </span>&nbsp;
                 
                 
-                
+                <!-- 
                 状态：<a href="#">SNAPSHOT</a>
-                
+                 -->
             </div>
             
         </header>
@@ -236,6 +236,8 @@
             <h1 id="查看Linux版本"><a href="#查看Linux版本" class="headerlink" title="查看Linux版本"></a>查看Linux版本</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/centos-release</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 可以查看所有用户的列表</span></span><br><span class="line">cat /etc/passwd</span><br><span class="line"><span class="comment"># 查看用户组</span></span><br><span class="line">cat /etc/group</span><br><span class="line"><span class="comment"># 查看当前登录用户的组内成员</span></span><br><span class="line">groups</span><br><span class="line"><span class="comment"># 查看gliethttp用户所在的组,以及组内成员</span></span><br><span class="line">groups gliethttp</span><br><span class="line"><span class="comment"># 查看当前登录用户名</span></span><br><span class="line">whoami</span><br></pre></td></tr></table></figure>
+
+<h1 id="查看支持的Shell类型"><a href="#查看支持的Shell类型" class="headerlink" title="查看支持的Shell类型"></a>查看支持的Shell类型</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/shells</span><br><span class="line">chsh -s /bin/zsh</span><br></pre></td></tr></table></figure>
 
 <h1 id="修改IP"><a href="#修改IP" class="headerlink" title="修改IP"></a>修改IP</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 通过修改配置文件</span></span><br><span class="line">vim /etc/sysconfig/network-scripts/ifcfg-eth0</span><br><span class="line"><span class="comment"># 重启网络</span></span><br><span class="line">service network restart</span><br><span class="line"><span class="comment"># 查看改动后的效果</span></span><br><span class="line">ip addr</span><br></pre></td></tr></table></figure>
 

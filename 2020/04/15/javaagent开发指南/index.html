@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="YiLongZhang">
+
+
+
+
+
+<title>javaagent开发指南 | 乾坤多畏途,何处无波澜</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <a href="/search/">搜索</a>
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+    <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部折叠"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">javaagent开发指南</h1>
+            
+            <div class="post-meta">
+                
+                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                
+
+                
+                <span class="post-time">
+                    创建日期： <a
+                        href="#">四月 15, 2020&nbsp;&nbsp;14:23:45</a>
+                </span>&nbsp;
+                
+                
+                <!-- 
+                状态：<a href="#">SNAPSHOT</a>
+                 -->
+            </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>场景：你需要在Java进程中获取所有已知加载类的字节码。或者你想要调试运行时发生的某种类型的instrumentation。</p>
+<p>看这篇文章前你需要了解：<strong>Java字节码</strong>。</p>
+<p>下面介绍如何获取加载到JVM中的所有类的字节码。</p>
+<h1 id="javaagent"><a href="#javaagent" class="headerlink" title="javaagent"></a>javaagent</h1><blockquote>
+<p>通常，我们可以把javaagent当成一个JVM插件。一种专门的jar文件，它可以利用JVM提供的InstrumentationAPI。Java1.5提供了InstrumentationAPI。</p>
+</blockquote>
+<p><img src="/images/javaagent%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/java_agent_overview_min.png" alt="OverviewofJavaagents"></p>
+<p>成功创建一个javaagent需要三个环节：</p>
+<h2 id="代理类"><a href="#代理类" class="headerlink" title="代理类"></a>代理类</h2><p>代理类必须有<code>premain</code>方法，当Java虚拟机启动时，在执行main函数之前，JVM会先运行<code>-javaagent</code>所指定jar包内<code>Premain-Class</code>这个类的<code>premain</code>方法，其中，该方法可以签名如下：</p>
+<ol>
+<li><code>publicstaticvoidpremain(StringagentArgs,Instrumentationinst)</code></li>
+<li><code>publicstaticvoidpremain(StringagentArgs)</code></li>
+</ol>
+<p>JVM会优先加载1签名的方法，加载成功忽略2，如果1没有，加载2方法。这个逻辑在<code>sun.instrument.InstrumentationImpl</code>类中。</p>
+<h2 id="一些元信息（告诉JVM为我们的代理类提供哪些功能）"><a href="#一些元信息（告诉JVM为我们的代理类提供哪些功能）" class="headerlink" title="一些元信息（告诉JVM为我们的代理类提供哪些功能）"></a>一些元信息（告诉JVM为我们的代理类提供哪些功能）</h2><p>定义一个<code>MANIFEST.MF</code>文件，必须包含<code>Premain-Class</code>选项，且指定我们的代理类，通常也会加入<code>Can-Redefine-Classes</code>和<code>Can-Retransform-Classes</code>选项。</p>
+<p>将代理类和<code>MANIFEST.MF</code>文件打成jar包。</p>
+<h2 id="一种使JVM加载jar文件和代理的方式"><a href="#一种使JVM加载jar文件和代理的方式" class="headerlink" title="一种使JVM加载jar文件和代理的方式"></a>一种使JVM加载jar文件和代理的方式</h2><p>使用参数<code>-javaagent:agent.jar=[agentArgs]</code>启动要代理类中的<code>premain</code>方法。<br>例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java-javaagent:sample-agent.jar=hello-jarsample-release.jar</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="agentmain"><a href="#agentmain" class="headerlink" title="agentmain"></a>agentmain</h1><ol>
+<li>定义一个MANIFEST.MF文件，文件中必须包含Agent-Class</li>
+<li>创建一个Agent-Class指定的类，该类必须包含agentmain方法（参数和premian相同）</li>
+<li>将MANIFEST.MF和Agent类打成jar包</li>
+<li>将jar包载入目标虚拟机。目标虚拟机将会自动执行agentmain方法执行方法逻辑，同时，ClassFileTransformer也会长期有效，在每一个类加载器加载Class的时候都会拦截</li>
+</ol>
+<hr>
+<p>相关文章：<br><a href="https://www.cnblogs.com/stateis0/p/9062199.html" target="_blank" rel="noopener">https://www.cnblogs.com/stateis0/p/9062199.html</a><br><a href="https://www.cnblogs.com/stateis0/p/9062201.html" target="_blank" rel="noopener">https://www.cnblogs.com/stateis0/p/9062201.html</a><br><a href="https://www.jrebel.com/blog/java-bytecode-tutorial" target="_blank" rel="noopener">https://www.jrebel.com/blog/java-bytecode-tutorial</a><br><a href="https://blogs.oracle.com/ouchina/javaagent" target="_blank" rel="noopener">https://blogs.oracle.com/ouchina/javaagent</a></p>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>标签：</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript：window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            <a class="prev" rel="prev" href="/2020/04/17/MySQL57%E5%9F%BA%E4%BA%8EGTID%E5%8F%8A%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/">MySQL5.7基于GTID及多线程主从复制</a>
+            
+            
+            <a class="next" rel="next" href="/2020/04/15/%E5%A6%82%E4%BD%95%E4%BF%9D%E6%8A%A4%E8%87%AA%E5%B7%B1%E7%9A%84Java%E4%BB%A3%E7%A0%81/">如何保护自己的Java代码</a>
+            
+        </section>
+    </article>
+</div>
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© YiLongZhang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
