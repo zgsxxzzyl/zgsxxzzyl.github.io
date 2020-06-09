@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="YiLongZhang">
+
+
+
+
+
+<title>Linux服务操作指南 | 乾坤多畏途,何处无波澜</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <a href="/search/">搜索</a>
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+    <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部折叠"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Linux服务操作指南</h1>
+            
+            <div class="post-meta">
+                
+                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                
+
+                
+                <span class="post-time">
+                    创建日期： <a
+                        href="#">五月 26, 2020&nbsp;&nbsp;11:32:45</a>
+                </span>&nbsp;
+                
+                
+                <!-- 
+                状态：<a href="#">SNAPSHOT</a>
+                 -->
+            </div>
+            
+        </header>
+
+        <div class="post-content">
+            <blockquote>
+<p><a href="https://www.freedesktop.org/software/systemd/man/systemd.service.html" target="_blank" rel="noopener">https://www.freedesktop.org/software/systemd/man/systemd.service.html</a></p>
+<p><a href="https://blog.csdn.net/yuesichiu/article/details/51485147" target="_blank" rel="noopener">https://blog.csdn.net/yuesichiu/article/details/51485147</a></p>
+</blockquote>
+<h1 id="服务路径"><a href="#服务路径" class="headerlink" title="服务路径"></a>服务路径</h1><p><code>systemd</code>有系统和用户区分：</p>
+<ul>
+<li>系统：<code>/etc/systemd/system/</code></li>
+<li>用户：<code>/usr/lib/systemd/system/</code></li>
+</ul>
+<p>开机时，<code>systemd</code>只执行<code>/etc/systemd/system/</code>路径下的配置文件，建议在用户路径下创建，然后执行<code>systemctl enabel mysqld</code>，这个命令会在系统路径下创建一个链接，并且这个链接指向用户路径</p>
+<h1 id="服务文件"><a href="#服务文件" class="headerlink" title="服务文件"></a>服务文件</h1><p>完整文件举例如下：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="attr">Description</span>=MySQL Server</span><br><span class="line"><span class="attr">Documentation</span>=man:mysqld(<span class="number">8</span>)</span><br><span class="line"><span class="attr">Documentation</span>=http://dev.mysql.com/doc/refman/en/using-systemd.html</span><br><span class="line"><span class="attr">After</span>=network.target</span><br><span class="line"><span class="attr">After</span>=syslog.target</span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span>=multi-user.target</span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">User</span>=mysql</span><br><span class="line"><span class="attr">Group</span>=mysql</span><br><span class="line"><span class="attr">Type</span>=forking</span><br><span class="line"><span class="attr">PIDFile</span>=/var/run/mysql/mysqld.pid</span><br><span class="line"><span class="attr">TimeoutSec</span>=<span class="number">0</span></span><br><span class="line"><span class="attr">ExecStart</span>=/usr/local/mysql/bin/mysqld --daemonize --pid-file=/var/run/mysql/mysqld.pid <span class="variable">$MYSQLD_OPTS</span></span><br><span class="line"><span class="attr">EnvironmentFile</span>=-/etc/sysconfig/mysql</span><br><span class="line"><span class="attr">LimitNOFILE</span> = <span class="number">10000</span></span><br><span class="line"><span class="attr">Restart</span>=<span class="literal">on</span>-failure</span><br><span class="line"><span class="attr">RestartPreventExitStatus</span>=<span class="number">1</span></span><br><span class="line"><span class="attr">Environment</span>=MYSQLD_PARENT_PID=<span class="number">1</span></span><br><span class="line"><span class="attr">PrivateTmp</span>=<span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>所有的启动设置之前，都可以加上一个连词号（-），表示”抑制错误”，即发生错误的时候，不影响其他命令的执行。比如，<code>EnvironmentFile=-/etc/sysconfig/mysql</code>（注意等号后面的那个连词号），就表示即使<code>/etc/sysconfig/mysql</code>文件不存在，也不会抛出错误。</p>
+</blockquote>
+<p>文件分为三个部分：</p>
+<h2 id="Unit"><a href="#Unit" class="headerlink" title="[Unit]"></a>[Unit]</h2><blockquote>
+<p>启动顺序与依赖关系</p>
+</blockquote>
+<h3 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h3><p>字段给出当前服务的简单描述</p>
+<h3 id="Documentation"><a href="#Documentation" class="headerlink" title="Documentation"></a>Documentation</h3><p>给出文档位置</p>
+<h3 id="Before"><a href="#Before" class="headerlink" title="Before"></a>Before</h3><p>定义在哪些服务之前运行，Before=xxx.service，代表本服务在xxx.service启动之前启动。</p>
+<h3 id="After"><a href="#After" class="headerlink" title="After"></a>After</h3><p>定义在哪些服务之后运行</p>
+<h3 id="Requires"><a href="#Requires" class="headerlink" title="Requires"></a>Requires</h3><p>表示”强依赖”关系，即如果指定服务启动失败或异常退出，该服务也必须退出</p>
+<h3 id="Wants"><a href="#Wants" class="headerlink" title="Wants"></a>Wants</h3><p>“弱依赖”关系，即如果指定服务启动失败或异常退出，该服务不受影响继续运行</p>
+<h2 id="Service"><a href="#Service" class="headerlink" title="[Service]"></a>[Service]</h2><blockquote>
+<p>定义如何启动当前服务</p>
+</blockquote>
+<h3 id="Type"><a href="#Type" class="headerlink" title="Type"></a>Type</h3><p>定义启动类型。可以设置的值如下</p>
+<ul>
+<li><p>simple（默认值）：ExecStart字段启动的进程为主进程</p>
+</li>
+<li><p>forking：ExecStart字段将以fork()方式启动，此时父进程将会退出，子进程将成为主进程；对于常规的守护进程（daemon），除非你确定此启动方式无法满足需求，使用此类型启动即可。使用此启动类型应同时指定 PIDFile=，以便systemd能够跟踪服务的主进程。</p>
+</li>
+<li><p>oneshot：类似于simple，但只执行一次，Systemd 会等它执行完，才启动其他服务</p>
+<p>下面是一个oneshot的例子，笔记本电脑启动时，要把触摸板关掉，配置文件可以这样写。</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="attr">Description</span>=Switch-<span class="literal">off</span> Touchpad</span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">Type</span>=<span class="literal">on</span>eshot</span><br><span class="line"><span class="attr">ExecStart</span>=/usr/bin/touchpad-<span class="literal">off</span></span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span>=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>如果关闭以后，将来某个时候还想打开，配置文件修改如下。</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="attr">Description</span>=Switch-<span class="literal">off</span> Touchpad</span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">Type</span>=<span class="literal">on</span>eshot</span><br><span class="line"><span class="attr">ExecStart</span>=/usr/bin/touchpad-<span class="literal">off</span> start</span><br><span class="line"><span class="attr">ExecStop</span>=/usr/bin/touchpad-<span class="literal">off</span> stop</span><br><span class="line"><span class="attr">RemainAfterExit</span>=<span class="literal">yes</span></span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span>=multi-user.target</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>dbus：类似于simple，但会等待 D-Bus 信号后启动</p>
+</li>
+<li><p>notify：类似于simple，启动结束后会发出通知信号，然后 Systemd 再启动其他服务</p>
+</li>
+<li><p>idle：类似于simple，但是要等到其他任务都执行完，才会启动该服务。一种使用场合是为让该服务的输出，不与其他服务的输出相混合</p>
+</li>
+</ul>
+<h3 id="PIDFile"><a href="#PIDFile" class="headerlink" title="PIDFile"></a>PIDFile</h3><p>pid文件路径，一般路径都在<code>/var/run/</code></p>
+<h3 id="ExecStart"><a href="#ExecStart" class="headerlink" title="ExecStart"></a>ExecStart</h3><p>启动进程时执行的命令</p>
+<h3 id="ExecReload"><a href="#ExecReload" class="headerlink" title="ExecReload"></a>ExecReload</h3><p>重启服务时执行的命令</p>
+<h3 id="ExecStop"><a href="#ExecStop" class="headerlink" title="ExecStop"></a>ExecStop</h3><p>停止服务时执行的命令</p>
+<h3 id="ExecStartPre"><a href="#ExecStartPre" class="headerlink" title="ExecStartPre"></a>ExecStartPre</h3><p>启动服务之前执行的命令</p>
+<h3 id="ExecStartPost"><a href="#ExecStartPost" class="headerlink" title="ExecStartPost"></a>ExecStartPost</h3><p>启动服务之后执行的命令</p>
+<h3 id="ExecStopPost"><a href="#ExecStopPost" class="headerlink" title="ExecStopPost"></a>ExecStopPost</h3><p>停止服务之后执行的命令</p>
+<h3 id="EnvironmentFile"><a href="#EnvironmentFile" class="headerlink" title="EnvironmentFile"></a>EnvironmentFile</h3><p>指定当前服务的环境参数文件。该文件内部的key=value键值对，可以用$key的形式，在当前配置文件中获取。</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">EnvironmentFile</span>=/etc/sysconfig/sshd</span><br><span class="line"><span class="attr">ExecStart</span>=/usr/sbin/sshd -D <span class="variable">$OPTIONS</span></span><br><span class="line"><span class="attr">ExecReload</span>=/bin/kill -HUP <span class="variable">$MAINPID</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Environment"><a href="#Environment" class="headerlink" title="Environment"></a>Environment</h3><h3 id="TimeoutSec"><a href="#TimeoutSec" class="headerlink" title="TimeoutSec"></a>TimeoutSec</h3><h3 id="LimitNOFILE"><a href="#LimitNOFILE" class="headerlink" title="LimitNOFILE"></a>LimitNOFILE</h3><h3 id="Restart"><a href="#Restart" class="headerlink" title="Restart"></a>Restart</h3><p>定义了 服务退出后，Systemd 的重启方式。Restart字段可以设置的值如下。</p>
+<ul>
+<li>no（默认值）：退出后不会重启</li>
+<li>on-success：只有正常退出时（退出状态码为0），才会重启</li>
+<li>on-failure：非正常退出时（退出状态码非0），包括被信号终止和超时，才会重启</li>
+<li>on-abnormal：只有被信号终止和超时，才会重启</li>
+<li>on-abort：只有在收到没有捕捉到的信号终止时，才会重启</li>
+<li>on-watchdog：超时退出，才会重启</li>
+<li>always：不管是什么退出原因，总是重启</li>
+</ul>
+<p>对于守护进程，推荐设为on-failure。对于那些允许发生错误退出的服务，可以设为on-abnormal。</p>
+<h3 id="RestartSec"><a href="#RestartSec" class="headerlink" title="RestartSec"></a>RestartSec</h3><p>表示 Systemd 重启服务之前，需要等待的秒数</p>
+<h3 id="RestartPreventExitStatus"><a href="#RestartPreventExitStatus" class="headerlink" title="RestartPreventExitStatus"></a>RestartPreventExitStatus</h3><h3 id="PrivateTmp"><a href="#PrivateTmp" class="headerlink" title="PrivateTmp"></a>PrivateTmp</h3><p>True表示给服务分配独立的临时空间</p>
+<h3 id="RemainAfterExit"><a href="#RemainAfterExit" class="headerlink" title="RemainAfterExit"></a>RemainAfterExit</h3><p>可设为”yes”或”no”(默认值)，表示当该服务的所有进程全部退出之后，是否依然将此服务视为活动(active)状态。这个选项只有在Type=oneshot时需要被配置</p>
+<h3 id="KillMode"><a href="#KillMode" class="headerlink" title="KillMode"></a>KillMode</h3><p>定义 Systemd 如何停止 sshd 服务。</p>
+<p>KillMode字段可以设置的值如下。</p>
+<ul>
+<li>control-group（默认值）：当前控制组里面的所有子进程，都会被杀掉</li>
+<li>process：只杀主进程</li>
+<li>mixed：主进程将收到 SIGTERM 信号，子进程收到 SIGKILL 信号</li>
+<li>none：没有进程会被杀掉，只是执行服务的 stop 命令。</li>
+</ul>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="attr">Description</span>=OpenSSH server daemon</span><br><span class="line"><span class="attr">Documentation</span>=man:sshd(<span class="number">8</span>) man:sshd_config(<span class="number">5</span>)</span><br><span class="line"><span class="attr">After</span>=network.target sshd-keygen.service</span><br><span class="line"><span class="attr">Wants</span>=sshd-keygen.service</span><br><span class="line"> </span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">EnvironmentFile</span>=/etc/sysconfig/sshd</span><br><span class="line"><span class="attr">ExecStart</span>=/usr/sbin/sshd -D <span class="variable">$OPTIONS</span></span><br><span class="line"><span class="attr">ExecReload</span>=/bin/kill -HUP <span class="variable">$MAINPID</span></span><br><span class="line"><span class="attr">Type</span>=simple</span><br><span class="line"><span class="attr">KillMode</span>=process</span><br><span class="line"><span class="attr">Restart</span>=<span class="literal">on</span>-failure</span><br><span class="line"><span class="attr">RestartSec</span>=<span class="number">42</span>s</span><br></pre></td></tr></table></figure>
+
+<p>上面这个例子中，将KillMode设为process，表示只停止主进程，不停止任何sshd 子进程，即子进程打开的 SSH session 仍然保持连接。这个设置不太常见，但对 sshd 很重要，否则你停止服务的时候，会连自己打开的 SSH session 一起杀掉。</p>
+<h2 id="Install"><a href="#Install" class="headerlink" title="[Install]"></a>[Install]</h2><blockquote>
+<p>定义如何安装这个配置文件，即怎样做到开机启动</p>
+</blockquote>
+<h3 id="WantBy"><a href="#WantBy" class="headerlink" title="WantBy"></a>WantBy</h3><p>表示该服务所在的target，target的含义是服务组，表示一组服务。<code>WantedBy=multi-user.target</code>指的是，当前服务所在的target是multi-user.target。这个设置非常重要，因为执行<code>systemctl enable mysqld.service</code>命令时，<code>mysqld.service</code>的一个符号链接，就会放在<code>/etc/systemd/system</code>目录下面的<code>multi-user.target.wants</code>子目录之中。</p>
+<ul>
+<li>systemd 有默认的启动 target</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@zhang ~]<span class="comment"># systemctl get-default</span></span><br><span class="line">multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>上面的结果表示，默认的启动target是multi-user.target。在这个组里的所有服务，都将开机启动。这就是为什么systemctl enable命令能设置开机启动的原因。</p>
+<ul>
+<li>查看 multi-user.target 包含的所有服务</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl list-dependencies multi-user.target</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>切换到另一个 target</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># shutdown.target 就是关机状态</span></span><br><span class="line">sudo systemctl isolate shutdown.target</span><br></pre></td></tr></table></figure>
+
+<p>  一般来说，常用的 Target 有两个：一个是<code>multi-user.target</code>，表示多用户命令行状态；另一个是<code>graphical.target</code>，表示图形用户状态，它依赖于<code>multi-user.target</code>。官方文档有一张非常清晰的 Target 依赖关系图。</p>
+<h1 id="重新加载"><a href="#重新加载" class="headerlink" title="重新加载"></a>重新加载</h1><p>修改配置文件之后，需要重新加载配置文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br></pre></td></tr></table></figure>
+
+<h1 id="操作服务"><a href="#操作服务" class="headerlink" title="操作服务"></a>操作服务</h1><h2 id="重载服务"><a href="#重载服务" class="headerlink" title="重载服务"></a>重载服务</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 就会在/etc/systemd/system/multi-user.target.wants/目录下新建一个/usr/lib/systemd/system/mysql.service 文件的链接</span></span><br><span class="line">systemctl <span class="built_in">enable</span> mysql.service</span><br><span class="line"><span class="comment"># 相对应，可以用 disable 把它从 wants 目录给删除。</span></span><br><span class="line">systemctl <span class="built_in">disable</span> mysql.service</span><br><span class="line">systemctl reload mysql.service</span><br></pre></td></tr></table></figure>
+
+<h2 id="启动停止重启"><a href="#启动停止重启" class="headerlink" title="启动停止重启"></a>启动停止重启</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">systemctl start mysql.service</span><br><span class="line"></span><br><span class="line">systemctl stop mysql.service</span><br><span class="line"></span><br><span class="line">systemctl restart mysql.service</span><br><span class="line"></span><br><span class="line">systemctl <span class="built_in">kill</span> mysql.service</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看状态日志"><a href="#查看状态日志" class="headerlink" title="查看状态日志"></a>查看状态日志</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl status mysql.service</span><br><span class="line"></span><br><span class="line">journalctl -f -u mysql.service</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>标签：</span>
+                <span class="tag">
+                    
+                    
+                    <a href="/tags/Linux/"># Linux</a>
+                    
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript：window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            <a class="prev" rel="prev" href="/2020/05/28/Java%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%E4%B9%8BArrays-parallelSort/">Java源码解读之Arrays.parallelSort()</a>
+            
+            
+            <a class="next" rel="next" href="/2020/05/25/Redis%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/">Redis安装部署</a>
+            
+        </section>
+    </article>
+</div>
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>©<a href="https://github.com/zgsxxzzyl" target="_blank">YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

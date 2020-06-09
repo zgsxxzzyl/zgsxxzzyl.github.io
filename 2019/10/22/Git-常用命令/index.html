@@ -233,13 +233,49 @@
         </header>
 
         <div class="post-content">
-            <h1 id="Git配置多个SSH-key"><a href="#Git配置多个SSH-key" class="headerlink" title="Git配置多个SSH key"></a>Git配置多个SSH key</h1><blockquote>
+            <h1 id="Git配置SSH-key"><a href="#Git配置SSH-key" class="headerlink" title="Git配置SSH key"></a>Git配置SSH key</h1><blockquote>
 <p>相关：<a href="https://blog.csdn.net/hao495430759/article/details/80673568" target="_blank" rel="noopener">https://blog.csdn.net/hao495430759/article/details/80673568</a></p>
 </blockquote>
+<h2 id="1-生成并部署SSH-key"><a href="#1-生成并部署SSH-key" class="headerlink" title="(1)生成并部署SSH key"></a>(1)生成并部署SSH key</h2><p>安装好Git客户端后，打开git bash，输入以下命令生成user1的SSH Key：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">"user1@email.com"</span></span><br></pre></td></tr></table></figure>
+
+<p>在当前用户的.ssh目录下会生成id_rsa私钥文件和id_rsa.pub公钥文件，将id_rsa.pub中的内容添加至user1的github中。然后在git bash中输入以下命令测试该用户的SSH密钥是否生效：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+
+<p>若连接成功则提示Hi user1! You’ve successfully authenticated, but GitHub does not provide shell access.</p>
+<p>注：该命令仅限于文件名为id_rsa的密钥。</p>
+<p>接着生成user2的密钥，注意不能再使用默认的文件名id_rsa，否则会覆盖之前密钥文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -f ~/.ssh/id_rsa2 -C <span class="string">"user2@email.com"</span></span><br></pre></td></tr></table></figure>
+
+<p>再将该用户的公钥文件添加至github中。<br>测试user2的ssh连接时需要指定密钥文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com -i ~/.ssh/id_rsa2</span><br></pre></td></tr></table></figure>
+
+<p>也可以使用ssh agent添加密钥后进行测试。因为系统默认只读取id_rsa，为了让ssh识别新的私钥，可以使用ssh-agent手动添加私钥：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh-agent bash</span><br><span class="line">ssh-add ~/.ssh/id_rsa2</span><br></pre></td></tr></table></figure>
+
+<p>注：该方法仅限当前窗口有效，打开新的窗口则ssh连接失败。</p>
+<h2 id="2-配置config文件"><a href="#2-配置config文件" class="headerlink" title="(2)配置config文件"></a>(2)配置config文件</h2><p>在.ssh目录下创建一个config文本文件，每个账号配置一个Host节点。主要配置项说明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Host    主机别名</span><br><span class="line">HostName    服务器真实地址</span><br><span class="line">IdentityFile    私钥文件路径</span><br><span class="line">PreferredAuthentications    认证方式</span><br><span class="line">User    用户名</span><br></pre></td></tr></table></figure>
+
+<p>配置文件内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 配置user1</span><br><span class="line">Host u1.github.com</span><br><span class="line">HostName github.com</span><br><span class="line">IdentityFile C:\\Users\\Administrator\\.ssh\\id_rsa</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">User user1</span><br><span class="line"></span><br><span class="line"># 配置user2</span><br><span class="line">Host u2.github.com</span><br><span class="line">HostName github.com</span><br><span class="line">IdentityFile C:\\Users\\Administrator\\.ssh\\id_rsa2</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">User user2</span><br></pre></td></tr></table></figure>
+
+<p>再通过终端测试SSH Key是否生效</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@u1.github.com</span><br><span class="line">ssh -T git@u2.github.com</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-配置用户名和邮箱"><a href="#3-配置用户名和邮箱" class="headerlink" title="(3)配置用户名和邮箱"></a>(3)配置用户名和邮箱</h2><p>如果之前配置过全局的用户名和邮箱，需要取消相关配置，再在各仓库下配置相应的用户名和邮箱。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global --<span class="built_in">unset</span> user.name</span><br><span class="line">git config --global --<span class="built_in">unset</span> user.email</span><br></pre></td></tr></table></figure>
+
+<p>为各仓库单独配置用户名和邮箱</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config user.name <span class="string">"user1"</span></span><br><span class="line">git config user.email <span class="string">"user1@email.com"</span></span><br></pre></td></tr></table></figure>
+
+<p>如果原先使用HTTPS通信，则需要修改远程仓库地址</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git remote rm origin</span><br><span class="line">git remote add origin git@u1.github.com:xxx/xxxxx.git</span><br></pre></td></tr></table></figure>
+
 <h1 id="操作命令"><a href="#操作命令" class="headerlink" title="操作命令"></a>操作命令</h1><ul>
 <li>从远端合并代码到本地</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1.配置上游地址(只需要一次)</span><br><span class="line">git remote add upstream 你上游项目的地址 </span><br><span class="line"></span><br><span class="line">2.获取上游更新</span><br><span class="line">git fetch upstream</span><br><span class="line"></span><br><span class="line">3.合并到本地分支</span><br><span class="line">git merge upstream/master</span><br><span class="line"></span><br><span class="line">4.提交推送</span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 1.配置上游地址(只需要一次)</span></span><br><span class="line">git remote add upstream 你上游项目的地址</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 2.获取上游更新</span></span><br><span class="line">git fetch upstream</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 3.合并到本地分支</span></span><br><span class="line">git merge upstream/master</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 4.提交推送</span></span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>首次配置git时候测试连接</li>
@@ -249,11 +285,20 @@
 <ul>
 <li>生成密钥</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config –global user.name ‘username’ </span><br><span class="line">git config –global user.email ‘example@email.com<span class="string">'</span></span><br><span class="line"><span class="string">ssh-keygen -t rsa -C '</span>example@email.com<span class="string">'</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config –global user.name ‘username’</span><br><span class="line">git config –global user.email ‘example@email.com<span class="string">'</span></span><br><span class="line"><span class="string">ssh-keygen -t rsa -C '</span>example@email.com<span class="string">'</span></span><br></pre></td></tr></table></figure>
 
+<h1 id="Git中文乱码"><a href="#Git中文乱码" class="headerlink" title="Git中文乱码"></a>Git中文乱码</h1><h2 id="解决git-status不能显示中文"><a href="#解决git-status不能显示中文" class="headerlink" title="解决git status不能显示中文"></a>解决git status不能显示中文</h2><ul>
+<li><p>现象<br>status查看有改动但未提交的文件时总只显示数字串，显示不出中文文件名，非常不方便。如下图：</p>
+</li>
+<li><p>原因<br>在默认设置下，中文文件名在工作区状态输出，中文名不能正确显示，而是显示为八进制的字符编码。</p>
+</li>
+<li><p>解决办法<br>将git 配置文件 core.quotepath项设置为false。 quotepath表示引用路径，加上–global表示全局配置</p>
+</li>
+</ul>
+<p>git bash 终端输入命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global core.quotepath false</span><br></pre></td></tr></table></figure>
 
-
-
+<h2 id="通过修改配置文件来解决中文乱码"><a href="#通过修改配置文件来解决中文乱码" class="headerlink" title="通过修改配置文件来解决中文乱码"></a>通过修改配置文件来解决中文乱码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[gui]</span><br><span class="line">encoding &#x3D; utf-8</span><br><span class="line"># 代码库统一使用utf-8</span><br><span class="line">[i18n]</span><br><span class="line">commitencoding &#x3D; utf-8</span><br><span class="line"># log编码</span><br><span class="line">[svn]</span><br><span class="line">pathnameencoding &#x3D; utf-8</span><br><span class="line"># 支持中文路径</span><br><span class="line">[core]</span><br><span class="line">quotepath &#x3D; false</span><br><span class="line"># status引用路径不再是八进制（反过来说就是允许显示中文了）</span><br></pre></td></tr></table></figure>
         </div>
 
         
@@ -287,7 +332,7 @@
         </div>
         <footer id="footer" class="footer">
     <div class="copyright">
-        <span>© YiLongZhang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+        <span>©<a href="https://github.com/zgsxxzzyl" target="_blank">YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
     </div>
 </footer>
 

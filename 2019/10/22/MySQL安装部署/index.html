@@ -364,7 +364,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir /var/run/mysql</span><br><span class="line">chown mysql:mysql -R /var/run/mysql</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h2 id="相关命令"><a href="#相关命令" class="headerlink" title="相关命令"></a>相关命令</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 关闭防火墙</span></span><br><span class="line">systemctl stop firewalld</span><br><span class="line"><span class="comment"># 永久关闭防火墙</span></span><br><span class="line">systemctl <span class="built_in">disable</span> firewalld</span><br></pre></td></tr></table></figure>
+<h2 id="相关命令"><a href="#相关命令" class="headerlink" title="相关命令"></a>相关命令</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 关闭防火墙</span></span><br><span class="line">systemctl stop firewalld</span><br><span class="line"><span class="comment"># 永久关闭防火墙</span></span><br><span class="line">systemctl <span class="built_in">disable</span> firewalld</span><br><span class="line"><span class="comment"># 加入开机启动</span></span><br><span class="line">systemctl <span class="built_in">enable</span> redis.service</span><br><span class="line"><span class="comment"># 查看开机是否启动成功</span></span><br><span class="line">systemctl is-enabled redis.service</span><br></pre></td></tr></table></figure>
 
 <h1 id="相关文档"><a href="#相关文档" class="headerlink" title="相关文档"></a>相关文档</h1><ul>
 <li><a href="https://dev.mysql.com/doc/refman/5.7/en/resetting-permissions.html" target="_blank" rel="noopener">忘记初始密码怎么办</a></li>
@@ -411,7 +411,7 @@
         </div>
         <footer id="footer" class="footer">
     <div class="copyright">
-        <span>© YiLongZhang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+        <span>©<a href="https://github.com/zgsxxzzyl" target="_blank">YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
     </div>
 </footer>
 

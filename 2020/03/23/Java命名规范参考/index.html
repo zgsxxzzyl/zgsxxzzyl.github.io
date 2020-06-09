@@ -1024,7 +1024,7 @@
 <td align="left">aggregate 聚集</td>
 </tr>
 </tbody></table>
-<h2 id="五，变量-amp-常量命名"><a href="#五，变量-amp-常量命名" class="headerlink" title="五，变量&amp;常量命名"></a>五，变量&amp;常量命名</h2><h3 id="5-1-变量命名"><a href="#5-1-变量命名" class="headerlink" title="5.1 变量命名"></a>5.1 变量命名</h3><p>变量是指在程序运行中可以改变其值的量，包括成员变量和局部变量。变量名由多单词组成时，第一个单词的首字母小写，其后单词的首字母大写，俗称骆驼式命名法（也称驼峰命名法），如 computedValues，index、变量命名时，尽量简短且能清楚的表达变量的作用，命名体现具体的业务含义即可。</p>
+<h2 id="五，变量-amp-常量命名"><a href="#五，变量-amp-常量命名" class="headerlink" title="五，变量&amp;常量命名"></a>五，变量&amp;常量命名</h2><h3 id="5-1-变量命名"><a href="#5-1-变量命名" class="headerlink" title="5.1 变量命名"></a>5.1 变量命名</h3><p>变量是指在程序运行中可以改变其值的量，包括成员变量和局部变量。变量名由多单词组成时，第一个单词的首字母小写，其后单词的首字母大写，俗称骆驼式命名法（也称驼峰命名法），如 computedValues，index，变量命名时，尽量简短且能清楚的表达变量的作用，命名体现具体的业务含义即可。</p>
 <p>变量名不应以下划线或美元符号开头，尽管这在语法上是允许的。变量名应简短且富于描述。变量名的选用应该易于记忆，即，能够指出其用途。尽量避免单个字符的变量名，除非是一次性的临时变量。pojo中的布尔变量，都不要加is(数据库中的布尔字段全都要加 is_ 前缀)。</p>
 <h3 id="5-2-常量命名"><a href="#5-2-常量命名" class="headerlink" title="5.2 常量命名"></a>5.2 常量命名</h3><p>常量命名CONSTANT_CASE，一般采用全部大写（作为方法参数时除外），单词间用下划线分割。那么什么是常量呢？</p>
 <p>常量是在作用域内保持不变的值，一般使用final进行修饰。一般分为三种，全局常量（public static final修饰），类内常量（private static final 修饰）以及局部常量（方法内，或者参数中的常量），局部常量比较特殊，通常采用小驼峰命名即可。</p>
@@ -1032,10 +1032,10 @@
 
 <p>常量一般都有自己的业务含义,<strong>不要害怕长度过长而进行省略或者缩写</strong>。如，用户消息缓存过期时间的表示，那种方式更佳清晰，交给你来评判。更多BAT经验文章，可以在订阅号“码匠笔记”后台回复“经验”，N+1篇热文免费获取。</p>
 <h2 id="通用命名规则"><a href="#通用命名规则" class="headerlink" title="通用命名规则"></a>通用命名规则</h2><ol>
-<li>尽量不要使用拼音；<strong>杜绝拼音和英文混用</strong>。对于一些通用的表示或者难以用英文描述的可以采用拼音，一旦采用拼音就坚决不能和英文混用。正例：BeiJing， HangZhou 反例：validateCanShu</li>
+<li>尽量不要使用拼音；<strong>杜绝拼音和英文混用</strong>。对于一些通用的表示或者难以用英文描述的可以采用拼音，一旦采用拼音就坚决不能和英文混用。正例：BeiJing，HangZhou 反例：validateCanShu</li>
 <li>命名过程中尽量不要出现特殊的字符，常量除外。</li>
 <li>尽量不要和jdk或者框架中已存在的类重名，也不能使用java中的关键字命名。</li>
-<li>妙用介词，如for(可以用同音的4代替), to(可用同音的2代替), from, with，of等。如类名采用User4RedisDO，方法名getUserInfoFromRedis，convertJson2Map等。</li>
+<li>妙用介词，如for(可以用同音的4代替), to(可用同音的2代替)，from，with，of等。如类名采用User4RedisDO，方法名getUserInfoFromRedis，convertJson2Map等。</li>
 </ol>
 <h2 id="六，代码注解"><a href="#六，代码注解" class="headerlink" title="六，代码注解"></a>六，代码注解</h2><h3 id="6-1-注解的原则"><a href="#6-1-注解的原则" class="headerlink" title="6.1 注解的原则"></a>6.1 注解的原则</h3><p>好的命名增加代码阅读性，代码的命名往往有严格的限制。而注解不同，程序员往往可以自由发挥，单并不意味着可以为所欲为之胡作非为。优雅的注解通常要满足三要素。</p>
 <ol>
@@ -1105,7 +1105,7 @@
         </div>
         <footer id="footer" class="footer">
     <div class="copyright">
-        <span>© YiLongZhang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+        <span>©<a href="https://github.com/zgsxxzzyl" target="_blank">YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
     </div>
 </footer>
 

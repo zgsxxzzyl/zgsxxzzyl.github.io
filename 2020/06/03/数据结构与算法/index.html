@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="YiLongZhang">
+
+
+
+
+
+<title>数据结构与算法 | 乾坤多畏途,何处无波澜</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <a href="/search/">搜索</a>
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">数据结构与算法</h1>
+            
+            <div class="post-meta">
+                
+                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                
+
+                
+                <span class="post-time">
+                    创建日期： <a
+                        href="#">六月 3, 2020&nbsp;&nbsp;15:30:03</a>
+                </span>&nbsp;
+                
+                
+                <!-- 
+                状态：<a href="#">SNAPSHOT</a>
+                 -->
+            </div>
+            
+        </header>
+
+        <div class="post-content">
+            <table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="left"><strong>C</strong></th>
+<th align="left"><strong>C++</strong></th>
+<th align="left"><strong>Java</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>线性结构</strong></td>
+<td align="left">1. <a href="http://www.cnblogs.com/skywang12345/p/3561803.html" target="_blank" rel="noopener">数组、单链表和双链表</a><br />2. <a href="http://www.cnblogs.com/skywang12345/p/3562146.html" target="_blank" rel="noopener">Linux内核中双向链表的经典实现</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3561803.html" target="_blank" rel="noopener">数组、单链表和双链表</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3561803.html" target="_blank" rel="noopener">数组、单链表和双链表</a></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3562239.html" target="_blank" rel="noopener">栈</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3562239.html" target="_blank" rel="noopener">栈</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3562239.html" target="_blank" rel="noopener">栈</a></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3562279.html" target="_blank" rel="noopener">队列</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3562279.html" target="_blank" rel="noopener">队列</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3562279.html" target="_blank" rel="noopener">队列</a></td>
+</tr>
+<tr>
+<td align="center"><strong>树形结构</strong></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3576328.html" target="_blank" rel="noopener">二叉查找树</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3576373.html" target="_blank" rel="noopener">二叉查找树</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3576452.html" target="_blank" rel="noopener">二叉查找树</a><a href="http://www.cnblogs.com/skywang12345/p/3576373.html" target="_blank" rel="noopener"> </a></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3576969.html" target="_blank" rel="noopener">AVL树</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3577360.html" target="_blank" rel="noopener">AVL树</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3577479.html" target="_blank" rel="noopener">AVL树</a></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="left">1. <a href="http://www.cnblogs.com/skywang12345/p/3245399.html" target="_blank" rel="noopener">红黑树(一)之原理和算法详细介绍</a><br />2. <a href="http://www.cnblogs.com/skywang12345/p/3624177.html" target="_blank" rel="noopener">红黑树(二)之C语言的实现</a><br />3. <a href="http://www.cnblogs.com/skywang12345/p/3624202.html" target="_blank" rel="noopener">红黑树(三)之Linux内核中红黑树的经典实现</a><br />4. <a href="http://www.cnblogs.com/skywang12345/p/3644742.html" target="_blank" rel="noopener">红黑树(六)之 参考资料</a></td>
+<td align="left">1. <a href="http://www.cnblogs.com/skywang12345/p/3245399.html" target="_blank" rel="noopener">红黑树(一)之原理和算法详细介绍</a><br />2. <a href="http://www.cnblogs.com/skywang12345/p/3624291.html" target="_blank" rel="noopener">红黑树(四)之C++的实现</a> <br />3. <a href="http://www.cnblogs.com/skywang12345/p/3644742.html" target="_blank" rel="noopener">红黑树(六)之参考资料</a></td>
+<td align="left">1. <a href="http://www.cnblogs.com/skywang12345/p/3245399.html" target="_blank" rel="noopener">红黑树(一)之原理和算法详细介绍</a><br />2. <a href="http://www.cnblogs.com/skywang12345/p/3624343.html" target="_blank" rel="noopener">红黑树(五)之Java的实现</a><br />3. <a href="http://www.cnblogs.com/skywang12345/p/3644742.html" target="_blank" rel="noopener">红黑树(六)之参考资料</a></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3706370.html" target="_blank" rel="noopener">哈夫曼树</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3706821.html" target="_blank" rel="noopener">哈夫曼树</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3706833.html" target="_blank" rel="noopener">哈夫曼树</a></td>
+</tr>
+<tr>
+<td align="center"><strong>堆</strong></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3610187.html" target="_blank" rel="noopener">二叉堆</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3610382.html" target="_blank" rel="noopener">二叉堆</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3610390.html" target="_blank" rel="noopener">二叉堆</a></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3638327.html" target="_blank" rel="noopener">左倾堆</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3638342.html" target="_blank" rel="noopener">左倾堆</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3638384.html" target="_blank" rel="noopener">左倾堆</a></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3638493.html" target="_blank" rel="noopener">斜堆</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3638524.html" target="_blank" rel="noopener">斜堆</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3638552.html" target="_blank" rel="noopener">斜堆</a></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3655900.html" target="_blank" rel="noopener">二项堆</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3656005.html" target="_blank" rel="noopener">二项堆</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3656098.html" target="_blank" rel="noopener">二项堆</a></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3659060.html" target="_blank" rel="noopener">斐波那契堆</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3659069.html" target="_blank" rel="noopener">斐波那契堆</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3659122.html" target="_blank" rel="noopener">斐波那契堆</a></td>
+</tr>
+<tr>
+<td align="center"><strong>图</strong></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3691463.html" target="_blank" rel="noopener">图的理论基础</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3691463.html" target="_blank" rel="noopener">图的理论基础</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3691463.html" target="_blank" rel="noopener">图的理论基础</a></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="left">1. <a href="http://www.cnblogs.com/skywang12345/p/3707597.html" target="_blank" rel="noopener">邻接矩阵无向图</a><br />2. <a href="http://www.cnblogs.com/skywang12345/p/3707607.html" target="_blank" rel="noopener">邻接表无向图</a><br />3. <a href="http://www.cnblogs.com/skywang12345/p/3707614.html" target="_blank" rel="noopener">邻接矩阵有向图</a><br />4. <a href="http://www.cnblogs.com/skywang12345/p/3707621.html" target="_blank" rel="noopener">邻接表有向图</a></td>
+<td align="left">1. <a href="http://www.cnblogs.com/skywang12345/p/3707599.html" target="_blank" rel="noopener">邻接矩阵无向图</a><br />2. <a href="http://www.cnblogs.com/skywang12345/p/3707610.html" target="_blank" rel="noopener">邻接表无向图</a><br />3. <a href="http://www.cnblogs.com/skywang12345/p/3707616.html" target="_blank" rel="noopener">邻接矩阵有向图</a><br />4. <a href="http://www.cnblogs.com/skywang12345/p/3707624.html" target="_blank" rel="noopener">邻接表有向图</a></td>
+<td align="left">1. <a href="http://www.cnblogs.com/skywang12345/p/3707604.html" target="_blank" rel="noopener">邻接矩阵无向图</a><br />2. <a href="http://www.cnblogs.com/skywang12345/p/3707612.html" target="_blank" rel="noopener">邻接表无向图</a><br />3. <a href="http://www.cnblogs.com/skywang12345/p/3707618.html" target="_blank" rel="noopener">邻接矩阵有向图</a><br />4. <a href="http://www.cnblogs.com/skywang12345/p/3707626.html" target="_blank" rel="noopener">邻接表有向图</a></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3711483.html" target="_blank" rel="noopener">深度优先搜索和广度优先搜索</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3711483.html" target="_blank" rel="noopener">深度优先搜索和广度优先搜索</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3711483.html" target="_blank" rel="noopener">深度优先搜索和广度优先搜索</a></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3711489.html" target="_blank" rel="noopener">拓扑排序</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3711493.html" target="_blank" rel="noopener">拓扑排序</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3711494.html" target="_blank" rel="noopener">拓扑排序</a></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3711496.html" target="_blank" rel="noopener">Kruskal算法</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3711500.html" target="_blank" rel="noopener">Kruskal算法</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3711504.html" target="_blank" rel="noopener">Kruskal算法</a></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3711506.html" target="_blank" rel="noopener">Prim算法</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3711507.html" target="_blank" rel="noopener">Prim算法</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3711510.html" target="_blank" rel="noopener">Prim算法</a></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3711512.html" target="_blank" rel="noopener">Dijkstra算法</a></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="center"><strong>排序算法</strong></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3596232.html" target="_blank" rel="noopener">冒泡排序</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3596232.html" target="_blank" rel="noopener">冒泡排序</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3596232.html" target="_blank" rel="noopener">冒泡排序</a></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3596746.html" target="_blank" rel="noopener">快速排序</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3596746.html" target="_blank" rel="noopener">快速排序</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3596746.html" target="_blank" rel="noopener">快速排序</a></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3596881.html" target="_blank" rel="noopener">直接插入排序</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3596881.html" target="_blank" rel="noopener">直接插入排序</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3596881.html" target="_blank" rel="noopener">直接插入排序</a></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3597597.html" target="_blank" rel="noopener">希尔排序</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3597597.html" target="_blank" rel="noopener">希尔排序</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3597597.html" target="_blank" rel="noopener">希尔排序</a></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3597641.html" target="_blank" rel="noopener">选择排序</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3597641.html" target="_blank" rel="noopener">选择排序</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3597641.html" target="_blank" rel="noopener">选择排序</a></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3602162.html" target="_blank" rel="noopener">堆排序</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3602162.html" target="_blank" rel="noopener">堆排序</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3602162.html" target="_blank" rel="noopener">堆排序</a></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3602369.html" target="_blank" rel="noopener">归并排序</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3602369.html" target="_blank" rel="noopener">归并排序</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3602369.html" target="_blank" rel="noopener">归并排序</a></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3602737.html" target="_blank" rel="noopener">桶排序</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3602737.html" target="_blank" rel="noopener">桶排序</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3602737.html" target="_blank" rel="noopener">桶排序</a></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3603669.html" target="_blank" rel="noopener">基数排序</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3603669.html" target="_blank" rel="noopener">基数排序</a></td>
+<td align="left"><a href="http://www.cnblogs.com/skywang12345/p/3603669.html" target="_blank" rel="noopener">基数排序</a></td>
+</tr>
+</tbody></table>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>标签：</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript：window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            <a class="prev" rel="prev" href="/2020/06/04/Java%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3/">Java函数式接口</a>
+            
+            
+            <a class="next" rel="next" href="/2020/06/03/Quartz%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D/">Quartz框架介绍</a>
+            
+        </section>
+    </article>
+</div>
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>©<a href="https://github.com/zgsxxzzyl" target="_blank">YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

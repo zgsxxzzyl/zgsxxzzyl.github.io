@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="YiLongZhang">
+
+
+
+
+
+<title>Spring源码详解 | 乾坤多畏途,何处无波澜</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <a href="/search/">搜索</a>
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+    <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部折叠"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Spring源码详解</h1>
+            
+            <div class="post-meta">
+                
+                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                
+
+                
+                <span class="post-time">
+                    创建日期： <a
+                        href="#">五月 25, 2020&nbsp;&nbsp;14:21:17</a>
+                </span>&nbsp;
+                
+                
+                <!-- 
+                状态：<a href="#">SNAPSHOT</a>
+                 -->
+            </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="Spring源码详解"><a href="#Spring源码详解" class="headerlink" title="Spring源码详解"></a>Spring源码详解</h1><h2 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h2><blockquote>
+<p>相关文章：<a href="https://blog.csdn.net/wyl6019/article/details/80136000" target="_blank" rel="noopener">https://blog.csdn.net/wyl6019/article/details/80136000</a></p>
+</blockquote>
+<h3 id="XML注册"><a href="#XML注册" class="headerlink" title="XML注册"></a>XML注册</h3><p><img src="/images/Spring%E6%BA%90%E7%A0%81%E8%AF%A6%E8%A7%A3/70" alt=""></p>
+<h3 id="Aspect注册"><a href="#Aspect注册" class="headerlink" title="@Aspect注册"></a>@Aspect注册</h3><p><img src="/images/Spring%E6%BA%90%E7%A0%81%E8%AF%A6%E8%A7%A3/71" alt=""></p>
+<ul>
+<li>contextInitialized:103, ContextLoaderListener</li>
+<li>initWebApplicationContext:291, ContextLoader</li>
+<li>configureAndRefreshWebApplicationContext:400, ContextLoader</li>
+<li>refresh:549, AbstractApplicationContext</li>
+<li>finishBeanFactoryInitialization:877, AbstractApplicationContext</li>
+<li>preInstantiateSingletons:830, DefaultListableBeanFactory</li>
+<li>getBean:199, AbstractBeanFactory</li>
+<li>doGetBean:318, AbstractBeanFactory</li>
+<li>getSingleton:222, DefaultSingletonBeanRegistry</li>
+<li>getObject:-1, 889007824</li>
+<li>lambda$doGetBean$0:320, AbstractBeanFactory</li>
+<li>createBean:515, AbstractAutowireCapableBeanFactory</li>
+<li>doCreateBean:593, AbstractAutowireCapableBeanFactory</li>
+<li>initializeBean:1766, AbstractAutowireCapableBeanFactory</li>
+<li>applyBeanPostProcessorsAfterInitialization:429, AbstractAutowireCapableBeanFactory</li>
+<li>postProcessAfterInitialization:296, AbstractAutoProxyCreator</li>
+<li>wrapIfNecessary:335, AbstractAutoProxyCreator</li>
+<li>createProxy:471, AbstractAutoProxyCreator</li>
+<li>createProxy:471, AbstractAutoProxyCreator</li>
+<li>getProxy:160, CglibAopProxy</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">getProxy</span><span class="params">(@Nullable ClassLoader classLoader)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (logger.isTraceEnabled()) &#123;</span><br><span class="line">        logger.trace(<span class="string">"Creating CGLIB proxy: "</span> + <span class="keyword">this</span>.advised.getTargetSource());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        Class&lt;?&gt; rootClass = <span class="keyword">this</span>.advised.getTargetClass();</span><br><span class="line">        Assert.state(rootClass != <span class="keyword">null</span>, <span class="string">"Target class must be available for creating a CGLIB proxy"</span>);</span><br><span class="line"></span><br><span class="line">        Class&lt;?&gt; proxySuperClass = rootClass;</span><br><span class="line">        <span class="keyword">if</span> (ClassUtils.isCglibProxyClass(rootClass)) &#123;</span><br><span class="line">            proxySuperClass = rootClass.getSuperclass();</span><br><span class="line">            Class&lt;?&gt;[] additionalInterfaces = rootClass.getInterfaces();</span><br><span class="line">            <span class="keyword">for</span> (Class&lt;?&gt; additionalInterface : additionalInterfaces) &#123;</span><br><span class="line">                <span class="keyword">this</span>.advised.addInterface(additionalInterface);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Validate the class, writing log messages as necessary.</span></span><br><span class="line">        validateClassIfNecessary(proxySuperClass, classLoader);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Configure CGLIB Enhancer...</span></span><br><span class="line">        Enhancer enhancer = createEnhancer();</span><br><span class="line">        <span class="keyword">if</span> (classLoader != <span class="keyword">null</span>) &#123;</span><br><span class="line">            enhancer.setClassLoader(classLoader);</span><br><span class="line">            <span class="keyword">if</span> (classLoader <span class="keyword">instanceof</span> SmartClassLoader &amp;&amp;</span><br><span class="line">                    ((SmartClassLoader) classLoader).isClassReloadable(proxySuperClass)) &#123;</span><br><span class="line">                enhancer.setUseCache(<span class="keyword">false</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        enhancer.setSuperclass(proxySuperClass);</span><br><span class="line">        enhancer.setInterfaces(AopProxyUtils.completeProxiedInterfaces(<span class="keyword">this</span>.advised));</span><br><span class="line">        enhancer.setNamingPolicy(SpringNamingPolicy.INSTANCE);</span><br><span class="line">        enhancer.setStrategy(<span class="keyword">new</span> ClassLoaderAwareUndeclaredThrowableStrategy(classLoader));</span><br><span class="line">        <span class="comment">// 获取Callback派生类，包含@After、@Before等</span></span><br><span class="line">        Callback[] callbacks = getCallbacks(rootClass);</span><br><span class="line">        Class&lt;?&gt;[] types = <span class="keyword">new</span> Class&lt;?&gt;[callbacks.length];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; types.length; x++) &#123;</span><br><span class="line">            types[x] = callbacks[x].getClass();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// fixedInterceptorMap only populated at this point, after getCallbacks call above</span></span><br><span class="line">        enhancer.setCallbackFilter(<span class="keyword">new</span> ProxyCallbackFilter(</span><br><span class="line">                <span class="keyword">this</span>.advised.getConfigurationOnlyCopy(), <span class="keyword">this</span>.fixedInterceptorMap, <span class="keyword">this</span>.fixedInterceptorOffset));</span><br><span class="line">        enhancer.setCallbackTypes(types);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Generate the proxy class and create a proxy instance.</span></span><br><span class="line">        <span class="keyword">return</span> createProxyClassAndInstance(enhancer, callbacks);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span> (CodeGenerationException | IllegalArgumentException ex) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> AopConfigException(<span class="string">"Could not generate CGLIB subclass of "</span> + <span class="keyword">this</span>.advised.getTargetClass() +</span><br><span class="line">                <span class="string">": Common causes of this problem include using a final class or a non-visible class"</span>,</span><br><span class="line">                ex);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span> (Throwable ex) &#123;</span><br><span class="line">        <span class="comment">// TargetSource.getTarget() failed</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> AopConfigException(<span class="string">"Unexpected AOP exception"</span>, ex);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Create proxy if we have advice.</span></span><br><span class="line">Object[] specificInterceptors = getAdvicesAndAdvisorsForBean(bean.getClass(), beanName, <span class="keyword">null</span>);</span><br><span class="line"><span class="keyword">if</span> (specificInterceptors != DO_NOT_PROXY) &#123;</span><br><span class="line">    <span class="keyword">this</span>.advisedBeans.put(cacheKey, Boolean.TRUE);</span><br><span class="line">    Object proxy = createProxy(</span><br><span class="line">            bean.getClass(), beanName, specificInterceptors, <span class="keyword">new</span> SingletonTargetSource(bean));</span><br><span class="line">    <span class="keyword">this</span>.proxyTypes.put(cacheKey, proxy.getClass());</span><br><span class="line">    <span class="keyword">return</span> proxy;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="执行"><a href="#执行" class="headerlink" title="执行"></a>执行</h3><ul>
+<li>intercept:688, CglibAopProxy$DynamicAdvisedInterceptor</li>
+<li>proceed:162, ReflectiveMethodInvocation</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">proceed</span><span class="params">()</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">    <span class="comment">//	We start with an index of -1 and increment early.</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.currentInterceptorIndex == <span class="keyword">this</span>.interceptorsAndDynamicMethodMatchers.size() - <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> invokeJoinpoint();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Object interceptorOrInterceptionAdvice =</span><br><span class="line">            <span class="keyword">this</span>.interceptorsAndDynamicMethodMatchers.get(++<span class="keyword">this</span>.currentInterceptorIndex);</span><br><span class="line">    <span class="keyword">if</span> (interceptorOrInterceptionAdvice <span class="keyword">instanceof</span> InterceptorAndDynamicMethodMatcher) &#123;</span><br><span class="line">        <span class="comment">// Evaluate dynamic method matcher here: static part will already have</span></span><br><span class="line">        <span class="comment">// been evaluated and found to match.</span></span><br><span class="line">        InterceptorAndDynamicMethodMatcher dm =</span><br><span class="line">                (InterceptorAndDynamicMethodMatcher) interceptorOrInterceptionAdvice;</span><br><span class="line">        Class&lt;?&gt; targetClass = (<span class="keyword">this</span>.targetClass != <span class="keyword">null</span> ? <span class="keyword">this</span>.targetClass : <span class="keyword">this</span>.method.getDeclaringClass());</span><br><span class="line">        <span class="keyword">if</span> (dm.methodMatcher.matches(<span class="keyword">this</span>.method, targetClass, <span class="keyword">this</span>.arguments)) &#123;</span><br><span class="line">            <span class="keyword">return</span> dm.interceptor.invoke(<span class="keyword">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// Dynamic matching failed.</span></span><br><span class="line">            <span class="comment">// Skip this interceptor and invoke the next in the chain.</span></span><br><span class="line">            <span class="keyword">return</span> proceed();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// It's an interceptor, so we just invoke it: The pointcut will have</span></span><br><span class="line">        <span class="comment">// been evaluated statically before this object was constructed.</span></span><br><span class="line">        <span class="comment">// 调用机制相当于实现了一个chain，把this传给下一个Callback，注意获取的时候++this.currentInterceptorIndex</span></span><br><span class="line">        <span class="keyword">return</span> ((MethodInterceptor) interceptorOrInterceptionAdvice).invoke(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="处理请求"><a href="#处理请求" class="headerlink" title="处理请求"></a>处理请求</h2><h3 id="注册"><a href="#注册" class="headerlink" title="注册"></a>注册</h3><ul>
+<li>refresh:549, AbstractApplicationContext</li>
+<li>finishBeanFactoryInitialization:877, AbstractApplicationContext</li>
+<li>preInstantiateSingletons:849, DefaultListableBeanFactory</li>
+<li>getBean:199, AbstractBeanFactory</li>
+<li>doGetBean:318, AbstractBeanFactory</li>
+<li>getSingleton:222, DefaultSingletonBeanRegistry</li>
+<li>getObject:-1, 911637678</li>
+<li>lambda$doGetBean$0:320, AbstractBeanFactory</li>
+<li>createBean:515, AbstractAutowireCapableBeanFactory</li>
+<li>doCreateBean:593, AbstractAutowireCapableBeanFactory</li>
+<li>initializeBean:1758, AbstractAutowireCapableBeanFactory</li>
+<li>invokeInitMethods:1821, AbstractAutowireCapableBeanFactory</li>
+<li>afterPropertiesSet:164, RequestMappingHandlerMapping</li>
+<li>afterPropertiesSet:199, AbstractHandlerMethodMapping</li>
+<li>initHandlerMethods:211, AbstractHandlerMethodMapping</li>
+</ul>
+<blockquote>
+<p>getCandidateBeanNames()获取到需要初始化的bean,processCandidateBean(beanName)方法对这些bean进行过滤</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initHandlerMethods</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (String beanName : getCandidateBeanNames()) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!beanName.startsWith(SCOPED_TARGET_NAME_PREFIX)) &#123;</span><br><span class="line">            processCandidateBean(beanName);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    handlerMethodsInitialized(getHandlerMethods());     </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>processCandidateBean:250, AbstractHandlerMethodMapping<blockquote>
+<p>isHandler(beanType)主要过滤条件,detectHandlerMethods(beanName);注册</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">processCandidateBean</span><span class="params">(String beanName)</span> </span>&#123;</span><br><span class="line">    Class&lt;?&gt; beanType = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        beanType = obtainApplicationContext().getType(beanName);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span> (Throwable ex) &#123;</span><br><span class="line">        <span class="comment">// An unresolvable bean type, probably from a lazy bean - let's ignore it.</span></span><br><span class="line">        <span class="keyword">if</span> (logger.isTraceEnabled()) &#123;</span><br><span class="line">            logger.trace(<span class="string">"Could not resolve type for bean '"</span> + beanName + <span class="string">"'"</span>, ex);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (beanType != <span class="keyword">null</span> &amp;&amp; isHandler(beanType)) &#123;</span><br><span class="line">        detectHandlerMethods(beanName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>符合@Controller或者@RequestMapping</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">isHandler</span><span class="params">(Class&lt;?&gt; beanType)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (AnnotatedElementUtils.hasAnnotation(beanType, Controller<span class="class">.<span class="keyword">class</span>) ||</span></span><br><span class="line"><span class="class">            <span class="title">AnnotatedElementUtils</span>.<span class="title">hasAnnotation</span>(<span class="title">beanType</span>, <span class="title">RequestMapping</span>.<span class="title">class</span>))</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="请求"><a href="#请求" class="headerlink" title="请求"></a>请求</h3><ul>
+<li>org.springframework.web.servlet.DispatcherServlet</li>
+<li>service:882, FrameworkServlet</li>
+<li>service:742, HttpServlet</li>
+<li>service:635, HttpServlet<blockquote>
+<p>这个方法具体判断是什么请求类型</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span></span></span><br><span class="line"><span class="function">        <span class="keyword">throws</span> ServletException, IOException</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    String method = req.getMethod();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (method.equals(METHOD_GET)) &#123;</span><br><span class="line">        <span class="keyword">long</span> lastModified = getLastModified(req);</span><br><span class="line">        <span class="keyword">if</span> (lastModified == -<span class="number">1</span>) &#123;</span><br><span class="line">            <span class="comment">// servlet doesn't support if-modified-since, no reason</span></span><br><span class="line">            <span class="comment">// to go through further expensive logic</span></span><br><span class="line">            doGet(req, resp);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">long</span> ifModifiedSince = req.getDateHeader(HEADER_IFMODSINCE);</span><br><span class="line">            <span class="keyword">if</span> (ifModifiedSince &lt; lastModified) &#123;</span><br><span class="line">                <span class="comment">// If the servlet mod time is later, call doGet()</span></span><br><span class="line">                <span class="comment">// Round down to the nearest second for a proper compare</span></span><br><span class="line">                <span class="comment">// A ifModifiedSince of -1 will always be less</span></span><br><span class="line">                maybeSetLastModified(resp, lastModified);</span><br><span class="line">                doGet(req, resp);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                resp.setStatus(HttpServletResponse.SC_NOT_MODIFIED);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (method.equals(METHOD_HEAD)) &#123;</span><br><span class="line">        <span class="keyword">long</span> lastModified = getLastModified(req);</span><br><span class="line">        maybeSetLastModified(resp, lastModified);</span><br><span class="line">        doHead(req, resp);</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (method.equals(METHOD_POST)) &#123;</span><br><span class="line">        doPost(req, resp);</span><br><span class="line">        </span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (method.equals(METHOD_PUT)) &#123;</span><br><span class="line">        doPut(req, resp);</span><br><span class="line">        </span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (method.equals(METHOD_DELETE)) &#123;</span><br><span class="line">        doDelete(req, resp);</span><br><span class="line">        </span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (method.equals(METHOD_OPTIONS)) &#123;</span><br><span class="line">        doOptions(req,resp);</span><br><span class="line">        </span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (method.equals(METHOD_TRACE)) &#123;</span><br><span class="line">        doTrace(req,resp);</span><br><span class="line">        </span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">//</span></span><br><span class="line">        <span class="comment">// Note that this means NO servlet supports whatever</span></span><br><span class="line">        <span class="comment">// method was requested, anywhere on this server.</span></span><br><span class="line">        <span class="comment">//</span></span><br><span class="line"></span><br><span class="line">        String errMsg = lStrings.getString(<span class="string">"http.method_not_implemented"</span>);</span><br><span class="line">        Object[] errArgs = <span class="keyword">new</span> Object[<span class="number">1</span>];</span><br><span class="line">        errArgs[<span class="number">0</span>] = method;</span><br><span class="line">        errMsg = MessageFormat.format(errMsg, errArgs);</span><br><span class="line">        </span><br><span class="line">        resp.sendError(HttpServletResponse.SC_NOT_IMPLEMENTED, errMsg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>doGet:897, FrameworkServlet</li>
+<li>processRequest:1005, FrameworkServlet</li>
+<li>doService:942, DispatcherServlet</li>
+<li>doDispatch:1014, DispatcherServlet</li>
+<li>getHandler:1231, DispatcherServlet</li>
+<li>getHandler:401, AbstractHandlerMapping</li>
+<li>getHandlerInternal:365, AbstractHandlerMethodMapping<blockquote>
+<p>AbstractHandlerMethodMapping内部使用了读写锁</p>
+<p>lookupHandlerMethod(lookupPath, request); 从注册好的集合中查找返回HandlerMethod调用</p>
+<p>mappingRegistry.urlLookup这个map保存了url和对应的方法</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> HandlerMethod <span class="title">getHandlerInternal</span><span class="params">(HttpServletRequest request)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    String lookupPath = getUrlPathHelper().getLookupPathForRequest(request);</span><br><span class="line">    <span class="keyword">this</span>.mappingRegistry.acquireReadLock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        HandlerMethod handlerMethod = lookupHandlerMethod(lookupPath, request);</span><br><span class="line">        <span class="keyword">return</span> (handlerMethod != <span class="keyword">null</span> ? handlerMethod.createWithResolvedBean() : <span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.mappingRegistry.releaseReadLock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><blockquote>
+<p>Spring并不直接管理事务，而是提供了事务管理接口是PlatformTransactionManager，通过这个 接口，Spring 为各个平台如JDBC、Hibernate等都提供了对应的事务管理器，但是具体的实现就是各个平台自己的 事情了。 </p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>平台</th>
+<th>实现类</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>JDBC</td>
+<td>DataSourceTransactionManager</td>
+</tr>
+<tr>
+<td>JTA</td>
+<td>JtaTransactionManager</td>
+</tr>
+<tr>
+<td>Hibernate</td>
+<td>HibernateTransactionManager</td>
+</tr>
+</tbody></table>
+<h3 id="注册-1"><a href="#注册-1" class="headerlink" title="注册"></a>注册</h3><h3 id="执行-1"><a href="#执行-1" class="headerlink" title="执行"></a>执行</h3>
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>标签：</span>
+                <span class="tag">
+                    
+                    
+                    <a href="/tags/Java/"># Java</a>
+                    
+                    <a href="/tags/Spring/"># Spring</a>
+                    
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript：window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            <a class="prev" rel="prev" href="/2020/05/25/%E6%A0%91%E7%8A%B6%E7%BB%93%E6%9E%84%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/">树状结构数据库设计</a>
+            
+            
+            <a class="next" rel="next" href="/2020/05/19/%E9%9B%B6%E6%8B%B7%E8%B4%9D/">零拷贝</a>
+            
+        </section>
+    </article>
+</div>
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>©<a href="https://github.com/zgsxxzzyl" target="_blank">YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

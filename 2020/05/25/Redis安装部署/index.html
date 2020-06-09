@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="YiLongZhang">
+
+
+
+
+
+<title>Redis安装部署 | 乾坤多畏途,何处无波澜</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <a href="/search/">搜索</a>
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+    <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部折叠"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Redis安装部署</h1>
+            
+            <div class="post-meta">
+                
+                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                
+
+                
+                <span class="post-time">
+                    创建日期： <a
+                        href="#">五月 25, 2020&nbsp;&nbsp;16:49:50</a>
+                </span>&nbsp;
+                
+                
+                <!-- 
+                状态：<a href="#">SNAPSHOT</a>
+                 -->
+            </div>
+            
+        </header>
+
+        <div class="post-content">
+            <blockquote>
+<p>相关文章：</p>
+<p><a href="https://www.cnblogs.com/shook/p/12883742.html" target="_blank" rel="noopener">https://www.cnblogs.com/shook/p/12883742.html</a></p>
+<p><a href="https://redis.io/documentation" target="_blank" rel="noopener">https://redis.io/documentation</a></p>
+</blockquote>
+<h1 id="Window"><a href="#Window" class="headerlink" title="Window"></a>Window</h1><blockquote>
+<p><a href="https://github.com/microsoftarchive/redis/releases" target="_blank" rel="noopener">下载地址</a></p>
+</blockquote>
+<p>启动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-server.exe redis.windows.conf</span><br></pre></td></tr></table></figure>
+
+<h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><blockquote>
+<p>测试环境：Linux version 3.10.0-1062.7.1.el7.x86_64 (<a href="mailto:mockbuild@kbuilder.bsys.centos.org">mockbuild@kbuilder.bsys.centos.org</a>) (gcc version 4.8.5 20150623 (Red Hat 4.8.5-39) (GCC) ) #1 SMP Mon Dec 2 17:33:29 UTC 2019</p>
+<p><a href="https://redis.io/download" target="_blank" rel="noopener">下载地址</a></p>
+</blockquote>
+<h2 id="准备环境"><a href="#准备环境" class="headerlink" title="准备环境"></a>准备环境</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install -y gcc</span><br><span class="line">yum install -y gcc-c++</span><br><span class="line">yum install -y tcl</span><br></pre></td></tr></table></figure>
+
+<h2 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h2><blockquote>
+<p>注意：这里选择redis-5.0.8这个版本可以编译成功，如果编译高版本失败则可能需要升级gcc版本重新编译</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget http://download.redis.io/releases/redis-5.0.8.tar.gz</span><br><span class="line">tar xzf redis-5.0.8.tar.gz</span><br><span class="line"><span class="built_in">cd</span> redis-5.0.8</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
+
+<h3 id="编译成功"><a href="#编译成功" class="headerlink" title="编译成功"></a>编译成功</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">make[2]: 离开目录“/opt/redis-5.0.8/deps”</span><br><span class="line">    CC adlist.o</span><br><span class="line">    CC quicklist.o</span><br><span class="line">    CC ae.o</span><br><span class="line">    CC anet.o</span><br><span class="line">    CC dict.o</span><br><span class="line">    CC server.o</span><br><span class="line">    CC sds.o</span><br><span class="line">    CC zmalloc.o</span><br><span class="line">    CC lzf_c.o</span><br><span class="line">    CC lzf_d.o</span><br><span class="line">    CC pqsort.o</span><br><span class="line">    CC zipmap.o</span><br><span class="line">    CC sha1.o</span><br><span class="line">    CC ziplist.o</span><br><span class="line">    CC release.o</span><br><span class="line">    CC networking.o</span><br><span class="line">    CC util.o</span><br><span class="line">    CC object.o</span><br><span class="line">    CC db.o</span><br><span class="line">    CC replication.o</span><br><span class="line">    CC rdb.o</span><br><span class="line">    CC t_string.o</span><br><span class="line">    CC t_list.o</span><br><span class="line">    CC t_set.o</span><br><span class="line">    CC t_zset.o</span><br><span class="line">    CC t_hash.o</span><br><span class="line">    CC config.o</span><br><span class="line">    CC aof.o</span><br><span class="line">    CC pubsub.o</span><br><span class="line">    CC multi.o</span><br><span class="line">    CC debug.o</span><br><span class="line">    CC sort.o</span><br><span class="line">    CC intset.o</span><br><span class="line">    CC syncio.o</span><br><span class="line">    CC cluster.o</span><br><span class="line">    CC crc16.o</span><br><span class="line">    CC endianconv.o</span><br><span class="line">    CC slowlog.o</span><br><span class="line">    CC scripting.o</span><br><span class="line">    CC bio.o</span><br><span class="line">    CC rio.o</span><br><span class="line">    CC rand.o</span><br><span class="line">    CC memtest.o</span><br><span class="line">    CC crc64.o</span><br><span class="line">    CC bitops.o</span><br><span class="line">    CC sentinel.o</span><br><span class="line">    CC notify.o</span><br><span class="line">    CC setproctitle.o</span><br><span class="line">    CC blocked.o</span><br><span class="line">    CC hyperloglog.o</span><br><span class="line">    CC latency.o</span><br><span class="line">    CC sparkline.o</span><br><span class="line">    CC redis-check-rdb.o</span><br><span class="line">    CC redis-check-aof.o</span><br><span class="line">    CC geo.o</span><br><span class="line">    CC lazyfree.o</span><br><span class="line">    CC module.o</span><br><span class="line">    CC evict.o</span><br><span class="line">    CC expire.o</span><br><span class="line">    CC geohash.o</span><br><span class="line">    CC geohash_helper.o</span><br><span class="line">    CC childinfo.o</span><br><span class="line">    CC defrag.o</span><br><span class="line">    CC siphash.o</span><br><span class="line">    CC rax.o</span><br><span class="line">    CC t_stream.o</span><br><span class="line">    CC listpack.o</span><br><span class="line">    CC localtime.o</span><br><span class="line">    CC lolwut.o</span><br><span class="line">    CC lolwut5.o</span><br><span class="line">    LINK redis-server</span><br><span class="line">    INSTALL redis-sentinel</span><br><span class="line">    CC redis-cli.o</span><br><span class="line">    LINK redis-cli</span><br><span class="line">    CC redis-benchmark.o</span><br><span class="line">    LINK redis-benchmark</span><br><span class="line">    INSTALL redis-check-rdb</span><br><span class="line">    INSTALL redis-check-aof</span><br><span class="line"></span><br><span class="line">Hint: It<span class="string">'s a good idea to run '</span>make <span class="built_in">test</span><span class="string">' ;)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">make[1]: 离开目录“/opt/redis-5.0.8/src”</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="编译错误"><a href="#编译错误" class="headerlink" title="编译错误"></a>编译错误</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">erver.c:5152:44: 错误：‘struct redisServer’没有名为‘tlsfd_count’的成员</span><br><span class="line">         <span class="keyword">if</span> (server.ipfd_count &gt; 0 || server.tlsfd_count &gt; 0)</span><br><span class="line">                                            ^</span><br><span class="line">server.c:5154:19: 错误：‘struct redisServer’没有名为‘sofd’的成员</span><br><span class="line">         <span class="keyword">if</span> (server.sofd &gt; 0)</span><br><span class="line">                   ^</span><br><span class="line">server.c:5155:94: 错误：‘struct redisServer’没有名为‘unixsocket’的成员</span><br><span class="line">             serverLog(LL_NOTICE,<span class="string">"The server is now ready to accept connections at %s"</span>, server.unixsocket);</span><br><span class="line">                                                                                              ^</span><br><span class="line">server.c:5156:19: 错误：‘struct redisServer’没有名为‘supervised_mode’的成员</span><br><span class="line">         <span class="keyword">if</span> (server.supervised_mode == SUPERVISED_SYSTEMD) &#123;</span><br><span class="line">                   ^</span><br><span class="line">server.c:5157:24: 错误：‘struct redisServer’没有名为‘masterhost’的成员</span><br><span class="line">             <span class="keyword">if</span> (!server.masterhost) &#123;</span><br><span class="line">                        ^</span><br><span class="line">server.c:5170:15: 错误：‘struct redisServer’没有名为‘maxmemory’的成员</span><br><span class="line">     <span class="keyword">if</span> (server.maxmemory &gt; 0 &amp;&amp; server.maxmemory &lt; 1024*1024) &#123;</span><br><span class="line">               ^</span><br><span class="line">server.c:5170:39: 错误：‘struct redisServer’没有名为‘maxmemory’的成员</span><br><span class="line">     <span class="keyword">if</span> (server.maxmemory &gt; 0 &amp;&amp; server.maxmemory &lt; 1024*1024) &#123;</span><br><span class="line">                                       ^</span><br><span class="line">server.c:5171:176: 错误：‘struct redisServer’没有名为‘maxmemory’的成员</span><br><span class="line">         serverLog(LL_WARNING,<span class="string">"WARNING: You specified a maxmemory value that is less than 1MB (current value is %llu bytes). Are you sure this is what you really want?"</span>, server.maxmemory);</span><br><span class="line">                                                                                                                                                                                ^</span><br><span class="line">server.c:5174:31: 错误：‘struct redisServer’没有名为‘server_cpulist’的成员</span><br><span class="line">     redisSetCpuAffinity(server.server_cpulist);</span><br><span class="line">                               ^</span><br><span class="line">server.c: 在函数‘hasActiveChildProcess’中:</span><br><span class="line">server.c:1476:1: 警告：在有返回值的函数中，控制流程到达函数尾 [-Wreturn-type]</span><br><span class="line"> &#125;</span><br><span class="line"> ^</span><br><span class="line">server.c: 在函数‘allPersistenceDisabled’中:</span><br><span class="line">server.c:1482:1: 警告：在有返回值的函数中，控制流程到达函数尾 [-Wreturn-type]</span><br><span class="line"> &#125;</span><br><span class="line"> ^</span><br><span class="line">server.c: 在函数‘writeCommandsDeniedByDiskError’中:</span><br><span class="line">server.c:3789:1: 警告：在有返回值的函数中，控制流程到达函数尾 [-Wreturn-type]</span><br><span class="line"> &#125;</span><br><span class="line"> ^</span><br><span class="line">server.c: 在函数‘iAmMaster’中:</span><br><span class="line">server.c:4966:1: 警告：在有返回值的函数中，控制流程到达函数尾 [-Wreturn-type]</span><br><span class="line"> &#125;</span><br><span class="line"> ^</span><br><span class="line">make[1]: *** [server.o] 错误 1</span><br><span class="line">make[1]: 离开目录“/opt/redis-6.0.3/src”</span><br><span class="line">make: *** [all] 错误 2</span><br></pre></td></tr></table></figure>
+
+<h4 id="升级gcc版本"><a href="#升级gcc版本" class="headerlink" title="升级gcc版本"></a>升级gcc版本</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看gcc版本</span></span><br><span class="line">gcc -v</span><br><span class="line"><span class="comment"># 升级到9.1版本</span></span><br><span class="line">yum -y install centos-release-scl</span><br><span class="line"><span class="comment"># 临时启用</span></span><br><span class="line">yum -y install devtoolset-9-gcc devtoolset-9-gcc-c++ devtoolset-9-binutils</span><br><span class="line">scl <span class="built_in">enable</span> devtoolset-9 bash</span><br><span class="line"><span class="comment"># 如果要长期使用gcc 9.1的话：</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"source /opt/rh/devtoolset-9/enable"</span> &gt;&gt;/etc/profile</span><br></pre></td></tr></table></figure>
+
+<h2 id="运行测试"><a href="#运行测试" class="headerlink" title="运行测试"></a>运行测试</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+<p>正常显示如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">Execution time of different units:</span><br><span class="line">  0 seconds - unit/printver</span><br><span class="line">  0 seconds - unit/<span class="built_in">type</span>/incr</span><br><span class="line">  1 seconds - unit/auth</span><br><span class="line">  1 seconds - unit/keyspace</span><br><span class="line">  1 seconds - unit/protocol</span><br><span class="line">  1 seconds - unit/quit</span><br><span class="line">  3 seconds - unit/multi</span><br><span class="line">  4 seconds - unit/<span class="built_in">type</span>/stream-cgroups</span><br><span class="line">  12 seconds - unit/<span class="built_in">type</span>/<span class="built_in">hash</span></span><br><span class="line">  13 seconds - unit/other</span><br><span class="line">  15 seconds - unit/expire</span><br><span class="line">  15 seconds - unit/<span class="built_in">type</span>/list</span><br><span class="line">  17 seconds - unit/<span class="built_in">type</span>/string</span><br><span class="line">  19 seconds - unit/scan</span><br><span class="line">  20 seconds - unit/<span class="built_in">type</span>/<span class="built_in">set</span></span><br><span class="line">  3 seconds - integration/rdb</span><br><span class="line">  3 seconds - integration/convert-zipmap-hash-on-load</span><br><span class="line">  1 seconds - integration/logging</span><br><span class="line">  7 seconds - integration/aof</span><br><span class="line">  1 seconds - unit/pubsub</span><br><span class="line">  26 seconds - unit/sort</span><br><span class="line">  3 seconds - unit/slowlog</span><br><span class="line">  29 seconds - unit/<span class="built_in">type</span>/zset</span><br><span class="line">  1 seconds - unit/introspection</span><br><span class="line">  28 seconds - integration/block-repl</span><br><span class="line">  1 seconds - unit/limits</span><br><span class="line">  11 seconds - unit/scripting</span><br><span class="line">  7 seconds - unit/introspection-2</span><br><span class="line">  41 seconds - unit/<span class="built_in">type</span>/list-2</span><br><span class="line">  4 seconds - unit/bitfield</span><br><span class="line">  33 seconds - integration/replication-2</span><br><span class="line">  25 seconds - integration/psync2-reg</span><br><span class="line">  13 seconds - unit/bitops</span><br><span class="line">  2 seconds - unit/lazyfree</span><br><span class="line">  55 seconds - unit/dump</span><br><span class="line">  32 seconds - integration/psync2</span><br><span class="line">  57 seconds - unit/<span class="built_in">type</span>/stream</span><br><span class="line">  8 seconds - unit/<span class="built_in">wait</span></span><br><span class="line">  45 seconds - integration/replication-4</span><br><span class="line">  11 seconds - unit/pendingquerybuf</span><br><span class="line">  23 seconds - unit/geo</span><br><span class="line">  71 seconds - integration/replication-3</span><br><span class="line">  99 seconds - unit/aofrw</span><br><span class="line">  82 seconds - unit/maxmemory</span><br><span class="line">  71 seconds - unit/memefficiency</span><br><span class="line">  118 seconds - unit/<span class="built_in">type</span>/list-3</span><br><span class="line">  107 seconds - integration/replication-psync</span><br><span class="line">  79 seconds - unit/hyperloglog</span><br><span class="line">  156 seconds - integration/replication</span><br><span class="line">  385 seconds - unit/obuf-limits</span><br><span class="line"></span><br><span class="line">\o/ All tests passed without errors!</span><br></pre></td></tr></table></figure>
+
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">src/redis-server [redis.conf]</span><br></pre></td></tr></table></figure>
+
+<p>成功启动显示：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">26876:C 26 May 2020 09:56:57.357 <span class="comment"># oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo</span></span><br><span class="line">26876:C 26 May 2020 09:56:57.357 <span class="comment"># Redis version=5.0.8, bits=64, commit=00000000, modified=0, pid=26876, just started</span></span><br><span class="line">26876:C 26 May 2020 09:56:57.357 <span class="comment"># Warning: no config file specified, using the default config. In order to specify a config file use src/redis-server /path/to/redis.conf</span></span><br><span class="line">26876:M 26 May 2020 09:56:57.358 * Increased maximum number of open files to 10032 (it was originally <span class="built_in">set</span> to 1024).</span><br><span class="line">                _._</span><br><span class="line">           _.-``__ <span class="string">''</span>-._</span><br><span class="line">      _.-``    `.  `_.  <span class="string">''</span>-._           Redis 5.0.8 (00000000/0) 64 bit</span><br><span class="line">  .-`` .-```.  ```\/    _.,_ <span class="string">''</span>-._</span><br><span class="line"> (    <span class="string">'      ,       .-`  | `,    )     Running in standalone mode</span></span><br><span class="line"><span class="string"> |`-._`-...-` __...-.``-._|'</span>` _.-<span class="string">'|     Port: 6379</span></span><br><span class="line"><span class="string"> |    `-._   `._    /     _.-'</span>    |     PID: 26876</span><br><span class="line">  `-._    `-._  `-./  _.-<span class="string">'    _.-'</span></span><br><span class="line"> |`-._`-._    `-.__.-<span class="string">'    _.-'</span>_.-<span class="string">'|</span></span><br><span class="line"><span class="string"> |    `-._`-._        _.-'</span>_.-<span class="string">'    |           http://redis.io</span></span><br><span class="line"><span class="string">  `-._    `-._`-.__.-'</span>_.-<span class="string">'    _.-'</span></span><br><span class="line"> |`-._`-._    `-.__.-<span class="string">'    _.-'</span>_.-<span class="string">'|</span></span><br><span class="line"><span class="string"> |    `-._`-._        _.-'</span>_.-<span class="string">'    |</span></span><br><span class="line"><span class="string">  `-._    `-._`-.__.-'</span>_.-<span class="string">'    _.-'</span></span><br><span class="line">      `-._    `-.__.-<span class="string">'    _.-'</span></span><br><span class="line">          `-._        _.-<span class="string">'</span></span><br><span class="line"><span class="string">              `-.__.-'</span></span><br><span class="line"></span><br><span class="line">26876:M 26 May 2020 09:56:57.362 <span class="comment"># WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.</span></span><br><span class="line">26876:M 26 May 2020 09:56:57.362 <span class="comment"># Server initialized</span></span><br><span class="line">26876:M 26 May 2020 09:56:57.362 <span class="comment"># WARNING overcommit_memory is set to 0! Background save may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.</span></span><br><span class="line">26876:M 26 May 2020 09:56:57.362 <span class="comment"># WARNING you have Transparent Huge Pages (THP) support enabled in your kernel. This will create latency and memory usage issues with Redis. To fix this issue run the command 'echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled' as root, and add it to your /etc/rc.local in order to retain the setting after a reboot. Redis must be restarted after THP is disabled.</span></span><br><span class="line">26876:M 26 May 2020 09:56:57.363 * Ready to accept connections</span><br></pre></td></tr></table></figure>
+
+<h2 id="后台启动"><a href="#后台启动" class="headerlink" title="后台启动"></a>后台启动</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vim redis.conf</span><br><span class="line"></span><br><span class="line">daemonize no </span><br><span class="line"><span class="comment"># 改成</span></span><br><span class="line">daemonize yes</span><br></pre></td></tr></table></figure>
+
+<p>启动：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@zhang redis-5.0.8]<span class="comment"># src/redis-server redis.conf</span></span><br><span class="line">29472:C 26 May 2020 10:01:41.246 <span class="comment"># oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo</span></span><br><span class="line">29472:C 26 May 2020 10:01:41.246 <span class="comment"># Redis version=5.0.8, bits=64, commit=00000000, modified=0, pid=29472, just started</span></span><br><span class="line">29472:C 26 May 2020 10:01:41.246 <span class="comment"># Configuration loaded</span></span><br></pre></td></tr></table></figure>
+
+<p>停止：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ps axu|grep redis</span><br><span class="line"><span class="built_in">kill</span>-9 29472</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建服务"><a href="#创建服务" class="headerlink" title="创建服务"></a>创建服务</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/lib/systemd/system/redis.service</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=The redis-server Process Manager</span><br><span class="line">After=syslog.target network.target</span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">PIDFile=/var/run/redis_6379.pid</span><br><span class="line">ExecStart=/opt/redis-5.0.8/src/redis-server /opt/redis-5.0.8/redis.conf</span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">enable</span> redis.service</span><br><span class="line">systemctl start redis.service</span><br></pre></td></tr></table></figure>
+
+<h1 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h1><p>待完善</p>
+<h1 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h1><h2 id="如何远程访问"><a href="#如何远程访问" class="headerlink" title="如何远程访问"></a>如何远程访问</h2><p>修改配置文件</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bind 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>标签：</span>
+                <span class="tag">
+                    
+                    
+                    <a href="/tags/Redis/"># Redis</a>
+                    
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript：window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            <a class="prev" rel="prev" href="/2020/05/26/Linux%E6%9C%8D%E5%8A%A1%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97/">Linux服务操作指南</a>
+            
+            
+            <a class="next" rel="next" href="/2020/05/25/%E6%A0%91%E7%8A%B6%E7%BB%93%E6%9E%84%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/">树状结构数据库设计</a>
+            
+        </section>
+    </article>
+</div>
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>©<a href="https://github.com/zgsxxzzyl" target="_blank">YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

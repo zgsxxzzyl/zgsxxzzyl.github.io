@@ -17,21 +17,21 @@ var searchFunc = function(path, search_id, content_id) {
     'use strict';
     $.ajax({
         url: path,
-        dataType: "xml",
+        dataType: 'xml',
         success: function( xmlResponse ) {
             // get the contents from search data
-            var datas = $( "entry", xmlResponse ).map(function() {
+            var datas = $( 'entry', xmlResponse ).map(function() {
                 return {
-                    title: $( "title", this ).text(),
-                    content: $("content",this).text(),
-                    url: $( "url" , this).text()
+                    title: $( 'title', this ).text(),
+                    content: $('content',this).text(),
+                    url: $( 'url' , this).text()
                 };
             }).get();
 
             var $input = document.getElementById(search_id);
 			if (!$input) return;
             var $resultContent = document.getElementById(content_id);
-            if ($("#local-search-input").length > 0) {
+            if ($('#'+search_id).length > 0) {
                 $input.addEventListener('input', function () {
                     var str = '<ul class=\"search-result-list\">';
                     var keywords = this.value.trim().split(/\s+/);      //以任何空白字符为分界
@@ -44,7 +44,7 @@ var searchFunc = function(path, search_id, content_id) {
                         var isMatch = false;
                         var content_index = [];
                         if (!data.title || data.title.trim() === '') {
-                            data.title = "Untitled";
+                            data.title = 'Untitled';
                         }
                         var data_title = data.title.trim();
                         var data_content = unescapeHtml(data.content.trim());
@@ -82,14 +82,14 @@ var searchFunc = function(path, search_id, content_id) {
                         if (isMatch) {
                             if(index_title > -1){
                                 keywords.forEach(function (keyword) {
-                                    var regS = new RegExp(keyword, "gi");
+                                    var regS = new RegExp(keyword, 'gi');
                                     data_title = data_title.replace(regS, (m)=>{
-                                        return "<em class=\"search-keyword\">" + m + "</em>"
+                                        return '<em class=\"search-keyword\">' + m + '</em>'
                                     });
                                 });
                                 
                             }
-                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            str += '<li><a href=\"' + data_url + '\" class=\"search-result-title\">' + data_title + '</a>';
                             var content = data_content;
                             if (first_occur >= 0) {
                                 // cut out 100 characters
@@ -114,16 +114,16 @@ var searchFunc = function(path, search_id, content_id) {
                                 keywords.forEach(function (keyword) {
                                     var regS = new RegExp(keyword, "gi");
                                     match_content = match_content.replace(regS, (m)=>{
-                                        return "<em class=\"search-keyword\">" + m + "</em>"
+                                        return '<em class=\"search-keyword\">' + m + '</em>'
                                     });
                                 });
 
-                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                                str += '<p class=\"search-result\">' + match_content + '...</p>'
                             }
-                            str += "</li>";
+                            str += '</li>';
                         }
                     });
-                    str += "</ul>";
+                    str += '</ul>';
                     $resultContent.innerHTML = str;
                 });
             }
