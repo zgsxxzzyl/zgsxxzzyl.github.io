@@ -14,10 +14,10 @@ function search(inputId, outputId) {
     let _input = document.getElementById(inputId);
     let _output = document.getElementById(outputId);
     _input.addEventListener('input', function () {
-        let _searchJson = window.sessionStorage.getItem("search_json");
+        let _searchJson = window.localStorage.getItem("search_json");
         if (!_searchJson) {
             loadSearchJson(null,false);
-            _searchJson = window.sessionStorage.getItem("search_json");
+            _searchJson = window.localStorage.getItem("search_json");
         }
         let _result = JSON.parse(_searchJson);
         if (!_input || !_output) { return; }
@@ -104,7 +104,7 @@ function loadSearchJson(path,sync) {
     xhr.onload = function (e) {
         if (this.status == 200) {
             let data = xhr.response;
-            window.sessionStorage.setItem("search_json", data);
+            window.localStorage.setItem("search_json", data);
         }
     }
     xhr.send();
