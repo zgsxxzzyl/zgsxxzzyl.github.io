@@ -1,132 +1,111 @@
-const unescapeHtml = html => {
-    return String(html)
-      .replace(/&quot;/g, '"')
-      .replace(/&#39;/g, '\'')
-      .replace(/&#x3A;/g, ':')
-      // Replace all the other &#x; chars
-      .replace(/&#(\d+);/g, (m, p) => {
-        return String.fromCharCode(p);
-      })
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>')
-      .replace(/&amp;/g, '&')
-      .replace(/<[^>]+>/g,'');
-  };
+function escape2Html(str) {
+    let textarea = document.createElement('textarea');
+    textarea.innerHTML = str;
+    return textarea.value;
+}
 
-var searchFunc = function(path, search_id, content_id) {
-    'use strict';
-    $.ajax({
-        url: path,
-        dataType: 'xml',
-        success: function( xmlResponse ) {
-            // get the contents from search data
-            var datas = $( 'entry', xmlResponse ).map(function() {
-                return {
-                    title: $( 'title', this ).text(),
-                    content: $('content',this).text(),
-                    url: $( 'url' , this).text()
-                };
-            }).get();
+function html2escape(html) {
+    let div = document.createElement("div");
+    div.innerText = html;
+    return div.innerHTML;
+}
 
-            var $input = document.getElementById(search_id);
-			if (!$input) return;
-            var $resultContent = document.getElementById(content_id);
-            if ($('#'+search_id).length > 0) {
-                $input.addEventListener('input', function () {
-                    var str = '<ul class=\"search-result-list\">';
-                    var keywords = this.value.trim().split(/\s+/);      //以任何空白字符为分界
-                    $resultContent.innerHTML = "";
-                    if (this.value.trim().length <= 0) {
-                        return;
-                    }
-                    // perform local searching
-                    datas.forEach(function (data) {
-                        var isMatch = false;
-                        var content_index = [];
-                        if (!data.title || data.title.trim() === '') {
-                            data.title = 'Untitled';
-                        }
-                        var data_title = data.title.trim();
-                        var data_content = unescapeHtml(data.content.trim());
-                        // var data_content_space = data_content.replace(/<[^>]+>/g, (m) => {
-                        //     return Array(m.length).fill(' ').join('');  
-                        //   });
-                        var data_url = data.url;
-                        var index_title = -1;
-                        var index_content = -1;
-                        var first_occur = -1;
-                        // only match artiles with not empty contents
-                        if (data_content !== '') {
-                            keywords.forEach(function (keyword, i) {
-                                index_title = data_title.toLowerCase().indexOf(keyword.toLowerCase());
-                                index_content = data_content.toLowerCase().indexOf(keyword.toLowerCase());
-
-                                if (index_title < 0 && index_content < 0) {
-                                    isMatch = false;
-                                } else {
-                                    if (index_content < 0) {
-                                        index_content = 0;
-                                    }
-                                    if (i == 0) {
-                                        first_occur = index_content;
-                                        isMatch = true;
-                                        return;
-                                    }
-                                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
-                                }
-                            });
-                        } else {
-                            isMatch = false;
-                        }
-                        // show search results
-                        if (isMatch) {
-                            if(index_title > -1){
-                                keywords.forEach(function (keyword) {
-                                    var regS = new RegExp(keyword, 'gi');
-                                    data_title = data_title.replace(regS, (m)=>{
-                                        return '<em class=\"search-keyword\">' + m + '</em>'
-                                    });
-                                });
-                                
-                            }
-                            str += '<li><a href=\"' + data_url + '\" class=\"search-result-title\">' + data_title + '</a>';
-                            var content = data_content;
-                            if (first_occur >= 0) {
-                                // cut out 100 characters
-                                var start = first_occur - 20;
-                                var end = first_occur + 80;
-
-                                if (start < 0) {
-                                    start = 0;
-                                }
-
-                                if (start == 0) {
-                                    end = 100;
-                                }
-
-                                if (end > content.length) {
-                                    end = content.length;
-                                }
-
-                                var match_content = content.substring(start, end);
-
-                                // highlight all keywords
-                                keywords.forEach(function (keyword) {
-                                    var regS = new RegExp(keyword, "gi");
-                                    match_content = match_content.replace(regS, (m)=>{
-                                        return '<em class=\"search-keyword\">' + m + '</em>'
-                                    });
-                                });
-
-                                str += '<p class=\"search-result\">' + match_content + '...</p>'
-                            }
-                            str += '</li>';
-                        }
-                    });
-                    str += '</ul>';
-                    $resultContent.innerHTML = str;
-                });
+function search(inputId, outputId) {
+    let _input = document.getElementById(inputId);
+    let _output = document.getElementById(outputId);
+    _input.addEventListener('input', function () {
+        let _searchJson = window.sessionStorage.getItem("search_json");
+        if (!_searchJson) {
+            loadSearchJson(null,false);
+            _searchJson = window.sessionStorage.getItem("search_json");
+        }
+        let _result = JSON.parse(_searchJson);
+        if (!_input || !_output) { return; }
+        let _keywords = null;
+        if (this.value) {
+            _keywords = html2escape(this.value.toLowerCase()).split(/\s/);
+            for (let i = 0; i < _keywords.length; i++) {
+                _result = searchKeyword(_result, _keywords[i]);
             }
+            output(_output, _keywords, _result);
+        } else {
+            _output.innerHTML = '';
         }
     });
+}
+
+function searchKeyword(contents, keyword) {
+    if (!keyword) { return contents; }
+    let temp = new Array();
+    for (let i = 0; i < contents.length; i++) {
+        if (contents[i].title.toLowerCase().indexOf(keyword) >= 0 || contents[i].content.toLowerCase().indexOf(keyword) >= 0) {
+            temp.push(contents[i]);
+        }
+    }
+    return temp;
+}
+
+
+function highlight(content, keywords) {
+    let str = '';
+    for (let i = 0; i < keywords.length; i++) {
+        if (!keywords[i]) { continue; }
+        str += keywords[i];
+        str += '|';
+    }
+    str = str.substring(0, str.length - 1);
+    let regex = new RegExp(str, 'gi');
+    content = content.replace(regex, (m) => {
+        return '<em class=\"search-keyword\">' + m + '</em>'
+    });
+    return content;
+}
+
+function item(result, keywords) {
+    let _title = result.title;
+    let _content = result.content;
+    let _item = '<li><a href=\"' + result.url + '\" class=\"search-result-title\">' + highlight(_title, keywords) + '</a>';
+    let _first = _content.indexOf(keywords[0]);
+    if (_first >= 0) {
+        _content = subContent(_content, _first - 20, _first + 280);
+        _item += '<p class=\"search-result\">' + highlight(_content, keywords) + '...</p>';
+    } else {
+        _item += '<p class=\"search-result\">' + highlight(subContent(result.content, 0, 300), keywords) + '...</p>';
+    }
+    _item += '</li>';
+    return _item;
+}
+
+function output(output, keywords, results) {
+    let _html = '<ul class=\"search-result-list\">';
+    for (let i = 0; i < results.length; i++) {
+        _html += item(results[i], keywords);
+    }
+    _html += '</ul>';
+    output.innerHTML = _html;
+}
+
+function subContent(content, start, end) {
+    if (start < 0) { start = 0 }
+    if (end > content.length) { end = content.length; }
+    return content.substring(start, end);
+}
+
+function loadSearchJson(path,sync) {
+    if(!path){
+        path = '/search.json';
+    }
+    if(!sync){
+        sync = true;
+    }
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', path, sync);
+    xhr.responseType = 'text';
+    xhr.onload = function (e) {
+        if (this.status == 200) {
+            let data = xhr.response;
+            window.sessionStorage.setItem("search_json", data);
+        }
+    }
+    xhr.send();
 }

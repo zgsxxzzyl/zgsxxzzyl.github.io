@@ -70,17 +70,18 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
         }
     });
+
 </script>
 <!-- 通过连接CDN加载MathJax的js代码 -->
 <script type="text/javascript" async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
 
     
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 <body>
     <div class="wrapper">
         <header>
@@ -109,9 +110,9 @@
         <div class="container">
             <div class="navbar-header">
                 <div>
-                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                    <a href="/">博客</a>&nbsp;·&nbsp;<a id="mobile-toggle-theme">日间</a>
                 </div>
-                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+                <div class="menu-toggle" onclick="mobileBtn()">选项</div>
             </div>
             <div class="menu" id="mobile-menu">
                 
@@ -215,7 +216,7 @@
             
             <div class="post-meta">
                 
-                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                作者： <a itemprop="author" rel="author" href="#">YiLongZhang</a>&nbsp;
                 
 
                 
@@ -239,13 +240,13 @@
 <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>理解这个框架前，我们需要知道这个框架设计的目标是为了解决什么问题？</p>
 <p>为什么不可以用已有的框架来解决？</p>
 <p>举例说明：对一个数组进行求和操作，如果这个数组非常大，我们会选择分段求和最后汇总</p>
-<p><img src="/images/ForkJoin%E6%A1%86%E6%9E%B6%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D/%E6%95%B0%E7%BB%84%E6%B1%82%E5%92%8C.png" alt="数组求和"></p>
+<p><img src="/images/Fork-Join%E6%A1%86%E6%9E%B6%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D/%E6%95%B0%E7%BB%84%E6%B1%82%E5%92%8C.png" alt="数组求和"></p>
 <p>上图所示，0-999表示数组的下标，如果使用<code>ThreadPoolExecutor</code>创建线程池，可以考虑一下分割成上面的任务需要多少个线程。这里需要用到7个线程来实现求和，如果再分割多次，最后需要的线程会很多，显然不是我们所想要的。</p>
 <p>为了满足我们的需求，Java从JDK7开始引入了Fork/Join框架来解决这类问题，利用多个处理器，是为可以递归分解为较小部分的工作而设计的。目标是使用所有可用的处理能力来增强应用程序的性能。</p>
 <p>Fork/Join是<code>ExecutorService</code>接口的实现（这个接口用来实现线程池的，譬如我们常用的<code>ThreadPoolExecutor</code>），与其他实现<code>ExecutorService</code>的线程池一样，Fork/Join框架将任务分配给线程池中的工作线程。</p>
 <p>与其他线程池不同的是，它使用了工作窃取算法（<em>work-stealing</em>），工作用尽的工作线程可以从其他仍很忙的线程中窃取任务。举个例子，0-499这个线程的子线程都计算完了，500-999子线程还在计算500-749，如果0-499这个线程等待500-999这个线程返回结果再去汇总这样会浪费资源，工作窃取算法会使执行0-499这个线程执行750-999，这样可以提高效率。</p>
 <h1 id="Fork-Join核心类"><a href="#Fork-Join核心类" class="headerlink" title="Fork/Join核心类"></a>Fork/Join核心类</h1><ul>
-<li><p><code>ForkJoinPool</code> </p>
+<li><p><code>ForkJoinPool</code></p>
 </li>
 <li><p><code>ForkJoinTask</code></p>
 </li>
@@ -288,10 +289,16 @@
         </div>
         <footer id="footer" class="footer">
     <div class="copyright">
-        <span>©<a href="https://github.com/zgsxxzzyl" target="_blank">YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+        <span><a href="https://github.com/zgsxxzzyl" target="_blank">©YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
     </div>
 </footer>
-
     </div>
 </body>
 </html>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    // var search_path = "search.json";
+    // var path = "/" + search_path;
+    loadSearchJson();
+</script>

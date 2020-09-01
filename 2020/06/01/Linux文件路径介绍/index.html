@@ -70,17 +70,18 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
         }
     });
+
 </script>
 <!-- 通过连接CDN加载MathJax的js代码 -->
 <script type="text/javascript" async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
 
     
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 <body>
     <div class="wrapper">
         <header>
@@ -109,9 +110,9 @@
         <div class="container">
             <div class="navbar-header">
                 <div>
-                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                    <a href="/">博客</a>&nbsp;·&nbsp;<a id="mobile-toggle-theme">日间</a>
                 </div>
-                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+                <div class="menu-toggle" onclick="mobileBtn()">选项</div>
             </div>
             <div class="menu" id="mobile-menu">
                 
@@ -215,7 +216,7 @@
             
             <div class="post-meta">
                 
-                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                作者： <a itemprop="author" rel="author" href="#">YiLongZhang</a>&nbsp;
                 
 
                 
@@ -367,7 +368,7 @@
 <h1 id="dev文件系统"><a href="#dev文件系统" class="headerlink" title="/dev文件系统"></a>/dev文件系统</h1><p>/dev目录包括所有设备的设备文件。设备文件用特定的约定命名，这在设备列表中说明。设备文件在安装时由系统产生，以后可以用/dev/makedev描述。/dev/makedev. local是系统管理员为本地设备文件(或连接)写的描述文稿(即如一些非标准设备驱动不是标准makedev的一部分)。下面简要介绍/dev下一些常用文件。</p>
 <ol>
 <li>/dev/console<br>系统控制台，也就是直接和系统连接的监视器。</li>
-<li>/dev/hd<br>ide硬盘驱动程序接口。如：/dev/hda指的是第一个硬盘，had1则是指/dev/hda的第一个<br>分区。如系统中有其他的硬盘，则依次为/dev/hdb、/dev/hdc、. . . . . . ；如有多个分区则依次为<br>hda1、hda2. . . . . . </li>
+<li>/dev/hd<br>ide硬盘驱动程序接口。如：/dev/hda指的是第一个硬盘，had1则是指/dev/hda的第一个<br>分区。如系统中有其他的硬盘，则依次为/dev/hdb、/dev/hdc、. . . . . . ；如有多个分区则依次为<br>hda1、hda2. . . . . .</li>
 <li>/dev/sd<br>scsi磁盘驱动程序接口。如有系统有scsi硬盘，就不会访问/dev/had，而会访问/dev/sda。</li>
 <li>/dev/fd<br>软驱设备驱动程序。如：/dev/fd0指系统的第一个软盘，也就是通常所说的a：盘，<br>/dev/fd1指第二个软盘，. . . . . . 而/dev/fd1h1440则表示访问驱动器1中的4. 5高密盘。</li>
 <li>/dev/st<br>scsi磁带驱动器驱动程序。</li>
@@ -454,10 +455,16 @@
         </div>
         <footer id="footer" class="footer">
     <div class="copyright">
-        <span>©<a href="https://github.com/zgsxxzzyl" target="_blank">YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+        <span><a href="https://github.com/zgsxxzzyl" target="_blank">©YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
     </div>
 </footer>
-
     </div>
 </body>
 </html>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    // var search_path = "search.json";
+    // var path = "/" + search_path;
+    loadSearchJson();
+</script>

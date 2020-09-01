@@ -70,17 +70,18 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
         }
     });
+
 </script>
 <!-- 通过连接CDN加载MathJax的js代码 -->
 <script type="text/javascript" async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
 
     
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 <body>
     <div class="wrapper">
         <header>
@@ -109,9 +110,9 @@
         <div class="container">
             <div class="navbar-header">
                 <div>
-                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                    <a href="/">博客</a>&nbsp;·&nbsp;<a id="mobile-toggle-theme">日间</a>
                 </div>
-                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+                <div class="menu-toggle" onclick="mobileBtn()">选项</div>
             </div>
             <div class="menu" id="mobile-menu">
                 
@@ -215,7 +216,7 @@
             
             <div class="post-meta">
                 
-                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                作者： <a itemprop="author" rel="author" href="#">YiLongZhang</a>&nbsp;
                 
 
                 
@@ -244,7 +245,7 @@
 <ul>
 <li>图1.传统使用read和write系统调用的数据传输</li>
 </ul>
-<p><img src="/images/%E9%9B%B6%E6%8B%B7%E8%B4%9D/image001.jpg" alt="图1.传统使用read和write系统调用的数据传输"></p>
+<p><img src="/images/%E9%9B%B6%E6%8B%B7%E8%B4%9D/image001.jpg" alt="image001"></p>
 <h1 id="零拷贝（zero-copy）技术概述"><a href="#零拷贝（zero-copy）技术概述" class="headerlink" title="零拷贝（zero-copy）技术概述"></a>零拷贝（zero-copy）技术概述</h1><h2 id="什么是零拷贝？"><a href="#什么是零拷贝？" class="headerlink" title="什么是零拷贝？"></a>什么是零拷贝？</h2><p>简单一点来说，零拷贝就是一种避免CPU将数据从一块存储拷贝到另外一块存储的技术。针对操作系统中的设备驱动程序、文件系统以及网络协议堆栈而出现的各种零拷贝技术极大地提升了特定应用程序的性能，并且使得这些应用程序可以更加有效地利用系统资源。这种性能的提升就是通过在数据拷贝进行的同时，允许CPU执行其他的任务来实现的。零拷贝技术可以减少数据拷贝和共享总线操作的次数，消除传输数据在存储器之间不必要的中间拷贝次数，从而有效地提高数据传输效率。而且，零拷贝技术减少了用户应用程序地址空间和操作系统内核地址空间之间因为上下文切换而带来的开销。进行大量的数据拷贝操作其实是一件简单的任务，从操作系统的角度来说，如果CPU一直被占用着去执行这项简单的任务，那么这将会是很浪费资源的；如果有其他比较简单的系统部件可以代劳这件事情，从而使得CPU解脱出来可以做别的事情，那么系统资源的利用则会更加有效。综上所述，零拷贝技术的目标可以概括如下：</p>
 <p><strong>避免数据拷贝</strong></p>
 <ul>
@@ -299,10 +300,16 @@
         </div>
         <footer id="footer" class="footer">
     <div class="copyright">
-        <span>©<a href="https://github.com/zgsxxzzyl" target="_blank">YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+        <span><a href="https://github.com/zgsxxzzyl" target="_blank">©YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
     </div>
 </footer>
-
     </div>
 </body>
 </html>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    // var search_path = "search.json";
+    // var path = "/" + search_path;
+    loadSearchJson();
+</script>

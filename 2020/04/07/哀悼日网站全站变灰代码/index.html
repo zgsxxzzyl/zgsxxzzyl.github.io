@@ -70,17 +70,18 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
         }
     });
+
 </script>
 <!-- 通过连接CDN加载MathJax的js代码 -->
 <script type="text/javascript" async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
 
     
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 <body>
     <div class="wrapper">
         <header>
@@ -109,9 +110,9 @@
         <div class="container">
             <div class="navbar-header">
                 <div>
-                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                    <a href="/">博客</a>&nbsp;·&nbsp;<a id="mobile-toggle-theme">日间</a>
                 </div>
-                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+                <div class="menu-toggle" onclick="mobileBtn()">选项</div>
             </div>
             <div class="menu" id="mobile-menu">
                 
@@ -215,7 +216,7 @@
             
             <div class="post-meta">
                 
-                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                作者： <a itemprop="author" rel="author" href="#">YiLongZhang</a>&nbsp;
                 
 
                 
@@ -224,13 +225,6 @@
                         href="#">四月 7, 2020&nbsp;&nbsp;13:49:31</a>
                 </span>&nbsp;
                 
-                
-                <span class="post-category">
-                    分类：
-                    
-                    <a href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/">前端开发</a>&nbsp;
-                    
-                </span>
                 
                 <!-- 
                 状态：<a href="#">SNAPSHOT</a>
@@ -246,10 +240,9 @@
 
 <h1 id="第三种：修改-lt-html-gt-标签加入内联样式"><a href="#第三种：修改-lt-html-gt-标签加入内联样式" class="headerlink" title="第三种：修改&lt;html&gt;标签加入内联样式"></a>第三种：修改<code>&lt;html&gt;</code>标签加入内联样式</h1><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">style</span>=<span class="string">"filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);</span></span></span><br><span class="line"><span class="tag"><span class="string">             -webkit-filter: grayscale(100%);"</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<h1 id="第四种：body"><a href="#第四种：body" class="headerlink" title="第四种：body"></a>第四种：body</h1><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">body</span> *&#123;</span><br><span class="line">    <span class="attribute">-webkit-filter</span>: <span class="built_in">grayscale</span>(<span class="number">100%</span>); <span class="comment">/* webkit */</span></span><br><span class="line">    <span class="attribute">-moz-filter</span>: <span class="built_in">grayscale</span>(<span class="number">100%</span>); <span class="comment">/*firefox*/</span></span><br><span class="line">    <span class="attribute">-ms-filter</span>: <span class="built_in">grayscale</span>(<span class="number">100%</span>); <span class="comment">/*ie9*/</span></span><br><span class="line">    <span class="attribute">-o-filter</span>: <span class="built_in">grayscale</span>(<span class="number">100%</span>); <span class="comment">/*opera*/</span></span><br><span class="line">    <span class="attribute">filter</span>: <span class="built_in">grayscale</span>(<span class="number">100%</span>);</span><br><span class="line">    <span class="attribute">filter</span>:progid:DXImageTransform.Microsoft.<span class="built_in">BasicImage</span>(grayscale=<span class="number">1</span>); </span><br><span class="line">    <span class="attribute">filter</span>:gray; <span class="comment">/*ie9- */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="第四种：body"><a href="#第四种：body" class="headerlink" title="第四种：body"></a>第四种：body</h1><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">body</span> *&#123;</span><br><span class="line">    <span class="attribute">-webkit-filter</span>: <span class="built_in">grayscale</span>(<span class="number">100%</span>); <span class="comment">/* webkit */</span></span><br><span class="line">    <span class="attribute">-moz-filter</span>: <span class="built_in">grayscale</span>(<span class="number">100%</span>); <span class="comment">/*firefox*/</span></span><br><span class="line">    <span class="attribute">-ms-filter</span>: <span class="built_in">grayscale</span>(<span class="number">100%</span>); <span class="comment">/*ie9*/</span></span><br><span class="line">    <span class="attribute">-o-filter</span>: <span class="built_in">grayscale</span>(<span class="number">100%</span>); <span class="comment">/*opera*/</span></span><br><span class="line">    <span class="attribute">filter</span>: <span class="built_in">grayscale</span>(<span class="number">100%</span>);</span><br><span class="line">    <span class="attribute">filter</span>:progid:DXImageTransform.Microsoft.<span class="built_in">BasicImage</span>(grayscale=<span class="number">1</span>);</span><br><span class="line">    <span class="attribute">filter</span>:gray; <span class="comment">/*ie9- */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h1 id="第五种：Nginx-sub-filter"><a href="#第五种：Nginx-sub-filter" class="headerlink" title="第五种：Nginx sub_filter"></a>第五种：Nginx sub_filter</h1><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">location</span> / &#123;</span><br><span class="line">    <span class="attribute">root</span>   /opt/app/code/;</span><br><span class="line">    <span class="attribute">random_index</span> <span class="literal">on</span>;</span><br><span class="line">    <span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">    sub_filter '&lt;h1&gt;Admin' '&lt;h1&gt;ggggg';  //第一个参数是要被替换的，第二个参数是替换后的</span><br><span class="line">    sub_filter_once off;   //替换所有的，默认是on，替换第一个</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 
         </div>
 
@@ -258,6 +251,10 @@
             <div>
                 <span>标签：</span>
                 <span class="tag">
+                    
+                    
+                    <a href="/tags/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/"># 前端开发</a>
+                    
                     
                 </span>
             </div>
@@ -280,10 +277,16 @@
         </div>
         <footer id="footer" class="footer">
     <div class="copyright">
-        <span>©<a href="https://github.com/zgsxxzzyl" target="_blank">YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+        <span><a href="https://github.com/zgsxxzzyl" target="_blank">©YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
     </div>
 </footer>
-
     </div>
 </body>
 </html>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    // var search_path = "search.json";
+    // var path = "/" + search_path;
+    loadSearchJson();
+</script>

@@ -70,17 +70,18 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
         }
     });
+
 </script>
 <!-- 通过连接CDN加载MathJax的js代码 -->
 <script type="text/javascript" async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
 
     
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 <body>
     <div class="wrapper">
         <header>
@@ -109,9 +110,9 @@
         <div class="container">
             <div class="navbar-header">
                 <div>
-                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                    <a href="/">博客</a>&nbsp;·&nbsp;<a id="mobile-toggle-theme">日间</a>
                 </div>
-                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+                <div class="menu-toggle" onclick="mobileBtn()">选项</div>
             </div>
             <div class="menu" id="mobile-menu">
                 
@@ -215,7 +216,7 @@
             
             <div class="post-meta">
                 
-                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                作者： <a itemprop="author" rel="author" href="#">YiLongZhang</a>&nbsp;
                 
 
                 
@@ -224,13 +225,6 @@
                         href="#">十二月 31, 2019&nbsp;&nbsp;14:00:25</a>
                 </span>&nbsp;
                 
-                
-                <span class="post-category">
-                    分类：
-                    
-                    <a href="/categories/%E9%83%A8%E7%BD%B2%E6%96%87%E6%A1%A3/">部署文档</a>&nbsp;
-                    
-                </span>
                 
                 <!-- 
                 状态：<a href="#">SNAPSHOT</a>
@@ -246,7 +240,7 @@
 <ul>
 <li><p>配置ssh免密之后发现还是需要输入密码</p>
 <p>网上的说法是：rpm安装过程当中会创建git用户，但是这个用户处在锁定状态，用下面这个命令解锁</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 解锁</span></span><br><span class="line">sudo passwd -u -f git</span><br><span class="line"><span class="comment"># 查看所有账号</span></span><br><span class="line">cat /etc/passwd </span><br><span class="line"><span class="comment"># 查看xxx账户状态，是否被锁定</span></span><br><span class="line">passwd -S xxx</span><br><span class="line"><span class="comment"># 锁定xxx账号</span></span><br><span class="line">usermod -L xxx</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 解锁</span></span><br><span class="line">sudo passwd -u -f git</span><br><span class="line"><span class="comment"># 查看所有账号</span></span><br><span class="line">cat /etc/passwd</span><br><span class="line"><span class="comment"># 查看xxx账户状态，是否被锁定</span></span><br><span class="line">passwd -S xxx</span><br><span class="line"><span class="comment"># 锁定xxx账号</span></span><br><span class="line">usermod -L xxx</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>GitLab钩子</p>
 <blockquote>
@@ -258,7 +252,8 @@
 <blockquote>
 <p><a href="https://gitlab.com/xhang/gitlab/-/wikis/home" target="_blank" rel="noopener">https://gitlab.com/xhang/gitlab/-/wikis/home</a></p>
 </blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 获取当前版本，版本可能不一致</span></span><br><span class="line">gitlab_version=$(sudo cat /opt/gitlab/embedded/service/gitlab-rails/VERSION)</span><br><span class="line"><span class="comment"># 克隆汉化版本库</span></span><br><span class="line">git <span class="built_in">clone</span> https://gitlab.com/xhang/gitlab.git</span><br><span class="line"><span class="comment"># 如果已经克隆过，则进行更新</span></span><br><span class="line">git fetch</span><br><span class="line"><span class="comment"># 导出gitlab_version版本的汉化补丁</span></span><br><span class="line">git diff v<span class="variable">$&#123;gitlab_version&#125;</span> v<span class="variable">$&#123;gitlab_version&#125;</span>-zh &gt; ../<span class="variable">$&#123;gitlab_version&#125;</span>-zh.diff</span><br><span class="line"><span class="comment"># 停止 gitlab</span></span><br><span class="line">sudo gitlab-ctl stop</span><br><span class="line"><span class="comment"># 如果patch命令不存在 yum install -y patch</span></span><br><span class="line">sudo patch -d /opt/gitlab/embedded/service/gitlab-rails -p1 &lt; <span class="variable">$&#123;gitlab_version&#125;</span>-zh.diff</span><br><span class="line"><span class="comment"># 停止gitlab</span></span><br><span class="line">sudo gitlab-ctl stop</span><br><span class="line">sudo gitlab-ctl start</span><br><span class="line">sudo gitlab-ctl reconfigure</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 获取当前版本，版本可能不一致</span></span><br><span class="line">gitlab_version=$(sudo cat /opt/gitlab/embedded/service/gitlab-rails/VERSION)</span><br><span class="line"><span class="comment"># 克隆汉化版本库</span></span><br><span class="line">git <span class="built_in">clone</span> https://gitlab.com/xhang/gitlab.git</span><br><span class="line"><span class="comment"># 如果已经克隆过，则进行更新</span></span><br><span class="line">git fetch</span><br><span class="line"><span class="comment"># 导出gitlab_version版本的汉化补丁</span></span><br><span class="line">git diff v<span class="variable">$&#123;gitlab_version&#125;</span> v<span class="variable">$&#123;gitlab_version&#125;</span>-zh &gt; ../<span class="variable">$&#123;gitlab_version&#125;</span>-zh.diff</span><br><span class="line"><span class="comment"># 停止 gitlab</span></span><br><span class="line">sudo gitlab-ctl stop</span><br><span class="line"><span class="comment"># 如果patch命令不存在 yum install -y patch</span></span><br><span class="line">sudo patch -d /opt/gitlab/embedded/service/gitlab-rails -p1 &lt; <span class="variable">$&#123;gitlab_version&#125;</span>-zh.diff</span><br><span class="line"><span class="comment"># 停止gitlab</span></span><br><span class="line">sudo gitlab-ctl stop</span><br><span class="line">sudo gitlab-ctl start</span><br><span class="line">sudo gitlab-ctl reconfigure</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
 
         </div>
@@ -269,6 +264,8 @@
                 <span>标签：</span>
                 <span class="tag">
                     
+                    
+                    <a href="/tags/%E9%83%A8%E7%BD%B2%E6%96%87%E6%A1%A3/"># 部署文档</a>
                     
                     <a href="/tags/GitLab/"># GitLab</a>
                     
@@ -294,10 +291,16 @@
         </div>
         <footer id="footer" class="footer">
     <div class="copyright">
-        <span>©<a href="https://github.com/zgsxxzzyl" target="_blank">YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+        <span><a href="https://github.com/zgsxxzzyl" target="_blank">©YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
     </div>
 </footer>
-
     </div>
 </body>
 </html>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    // var search_path = "search.json";
+    // var path = "/" + search_path;
+    loadSearchJson();
+</script>

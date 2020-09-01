@@ -70,17 +70,18 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
         }
     });
+
 </script>
 <!-- 通过连接CDN加载MathJax的js代码 -->
 <script type="text/javascript" async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
 
     
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 <body>
     <div class="wrapper">
         <header>
@@ -109,9 +110,9 @@
         <div class="container">
             <div class="navbar-header">
                 <div>
-                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                    <a href="/">博客</a>&nbsp;·&nbsp;<a id="mobile-toggle-theme">日间</a>
                 </div>
-                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+                <div class="menu-toggle" onclick="mobileBtn()">选项</div>
             </div>
             <div class="menu" id="mobile-menu">
                 
@@ -215,7 +216,7 @@
             
             <div class="post-meta">
                 
-                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                作者： <a itemprop="author" rel="author" href="#">YiLongZhang</a>&nbsp;
                 
 
                 
@@ -233,7 +234,7 @@
         </header>
 
         <div class="post-content">
-            <h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a><strong>一、前言</strong></h1><p>​    今天在配置jenkins的执行节点，但是执行节点shell的PATH变量始终不对，无法找到git命令。我先前已经在/etc/profile中配置了git的PATH,通过putty连接的shell中也检查PATH变量是正确的，且git命令也能正常执行。后来查阅资料才知道这个问题是由于我没有很好的理解bash的四种模式而造成的。</p>
+            <h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a><strong>一、前言</strong></h1><p>今天在配置jenkins的执行节点，但是执行节点shell的PATH变量始终不对，无法找到git命令。我先前已经在/etc/profile中配置了git的PATH,通过putty连接的shell中也检查PATH变量是正确的，且git命令也能正常执行。后来查阅资料才知道这个问题是由于我没有很好的理解bash的四种模式而造成的。</p>
 <p>解决办法：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash -ilex</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">对于e参数表示一旦出错,就退出当前的shell，x参数表示可以显示所执行的每一条命令</span><br></pre></td></tr></table></figure>
 
@@ -260,7 +261,7 @@
 <li>~/.profile</li>
 </ul>
 <p>下面给出这个加载过程的伪代码：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">execute /etc/profile</span><br><span class="line">IF ~/.bash_profile exists THEN</span><br><span class="line">    execute ~/.bash_profile</span><br><span class="line">ELSE</span><br><span class="line">    IF ~/.bash_login exist THEN</span><br><span class="line">        execute ~/.bash_login</span><br><span class="line">    ELSE</span><br><span class="line">        IF ~/.profile exist THEN</span><br><span class="line">            execute ~/.profile</span><br><span class="line">        END IF</span><br><span class="line">    END IF</span><br><span class="line">END IF</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">execute /etc/profile</span><br><span class="line">IF ~/.bash_profile exists THEN</span><br><span class="line">execute ~/.bash_profile</span><br><span class="line">ELSE</span><br><span class="line">IF ~/.bash_login exist THEN</span><br><span class="line">execute ~/.bash_login</span><br><span class="line">ELSE</span><br><span class="line">IF ~/.profile exist THEN</span><br><span class="line">execute ~/.profile</span><br><span class="line">END IF</span><br><span class="line">END IF</span><br><span class="line">END IF</span><br></pre></td></tr></table></figure>
 
 <p>为了验证这个过程，我们来做一些测试。首先设计每个配置文件的内容如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">user@remote &gt; cat &#x2F;etc&#x2F;profile</span><br><span class="line">echo @ &#x2F;etc&#x2F;profile</span><br><span class="line">user@remote &gt; cat ~&#x2F;.bash_profile</span><br><span class="line">echo @ ~&#x2F;.bash_profile</span><br><span class="line">user@remote &gt; cat ~&#x2F;.bash_login</span><br><span class="line">echo @ ~&#x2F;.bash_login</span><br><span class="line">user@remote &gt; cat ~&#x2F;.profile</span><br><span class="line">echo @ ~&#x2F;.profile</span><br></pre></td></tr></table></figure>
@@ -329,7 +330,7 @@
 
 <p>上图只给出了三种模式，原因是第一种login实际上已经包含了两种，因为这两种模式下对配置文件的加载是一致的。</p>
 <p>另外一篇<a href="http://www.solipsys.co.uk/new/BashInitialisationFiles.html" target="_blank" rel="noopener">文章</a>给出了一个更直观的图：</p>
-<p><img src="/images/Linux%E7%B3%BB%E7%BB%9F%E4%B8%ADbash%E7%9A%84%E5%9B%9B%E7%A7%8D%E6%A8%A1%E5%BC%8F/BashStartupFiles.png" alt="img"></p>
+<p><img src="/images/Linux%E7%B3%BB%E7%BB%9F%E4%B8%ADbash%E7%9A%84%E5%9B%9B%E7%A7%8D%E6%A8%A1%E5%BC%8F/BashStartupFiles.png" alt="BashStartupFiles"></p>
 <p>上图的情况稍稍复杂一些，因为它使用了几个关于配置文件的参数：<code>--login</code>，<code>--rcfile</code>，<code>--noprofile</code>，<code>--norc</code>，这些参数的引入会使配置文件的加载稍稍发生改变，不过总体来说，不影响我们前面的讨论，相信这张图不会给你带来更多的疑惑。</p>
 <h1 id="四、bash与sh陷阱"><a href="#四、bash与sh陷阱" class="headerlink" title="四、bash与sh陷阱"></a>四、bash与sh陷阱</h1><p><code>ssh user@remote ~/myscript.sh</code>属于哪一种模式？相信此时你可以非常轻松的回答出来：non-login + non-interactive。对于这种模式，bash会选择加载<code>$BASH_ENV</code>的值所对应的文件，所以为了让它加载<code>/etc/profile</code>，可以设定：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user@local &gt; export BASH_ENV&#x3D;&#x2F;etc&#x2F;profile</span><br></pre></td></tr></table></figure>
@@ -432,10 +433,16 @@
         </div>
         <footer id="footer" class="footer">
     <div class="copyright">
-        <span>©<a href="https://github.com/zgsxxzzyl" target="_blank">YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+        <span><a href="https://github.com/zgsxxzzyl" target="_blank">©YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
     </div>
 </footer>
-
     </div>
 </body>
 </html>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    // var search_path = "search.json";
+    // var path = "/" + search_path;
+    loadSearchJson();
+</script>

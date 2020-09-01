@@ -70,17 +70,18 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
         }
     });
+
 </script>
 <!-- 通过连接CDN加载MathJax的js代码 -->
 <script type="text/javascript" async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
 
     
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 <body>
     <div class="wrapper">
         <header>
@@ -109,9 +110,9 @@
         <div class="container">
             <div class="navbar-header">
                 <div>
-                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                    <a href="/">博客</a>&nbsp;·&nbsp;<a id="mobile-toggle-theme">日间</a>
                 </div>
-                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+                <div class="menu-toggle" onclick="mobileBtn()">选项</div>
             </div>
             <div class="menu" id="mobile-menu">
                 
@@ -215,7 +216,7 @@
             
             <div class="post-meta">
                 
-                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                作者： <a itemprop="author" rel="author" href="#">YiLongZhang</a>&nbsp;
                 
 
                 
@@ -239,7 +240,7 @@
 <h1 id="javaagent"><a href="#javaagent" class="headerlink" title="javaagent"></a>javaagent</h1><blockquote>
 <p>通常，我们可以把javaagent当成一个JVM插件。一种专门的jar文件，它可以利用JVM提供的InstrumentationAPI。Java1.5提供了InstrumentationAPI。</p>
 </blockquote>
-<p><img src="/images/javaagent%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/java_agent_overview_min.png" alt="OverviewofJavaagents"></p>
+<p><img src="/images/javaagent%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/java_agent_overview_min.png" alt="java_agent_overview_min"></p>
 <p>成功创建一个javaagent需要三个环节：</p>
 <h2 id="代理类"><a href="#代理类" class="headerlink" title="代理类"></a>代理类</h2><p>代理类必须有<code>premain</code>方法，当Java虚拟机启动时，在执行main函数之前，JVM会先运行<code>-javaagent</code>所指定jar包内<code>Premain-Class</code>这个类的<code>premain</code>方法，其中，该方法可以签名如下：</p>
 <ol>
@@ -295,10 +296,16 @@
         </div>
         <footer id="footer" class="footer">
     <div class="copyright">
-        <span>©<a href="https://github.com/zgsxxzzyl" target="_blank">YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+        <span><a href="https://github.com/zgsxxzzyl" target="_blank">©YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
     </div>
 </footer>
-
     </div>
 </body>
 </html>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    // var search_path = "search.json";
+    // var path = "/" + search_path;
+    loadSearchJson();
+</script>

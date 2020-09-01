@@ -70,17 +70,18 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
         }
     });
+
 </script>
 <!-- 通过连接CDN加载MathJax的js代码 -->
 <script type="text/javascript" async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
 
     
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 <body>
     <div class="wrapper">
         <header>
@@ -109,9 +110,9 @@
         <div class="container">
             <div class="navbar-header">
                 <div>
-                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                    <a href="/">博客</a>&nbsp;·&nbsp;<a id="mobile-toggle-theme">日间</a>
                 </div>
-                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+                <div class="menu-toggle" onclick="mobileBtn()">选项</div>
             </div>
             <div class="menu" id="mobile-menu">
                 
@@ -215,7 +216,7 @@
             
             <div class="post-meta">
                 
-                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                作者： <a itemprop="author" rel="author" href="#">YiLongZhang</a>&nbsp;
                 
 
                 
@@ -224,13 +225,6 @@
                         href="#">十月 22, 2019&nbsp;&nbsp;14:22:11</a>
                 </span>&nbsp;
                 
-                
-                <span class="post-category">
-                    分类：
-                    
-                    <a href="/categories/%E9%83%A8%E7%BD%B2%E6%96%87%E6%A1%A3/">部署文档</a>&nbsp;
-                    
-                </span>
                 
                 <!-- 
                 状态：<a href="#">SNAPSHOT</a>
@@ -246,7 +240,6 @@
 
 <h1 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME&#x3D;&quot;&#x2F;usr&#x2F;java&#x2F;jdk1.8.0_211-amd64&quot;</span><br><span class="line">export PATH&#x3D;&quot;$JAVA_HOME&#x2F;bin:$PATH&quot;</span><br><span class="line">export CLASSPATH&#x3D;&quot;.:$JAVA_HOME&#x2F;lib&quot;</span><br></pre></td></tr></table></figure>
 
-
         </div>
 
         
@@ -257,6 +250,8 @@
                     
                     
                     <a href="/tags/Java/"># Java</a>
+                    
+                    <a href="/tags/%E9%83%A8%E7%BD%B2%E6%96%87%E6%A1%A3/"># 部署文档</a>
                     
                     
                 </span>
@@ -278,10 +273,16 @@
         </div>
         <footer id="footer" class="footer">
     <div class="copyright">
-        <span>©<a href="https://github.com/zgsxxzzyl" target="_blank">YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+        <span><a href="https://github.com/zgsxxzzyl" target="_blank">©YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
     </div>
 </footer>
-
     </div>
 </body>
 </html>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    // var search_path = "search.json";
+    // var path = "/" + search_path;
+    loadSearchJson();
+</script>

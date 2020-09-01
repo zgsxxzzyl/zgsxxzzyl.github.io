@@ -70,17 +70,18 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
         }
     });
+
 </script>
 <!-- 通过连接CDN加载MathJax的js代码 -->
 <script type="text/javascript" async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
 
     
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 <body>
     <div class="wrapper">
         <header>
@@ -109,9 +110,9 @@
         <div class="container">
             <div class="navbar-header">
                 <div>
-                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                    <a href="/">博客</a>&nbsp;·&nbsp;<a id="mobile-toggle-theme">日间</a>
                 </div>
-                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+                <div class="menu-toggle" onclick="mobileBtn()">选项</div>
             </div>
             <div class="menu" id="mobile-menu">
                 
@@ -215,7 +216,7 @@
             
             <div class="post-meta">
                 
-                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                作者： <a itemprop="author" rel="author" href="#">YiLongZhang</a>&nbsp;
                 
 
                 
@@ -224,13 +225,6 @@
                         href="#">十二月 25, 2019&nbsp;&nbsp;10:56:52</a>
                 </span>&nbsp;
                 
-                
-                <span class="post-category">
-                    分类：
-                    
-                    <a href="/categories/%E7%AE%97%E6%B3%95%E7%9B%B8%E5%85%B3/">算法相关</a>&nbsp;
-                    
-                </span>
                 
                 <!-- 
                 状态：<a href="#">SNAPSHOT</a>
@@ -256,7 +250,7 @@
 <li>get(key)：返回key对应的value值。</li>
 </ol>
 <p>实现：最朴素的思想就是用数组+时间戳的方式，不过这样做效率较低。因此，我们可以用双向链表（LinkedList）+哈希表（HashMap）实现（链表用来表示位置，哈希表用来存储和查找），在Java里有对应的数据结构<strong>LinkedHashMap</strong>。</p>
-<h2 id="LInkedHashMap"><a href="#LInkedHashMap" class="headerlink" title="LInkedHashMap"></a>LInkedHashMap</h2><p>利用<code>Java</code>的<code>LinkedHashMap</code>用非常简单的代码来实现基于LRU算法的Cache功能</p>
+<h2 id="LinkedHashMap"><a href="#LinkedHashMap" class="headerlink" title="LinkedHashMap"></a>LinkedHashMap</h2><p>利用<code>Java</code>的<code>LinkedHashMap</code>用非常简单的代码来实现基于LRU算法的Cache功能</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Copyimport java.util.LinkedHashMap;</span><br><span class="line">import java.util.Map;</span><br><span class="line">&#x2F;**</span><br><span class="line"> * 简单用LinkedHashMap来实现的LRU算法的缓存</span><br><span class="line"> *&#x2F;</span><br><span class="line">public class LRUCache&lt;K, V&gt; extends LinkedHashMap&lt;K, V&gt; &#123;</span><br><span class="line">    private int cacheSize;</span><br><span class="line">    public LRUCache(int cacheSize) &#123;</span><br><span class="line">        super(16, (float) 0.75, true);</span><br><span class="line">        this.cacheSize &#x3D; cacheSize;</span><br><span class="line">    &#125;</span><br><span class="line">    protected boolean removeEldestEntry(Map.Entry&lt;K, V&gt; eldest) &#123;</span><br><span class="line">        return size() &gt; cacheSize;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>测试：</p>
@@ -283,6 +277,10 @@
                 <span>标签：</span>
                 <span class="tag">
                     
+                    
+                    <a href="/tags/%E7%AE%97%E6%B3%95%E7%9B%B8%E5%85%B3/"># 算法相关</a>
+                    
+                    
                 </span>
             </div>
             <div>
@@ -304,10 +302,16 @@
         </div>
         <footer id="footer" class="footer">
     <div class="copyright">
-        <span>©<a href="https://github.com/zgsxxzzyl" target="_blank">YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+        <span><a href="https://github.com/zgsxxzzyl" target="_blank">©YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
     </div>
 </footer>
-
     </div>
 </body>
 </html>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    // var search_path = "search.json";
+    // var path = "/" + search_path;
+    loadSearchJson();
+</script>

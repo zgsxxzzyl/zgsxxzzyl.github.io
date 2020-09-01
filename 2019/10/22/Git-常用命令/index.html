@@ -70,17 +70,18 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
         }
     });
+
 </script>
 <!-- 通过连接CDN加载MathJax的js代码 -->
 <script type="text/javascript" async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
 
     
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 <body>
     <div class="wrapper">
         <header>
@@ -109,9 +110,9 @@
         <div class="container">
             <div class="navbar-header">
                 <div>
-                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                    <a href="/">博客</a>&nbsp;·&nbsp;<a id="mobile-toggle-theme">日间</a>
                 </div>
-                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+                <div class="menu-toggle" onclick="mobileBtn()">选项</div>
             </div>
             <div class="menu" id="mobile-menu">
                 
@@ -215,7 +216,7 @@
             
             <div class="post-meta">
                 
-                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                作者： <a itemprop="author" rel="author" href="#">YiLongZhang</a>&nbsp;
                 
 
                 
@@ -287,6 +288,10 @@
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config –global user.name ‘username’</span><br><span class="line">git config –global user.email ‘example@email.com<span class="string">'</span></span><br><span class="line"><span class="string">ssh-keygen -t rsa -C '</span>example@email.com<span class="string">'</span></span><br></pre></td></tr></table></figure>
 
+<ul>
+<li>撤销上次commit</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 注意，仅仅是撤回commit操作，写的代码仍然保留。</span></span><br><span class="line">git reset --soft HEAD^</span><br></pre></td></tr></table></figure>
 <h1 id="Git中文乱码"><a href="#Git中文乱码" class="headerlink" title="Git中文乱码"></a>Git中文乱码</h1><h2 id="解决git-status不能显示中文"><a href="#解决git-status不能显示中文" class="headerlink" title="解决git status不能显示中文"></a>解决git status不能显示中文</h2><ul>
 <li><p>现象<br>status查看有改动但未提交的文件时总只显示数字串，显示不出中文文件名，非常不方便。如下图：</p>
 </li>
@@ -298,7 +303,8 @@
 <p>git bash 终端输入命令：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global core.quotepath false</span><br></pre></td></tr></table></figure>
 
-<h2 id="通过修改配置文件来解决中文乱码"><a href="#通过修改配置文件来解决中文乱码" class="headerlink" title="通过修改配置文件来解决中文乱码"></a>通过修改配置文件来解决中文乱码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[gui]</span><br><span class="line">encoding &#x3D; utf-8</span><br><span class="line"># 代码库统一使用utf-8</span><br><span class="line">[i18n]</span><br><span class="line">commitencoding &#x3D; utf-8</span><br><span class="line"># log编码</span><br><span class="line">[svn]</span><br><span class="line">pathnameencoding &#x3D; utf-8</span><br><span class="line"># 支持中文路径</span><br><span class="line">[core]</span><br><span class="line">quotepath &#x3D; false</span><br><span class="line"># status引用路径不再是八进制（反过来说就是允许显示中文了）</span><br></pre></td></tr></table></figure>
+<h2 id="通过修改配置文件来解决中文乱码"><a href="#通过修改配置文件来解决中文乱码" class="headerlink" title="通过修改配置文件来解决中文乱码"></a>通过修改配置文件来解决中文乱码</h2><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[gui]</span></span><br><span class="line"><span class="attr">encoding</span> = utf-<span class="number">8</span></span><br><span class="line"><span class="comment"># 代码库统一使用utf-8</span></span><br><span class="line"><span class="section">[i18n]</span></span><br><span class="line"><span class="attr">commitencoding</span> = utf-<span class="number">8</span></span><br><span class="line"><span class="comment"># log编码</span></span><br><span class="line"><span class="section">[svn]</span></span><br><span class="line"><span class="attr">pathnameencoding</span> = utf-<span class="number">8</span></span><br><span class="line"><span class="comment"># 支持中文路径</span></span><br><span class="line"><span class="section">[core]</span></span><br><span class="line"><span class="attr">quotepath</span> = <span class="literal">false</span></span><br><span class="line"><span class="comment"># status引用路径不再是八进制（反过来说就是允许显示中文了）</span></span><br></pre></td></tr></table></figure>
+
         </div>
 
         
@@ -332,10 +338,16 @@
         </div>
         <footer id="footer" class="footer">
     <div class="copyright">
-        <span>©<a href="https://github.com/zgsxxzzyl" target="_blank">YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+        <span><a href="https://github.com/zgsxxzzyl" target="_blank">©YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
     </div>
 </footer>
-
     </div>
 </body>
 </html>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    // var search_path = "search.json";
+    // var path = "/" + search_path;
+    loadSearchJson();
+</script>

@@ -70,17 +70,18 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
         }
     });
+
 </script>
 <!-- 通过连接CDN加载MathJax的js代码 -->
 <script type="text/javascript" async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
 
     
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 <body>
     <div class="wrapper">
         <header>
@@ -109,9 +110,9 @@
         <div class="container">
             <div class="navbar-header">
                 <div>
-                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                    <a href="/">博客</a>&nbsp;·&nbsp;<a id="mobile-toggle-theme">日间</a>
                 </div>
-                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+                <div class="menu-toggle" onclick="mobileBtn()">选项</div>
             </div>
             <div class="menu" id="mobile-menu">
                 
@@ -215,7 +216,7 @@
             
             <div class="post-meta">
                 
-                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                作者： <a itemprop="author" rel="author" href="#">YiLongZhang</a>&nbsp;
                 
 
                 
@@ -264,7 +265,7 @@
 <li>在Slave配置连接Master信息 <a href="https://dev.mysql.com/doc/refman/5.7/en/change-master-to.html" target="_blank" rel="noopener">命令详解</a></li>
 </ul>
 <p>登录MySQL命令控制台</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># MASTER_HOST 主机地址</span><br><span class="line"># MASTER_USER Master创建好的用户</span><br><span class="line"># MASTER_PASSWORD 密码</span><br><span class="line"># MASTER_PORT 端口，可选</span><br><span class="line"># MASTER_LOG_FILE 二进制文件名</span><br><span class="line"># MASTER_LOG_POS 开始同步位置</span><br><span class="line"></span><br><span class="line">CHANGE MASTER TO </span><br><span class="line">    MASTER_HOST&#x3D;&#39;192.168.99.168&#39;,</span><br><span class="line">    MASTER_USER&#x3D;&#39;slave&#39;,</span><br><span class="line">    MASTER_PASSWORD&#x3D;&#39;123456&#39;,</span><br><span class="line">    MASTER_PORT&#x3D;&#39;3306&#39;,</span><br><span class="line">    MASTER_LOG_FILE&#x3D;&#39;mysql-bin.000002&#39;,</span><br><span class="line">    MASTER_LOG_POS&#x3D;2216;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># MASTER_HOST 主机地址</span><br><span class="line"># MASTER_USER Master创建好的用户</span><br><span class="line"># MASTER_PASSWORD 密码</span><br><span class="line"># MASTER_PORT 端口，可选</span><br><span class="line"># MASTER_LOG_FILE 二进制文件名</span><br><span class="line"># MASTER_LOG_POS 开始同步位置</span><br><span class="line"></span><br><span class="line">CHANGE MASTER TO</span><br><span class="line">    MASTER_HOST&#x3D;&#39;192.168.99.168&#39;,</span><br><span class="line">    MASTER_USER&#x3D;&#39;slave&#39;,</span><br><span class="line">    MASTER_PASSWORD&#x3D;&#39;123456&#39;,</span><br><span class="line">    MASTER_PORT&#x3D;&#39;3306&#39;,</span><br><span class="line">    MASTER_LOG_FILE&#x3D;&#39;mysql-bin.000002&#39;,</span><br><span class="line">    MASTER_LOG_POS&#x3D;2216;</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>启动</li>
@@ -297,6 +298,8 @@
                     
                     <a href="/tags/MySQL/"># MySQL</a>
                     
+                    <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"># 数据库</a>
+                    
                     
                 </span>
             </div>
@@ -319,10 +322,16 @@
         </div>
         <footer id="footer" class="footer">
     <div class="copyright">
-        <span>©<a href="https://github.com/zgsxxzzyl" target="_blank">YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+        <span><a href="https://github.com/zgsxxzzyl" target="_blank">©YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
     </div>
 </footer>
-
     </div>
 </body>
 </html>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    // var search_path = "search.json";
+    // var path = "/" + search_path;
+    loadSearchJson();
+</script>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="YiLongZhang">
+
+
+
+
+
+<title>ANTLR参考 | 乾坤多畏途,何处无波澜</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <a href="/search/">搜索</a>
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">博客</a>&nbsp;·&nbsp;<a id="mobile-toggle-theme">日间</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">选项</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+    <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部折叠"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">ANTLR参考</h1>
+            
+            <div class="post-meta">
+                
+                作者： <a itemprop="author" rel="author" href="#">YiLongZhang</a>&nbsp;
+                
+
+                
+                <span class="post-time">
+                    创建日期： <a
+                        href="#">六月 18, 2020&nbsp;&nbsp;15:22:29</a>
+                </span>&nbsp;
+                
+                
+                <!-- 
+                状态：<a href="#">SNAPSHOT</a>
+                 -->
+            </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>ANTLR（ANother Tool for Language Recognition 另一种语言识别工具）是功能强大的解析器生成器，用于读取，处理，执行或翻译结构化文本或二进制文件。它被广泛用于构建语言，工具和框架。ANTLR通过语法生成可以构建和遍历语法树的语法分析器。（转自<a href="https://www.antlr.org/" target="_blank" rel="noopener">官方</a>）</p>
+<p>下载：<a href="https://www.antlr.org/download.html" target="_blank" rel="noopener">https://www.antlr.org/download.html</a></p>
+<p>文档：<a href="https://github.com/antlr/antlr4/blob/master/doc/index.md" target="_blank" rel="noopener">https://github.com/antlr/antlr4/blob/master/doc/index.md</a></p>
+<p>IDE插件：<a href="https://www.antlr.org/tools.html" target="_blank" rel="noopener">https://www.antlr.org/tools.html</a></p>
+<p>官方教程：<a href="https://github.com/antlr/antlr4/blob/master/doc/getting-started.md" target="_blank" rel="noopener">https://github.com/antlr/antlr4/blob/master/doc/getting-started.md</a></p>
+<h1 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h1><ol>
+<li><p>ANTLR定义一个g4的文件类型，编写语法规则文件。</p>
+<p>g4文件是ANTLR生成词法解析规则和语法解析规则的基础。</p>
+</li>
+<li><p>使用工具生成解析代码。</p>
+</li>
+<li><p>依赖生成的解析代码实现自己的功能。</p>
+</li>
+</ol>
+<h1 id="一-创建g4文件"><a href="#一-创建g4文件" class="headerlink" title="一. 创建g4文件"></a>一. 创建g4文件</h1><h2 id="简单例子"><a href="#简单例子" class="headerlink" title="简单例子"></a>简单例子</h2><p>在一个临时目录下创建Hello.g4文件。在文件中写入以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Define a grammar called Hello</span><br><span class="line">grammar Hello;</span><br><span class="line">r  : &#39;hello&#39; ID ;         &#x2F;&#x2F; match keyword hello followed by an identifier</span><br><span class="line">ID : [a-z]+ ;             &#x2F;&#x2F; match lower-case identifiers</span><br><span class="line">WS : [ \t\r\n]+ -&gt; skip ; &#x2F;&#x2F; skip spaces, tabs, newlines</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：定义语法名称需要首字母大写，因为生成的文件和类命名会使用到</strong></p>
+<h1 id="二-生成解析器"><a href="#二-生成解析器" class="headerlink" title="二. 生成解析器"></a>二. 生成解析器</h1><h2 id="1-安装工具"><a href="#1-安装工具" class="headerlink" title="1. 安装工具"></a>1. 安装工具</h2><h2 id="2-执行命令"><a href="#2-执行命令" class="headerlink" title="2. 执行命令"></a>2. 执行命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">antlr4 Hello.g4</span><br></pre></td></tr></table></figure>
+
+<h1 id="三-解析器源码"><a href="#三-解析器源码" class="headerlink" title="三. 解析器源码"></a>三. 解析器源码</h1><h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.antlr<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>antlr4<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.8<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.antlr<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>antlr4-runtime<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.8<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><ul>
+<li><code>&lt;Grammar&gt;Lexer.java</code>: 词法分析器源码；</li>
+<li><code>&lt;Grammar&gt;Parser.java</code>: 语法分析器源码；</li>
+<li><code>&lt;Grammar&gt;Listener.java</code>: Listener 接口；</li>
+<li><code>&lt;Grammar&gt;BaseListener.java</code>: Listener 默认实现；</li>
+<li><code>&lt;Grammar&gt;Visitor.java</code>: Visitor 接口；</li>
+<li><code>&lt;Grammar&gt;BaseVisitor.java</code>: Visitor 默认实现；</li>
+</ul>
+<p>如何使用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="comment">//代码流</span></span><br><span class="line">    ANTLRInputStream input = <span class="keyword">new</span> ANTLRInputStream(<span class="string">"int a = 12; "</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//使用词法分析器生成Token序列</span></span><br><span class="line">    Java8Lexer lexer = <span class="keyword">new</span> Java8Lexer(input);</span><br><span class="line">    CommonTokenStream tokens = <span class="keyword">new</span> CommonTokenStream(lexer);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//使用语法分析器将Token序列串联成AST</span></span><br><span class="line">    Java8Parser parser = <span class="keyword">new</span> Java8Parser(tokens);</span><br><span class="line">    ParseTree tree = parser.expressionName();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Visito模式或者Listener模式遍历AST</span></span><br><span class="line">    System.out.println(<span class="string">"Visitor:"</span>);</span><br><span class="line">    Java8Visitor evalByVisitor = <span class="keyword">new</span> Java8BaseVisitor();</span><br><span class="line">    evalByVisitor.visit(tree);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Listener模式遍历AST</span></span><br><span class="line">    System.out.println(<span class="string">"Listener:"</span>);</span><br><span class="line">    ParseTreeWalker walker = <span class="keyword">new</span> ParseTreeWalker();</span><br><span class="line">    Java8Listener evalByListener = <span class="keyword">new</span> Java8BaseListener();</span><br><span class="line">    walker.walk(evalByListener, tree);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="辅助工具"><a href="#辅助工具" class="headerlink" title="辅助工具"></a>辅助工具</h1>
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>标签：</span>
+                <span class="tag">
+                    
+                    
+                    <a href="/tags/Java/"># Java</a>
+                    
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript：window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            <a class="prev" rel="prev" href="/2020/07/02/Java%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%BB%8B%E7%BB%8D/">Java网络编程介绍</a>
+            
+            
+            <a class="next" rel="next" href="/2020/06/16/MySQL%E5%90%84%E7%A7%8DJOIN%E4%BB%8B%E7%BB%8D/">MySQL各种JOIN介绍</a>
+            
+        </section>
+    </article>
+</div>
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span><a href="https://github.com/zgsxxzzyl" target="_blank">©YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+    </div>
+</body>
+</html>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    // var search_path = "search.json";
+    // var path = "/" + search_path;
+    loadSearchJson();
+</script>

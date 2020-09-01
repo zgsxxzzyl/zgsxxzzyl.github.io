@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="YiLongZhang">
+
+
+
+
+
+<title>常见网络协议报文头格式 | 乾坤多畏途,何处无波澜</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <a href="/search/">搜索</a>
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">博客</a>&nbsp;·&nbsp;<a id="mobile-toggle-theme">日间</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">选项</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+    <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "全部折叠"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "全部展开"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">常见网络协议报文头格式</h1>
+            
+            <div class="post-meta">
+                
+                作者： <a itemprop="author" rel="author" href="#">YiLongZhang</a>&nbsp;
+                
+
+                
+                <span class="post-time">
+                    创建日期： <a
+                        href="#">七月 22, 2020&nbsp;&nbsp;11:47:19</a>
+                </span>&nbsp;
+                
+                
+                <!-- 
+                状态：<a href="#">SNAPSHOT</a>
+                 -->
+            </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h1><p>常见的一些协议类型</p>
+<h1 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h1><h2 id="UDP报头结构"><a href="#UDP报头结构" class="headerlink" title="UDP报头结构"></a>UDP报头结构</h2><p><img src="/images/%E5%B8%B8%E8%A7%81%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E6%8A%A5%E6%96%87%E5%A4%B4%E6%A0%BC%E5%BC%8F/udp" alt="udp"></p>
+<ul>
+<li><strong>源端口（16bits）</strong>：用来标识源端应用进程</li>
+<li><strong>目的端口（16bits）</strong>：用来标识目的端应用进程</li>
+<li><strong>长度字段（16bits）</strong>：标明UDP头部和UDP数据的总长度，字节计</li>
+<li><strong>校验和（16bits）</strong>：用来对UDP头部和UDP数据进行校验，需要添加UDP伪头部参与计算</li>
+</ul>
+<h1 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h1><h2 id="TCP报头结构"><a href="#TCP报头结构" class="headerlink" title="TCP报头结构"></a>TCP报头结构</h2><p><img src="/images/%E5%B8%B8%E8%A7%81%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E6%8A%A5%E6%96%87%E5%A4%B4%E6%A0%BC%E5%BC%8F/tcp" alt="tcp"></p>
+<ul>
+<li>源端口(Source Port，16bits)：源端口字段包含初始化通信的端口号。源端口和IP地址的作用是标识报文的返回地址。</li>
+<li>目的端口(Destination Port，16bits)：目的端口字段定义传输的目的地。这个端口指明接收方计算机上的应用程序接口。</li>
+<li>序列号（Sequence Number，32bits）：该字段用来标识TCP源端设备向目的端设备发送的字节流，它表示在这个报文段中的第几个数据字节。</li>
+<li>确认号（Acknowledge Number，32bits）：TCP使用32位的确认号字段标识期望收到的下一个段的第一个字节，并声明此前的所有数据已经正确无误地收到。因此，确认号应该是上次已成功收到的数据字节序列号加1。收到确认号的源计算机会知道特定的段已经被收到。确认号的字段只在ACK标志被设置时才有效。</li>
+<li>数据偏移（Data Offset，4bits）：该字段字段表示TCP头部大小，以4字节为单位，最长60字节。</li>
+<li>保留字段（Reserved，6bits）：为将来定义新的用途保留，均置0。</li>
+<li>控制位(Control Bits，6bits)：共6位，每一位标志可以打开一个控制功能。<ul>
+<li>URG(Urgent Pointer Field Significant，1bit)：紧急指针字段标志，与紧急指针字段配合使用。表示TCP包的紧急指针字段有效，用来保证TCP连接不被中断，并且督促中间齐备尽快处理这些数据。</li>
+<li>ACK（Acknowledgement field significant，1bit）：确认字段标志。取1时表示应答字段有效，也即TCP应答号将包含在TCP段中，为0无效。</li>
+<li>PSH(Push Function，1bit)：推功能。Push操作指在数据包到达接收端以后，立即送给应用层/应用程序，而不是在缓冲区中排队，等填满之后再向上交付。</li>
+<li>RST（Reset the connection，1bit）：重置连接。这个标志表示表示连接复位请求，用来复位那些产生错误的连接，也被用来拒绝错误和非法的数据包。当RST=1时，表示呈现严重错误，必须断开连接，然后再重建传输连接。</li>
+<li>SYN（Synchronize sequence numbers，1bit）：同步序列号。表示同步序号，用来建立连接。</li>
+<li>FIN（No more data from sender，1bit）：表示发送端已经发送到数据末尾，数据传送完成，发送FIN标志位的TCP段，连接将被断开。</li>
+</ul>
+</li>
+<li>窗口（Window，16bits）：默示报文段发送方的接管窗口，单位为字节。此窗口告诉对方，“在未收到我的确认时，你可以发送的数据的字节数至多是此窗口的大小“。</li>
+<li>校验和（Checksum，16bits）：TCP头包括16位的校验和字段用于错误检查。源主机基于部分IP头信息，TCP头和数据内容计算一个校验和，目的主机也要进行相同的计算，如果收到的内容没有错误，两个计算应该完全一样，从而证明数据的有效性。</li>
+<li>紧急指针（Urgent Pointer，16bits）：紧急指针字段是一个可选的16位指针，指向段内的最后一个字节位置，这个字段只在URG标志被设置时才有效。</li>
+<li>选项（Option，长度不定）：至少1字节的可变长字段，标识哪个选项（有多种选项类型，比如”窗口扩大因子”、”时间戳”等选项）有效。如果没有选项，这个字节等于0，说明选项的结束。这个字节等于1表示无需再有操作；等于2表示下四个字节包括源机器的最大长度（Maximum Segment Size，MSS）等。</li>
+<li>填充（Padding，长度不定）：这个字段中加入额外的零，以保证TCP头是32比特的整数倍。</li>
+</ul>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>标签：</span>
+                <span class="tag">
+                    
+                    
+                    <a href="/tags/%E7%BD%91%E7%BB%9C/"># 网络</a>
+                    
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript：window.history.back();">后退</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            <a class="prev" rel="prev" href="/2020/08/05/JavaScript%E5%AE%9E%E7%94%A8%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97/">JavaScript实用操作指南</a>
+            
+            
+            <a class="next" rel="next" href="/2020/07/22/Wireshark%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97/">Wireshark操作指南</a>
+            
+        </section>
+    </article>
+</div>
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span><a href="https://github.com/zgsxxzzyl" target="_blank">©YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+    </div>
+</body>
+</html>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    // var search_path = "search.json";
+    // var path = "/" + search_path;
+    loadSearchJson();
+</script>

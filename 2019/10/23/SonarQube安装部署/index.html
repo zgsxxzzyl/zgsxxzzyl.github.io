@@ -70,17 +70,18 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
         }
     });
+
 </script>
 <!-- 通过连接CDN加载MathJax的js代码 -->
 <script type="text/javascript" async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
 
     
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 <body>
     <div class="wrapper">
         <header>
@@ -109,9 +110,9 @@
         <div class="container">
             <div class="navbar-header">
                 <div>
-                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                    <a href="/">博客</a>&nbsp;·&nbsp;<a id="mobile-toggle-theme">日间</a>
                 </div>
-                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+                <div class="menu-toggle" onclick="mobileBtn()">选项</div>
             </div>
             <div class="menu" id="mobile-menu">
                 
@@ -215,7 +216,7 @@
             
             <div class="post-meta">
                 
-                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                作者： <a itemprop="author" rel="author" href="#">YiLongZhang</a>&nbsp;
                 
 
                 
@@ -224,13 +225,6 @@
                         href="#">十月 23, 2019&nbsp;&nbsp;14:38:02</a>
                 </span>&nbsp;
                 
-                
-                <span class="post-category">
-                    分类：
-                    
-                    <a href="/categories/%E9%83%A8%E7%BD%B2%E6%96%87%E6%A1%A3/">部署文档</a>&nbsp;
-                    
-                </span>
                 
                 <!-- 
                 状态：<a href="#">SNAPSHOT</a>
@@ -244,13 +238,13 @@
 <p>详细查看<a href="https://docs.sonarqube.org/latest/setup/overview/" target="_blank" rel="noopener">官方文档</a></p>
 </blockquote>
 <h1 id="安装前准备环境"><a href="#安装前准备环境" class="headerlink" title="安装前准备环境"></a>安装前准备环境</h1><h2 id="Centos7-Linux-version-3-10-0-957-el7-x86-64"><a href="#Centos7-Linux-version-3-10-0-957-el7-x86-64" class="headerlink" title="Centos7(Linux version 3.10.0-957.el7.x86_64):"></a>Centos7(Linux version 3.10.0-957.el7.x86_64):</h2><p>vm.max_map_count 大于或等于262144<br>fs.file-max 大于或等于65536<br>运行SonarQube的用户可以打开至少65536个文件描述符<br>运行SonarQube的用户可以打开至少2048个线程</p>
-<h2 id="Oracle-JRE-8"><a href="#Oracle-JRE-8" class="headerlink" title="Oracle JRE 8"></a>Oracle JRE 8</h2><p><a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">下载链接</a><br>    - 选择jdk-8u211-linux-x64.rpm下载   </p>
+<h2 id="Oracle-JRE-8"><a href="#Oracle-JRE-8" class="headerlink" title="Oracle JRE 8"></a>Oracle JRE 8</h2><p><a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">下载链接</a><br>    - 选择jdk-8u211-linux-x64.rpm下载</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看安装的路径</span></span><br><span class="line">rpm -qpl jdk-8u211-linux-x64.rpm</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 安装</span></span></span><br><span class="line">rpm -i jdk-8u211-linux-x64.rpm</span><br></pre></td></tr></table></figure>
-<h2 id="MySQL-5-7"><a href="#MySQL-5-7" class="headerlink" title="MySQL 5.7"></a>MySQL 5.7</h2><p><a href="https://dev.mysql.com/downloads/repo/yum/" target="_blank" rel="noopener">下载链接</a> <a href="https://dev.mysql.com/doc/refman/5.7/en/linux-installation-yum-repo.html" target="_blank" rel="noopener">参考文档</a> </p>
+<h2 id="MySQL-5-7"><a href="#MySQL-5-7" class="headerlink" title="MySQL 5.7"></a>MySQL 5.7</h2><p><a href="https://dev.mysql.com/downloads/repo/yum/" target="_blank" rel="noopener">下载链接</a> <a href="https://dev.mysql.com/doc/refman/5.7/en/linux-installation-yum-repo.html" target="_blank" rel="noopener">参考文档</a></p>
 <p>下载mysql80-community-release-el7-3.noarch.rpm</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 安装rpm源</span></span><br><span class="line">sudo rpm -Uvh mysql80-community-release-el7-3.noarch.rpm</span><br><span class="line"><span class="meta">#</span><span class="bash"> 编辑，找到Enable to use MySQL 5.7，改为enabled=1，其他版本设置成enabled=0</span></span><br><span class="line">vim /etc/yum.repos.d/mysql-community.repo</span><br><span class="line"><span class="meta">#</span><span class="bash"> 检查只有MySQL 5.7启动</span></span><br><span class="line">yum repolist enabled | grep mysql</span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装MySQL</span></span><br><span class="line">sudo yum install mysql-community-server</span><br><span class="line"><span class="meta">#</span><span class="bash"> 启动MySQL服务器</span></span><br><span class="line">sudo service mysqld start</span><br><span class="line"><span class="meta">#</span><span class="bash"> MySQL服务器的状态</span></span><br><span class="line">sudo service mysqld status</span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看超级用户的密码</span></span><br><span class="line">sudo grep 'temporary password' /var/log/mysqld.log</span><br><span class="line"><span class="meta">#</span><span class="bash"> 登录mysql</span></span><br><span class="line">mysql -uroot -p</span><br><span class="line"><span class="meta">#</span><span class="bash"> 修改密码</span></span><br><span class="line">ALTER USER 'root'@'localhost' IDENTIFIED BY 'MyNewPass4!';</span><br><span class="line"><span class="meta">#</span><span class="bash"> 修改密码校验</span></span><br><span class="line">set global validate_password_policy=0;</span><br><span class="line">set global validate_password_length=1;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 默认mysql的root用户不支持远程访问，开启访问权限</span></span><br><span class="line">GRANT ALL ON *.* TO root@'%' IDENTIFIED BY '123456' WITH GRANT OPTION;</span><br><span class="line">update user set host='%' where user='root';</span><br><span class="line">flush privileges;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 创建数据库sonarqube</span></span><br><span class="line">CREATE DATABASE `sonarqube` CHARACTER SET 'utf8';</span><br><span class="line">新增用户sonarqube并授予sonarqube数据库全部权限</span><br><span class="line">rant all privileges on sonarqube.* to sonarqube@'%' identified by "password";</span><br><span class="line">开启3306端口</span><br><span class="line">irewall-cmd --add-port=3306/tcp</span><br><span class="line"></span><br><span class="line">(a)数据库目录</span><br><span class="line">var/lib/mysql/</span><br><span class="line">(b)配置文件</span><br><span class="line">usr/share /mysql（mysql.server命令及配置文件） </span><br><span class="line">etc/my.cnf</span><br><span class="line">(c)相关命令</span><br><span class="line">/usr/bin（mysqladmin mysqldump等命令）</span><br><span class="line"><span class="meta">#</span><span class="bash"> (d)启动脚本</span></span><br><span class="line">/etc/rc.d/init.d/（启动脚本文件mysql的目录）</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 安装rpm源</span></span><br><span class="line">sudo rpm -Uvh mysql80-community-release-el7-3.noarch.rpm</span><br><span class="line"><span class="meta">#</span><span class="bash"> 编辑，找到Enable to use MySQL 5.7，改为enabled=1，其他版本设置成enabled=0</span></span><br><span class="line">vim /etc/yum.repos.d/mysql-community.repo</span><br><span class="line"><span class="meta">#</span><span class="bash"> 检查只有MySQL 5.7启动</span></span><br><span class="line">yum repolist enabled | grep mysql</span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装MySQL</span></span><br><span class="line">sudo yum install mysql-community-server</span><br><span class="line"><span class="meta">#</span><span class="bash"> 启动MySQL服务器</span></span><br><span class="line">sudo service mysqld start</span><br><span class="line"><span class="meta">#</span><span class="bash"> MySQL服务器的状态</span></span><br><span class="line">sudo service mysqld status</span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看超级用户的密码</span></span><br><span class="line">sudo grep 'temporary password' /var/log/mysqld.log</span><br><span class="line"><span class="meta">#</span><span class="bash"> 登录mysql</span></span><br><span class="line">mysql -uroot -p</span><br><span class="line"><span class="meta">#</span><span class="bash"> 修改密码</span></span><br><span class="line">ALTER USER 'root'@'localhost' IDENTIFIED BY 'MyNewPass4!';</span><br><span class="line"><span class="meta">#</span><span class="bash"> 修改密码校验</span></span><br><span class="line">set global validate_password_policy=0;</span><br><span class="line">set global validate_password_length=1;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 默认mysql的root用户不支持远程访问，开启访问权限</span></span><br><span class="line">GRANT ALL ON *.* TO root@'%' IDENTIFIED BY '123456' WITH GRANT OPTION;</span><br><span class="line">update user set host='%' where user='root';</span><br><span class="line">flush privileges;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 创建数据库sonarqube</span></span><br><span class="line">CREATE DATABASE `sonarqube` CHARACTER SET 'utf8';</span><br><span class="line">新增用户sonarqube并授予sonarqube数据库全部权限</span><br><span class="line">rant all privileges on sonarqube.* to sonarqube@'%' identified by "password";</span><br><span class="line">开启3306端口</span><br><span class="line">irewall-cmd --add-port=3306/tcp</span><br><span class="line"></span><br><span class="line">(a)数据库目录</span><br><span class="line">var/lib/mysql/</span><br><span class="line">(b)配置文件</span><br><span class="line">usr/share /mysql（mysql.server命令及配置文件）</span><br><span class="line">etc/my.cnf</span><br><span class="line">(c)相关命令</span><br><span class="line">/usr/bin（mysqladmin mysqldump等命令）</span><br><span class="line"><span class="meta">#</span><span class="bash"> (d)启动脚本</span></span><br><span class="line">/etc/rc.d/init.d/（启动脚本文件mysql的目录）</span><br></pre></td></tr></table></figure>
 <h1 id="安装SonarQube"><a href="#安装SonarQube" class="headerlink" title="安装SonarQube"></a>安装SonarQube</h1><h2 id="1-下载-SonarQube"><a href="#1-下载-SonarQube" class="headerlink" title="1. 下载 SonarQube"></a>1. 下载 SonarQube</h2><p>当前版本： 7.7 <a href="https://www.sonarqube.org/downloads/" target="_blank" rel="noopener">下载链接</a></p>
-<h2 id="2-解压"><a href="#2-解压" class="headerlink" title="2. 解压"></a>2. 解压</h2><p>得到当前路径: <code>/opt/sonarqube-7.7</code> </p>
+<h2 id="2-解压"><a href="#2-解压" class="headerlink" title="2. 解压"></a>2. 解压</h2><p>得到当前路径: <code>/opt/sonarqube-7.7</code></p>
 <h2 id="3-修改配置文件"><a href="#3-修改配置文件" class="headerlink" title="3. 修改配置文件"></a>3. 修改配置文件</h2><p><code>vim /opt/sonarqube-7.7/conf/sonar.properties</code></p>
 <figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 对应的数据库信息</span></span><br><span class="line"><span class="meta">sonar.jdbc.username</span>=<span class="string"></span></span><br><span class="line"><span class="meta">sonar.jdbc.password</span>=<span class="string"></span></span><br><span class="line"><span class="meta">sonar.jdbc.url</span>=<span class="string"></span></span><br></pre></td></tr></table></figure>
 <h2 id="4-新增用户"><a href="#4-新增用户" class="headerlink" title="4. 新增用户"></a>4. 新增用户</h2><p><strong>SonarQube不能以root启动</strong></p>
@@ -278,7 +272,7 @@
 <h1 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h1><ul>
 <li>使用sudo命令时，出现问题：</li>
 </ul>
-<p><img src="/images/20200306_1.png" alt=""></p>
+<p><img src="/images/SonarQube%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/20200306_1.png" alt="20200306_1"></p>
 <p>​         编辑<code>vim /etc/sudoers</code></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root    ALL=(ALL:ALL) ALL</span><br><span class="line">sonarqube    ALL=(ALL:ALL) ALL</span><br></pre></td></tr></table></figure>
 
@@ -290,7 +284,6 @@
 
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># For advice on how to change settings please see</span></span><br><span class="line"><span class="comment"># http://dev.mysql.com/doc/refman/5.7/en/server-configuration-defaults.html</span></span><br><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="attr">max_allowed_packet</span>=<span class="number">100</span>M</span><br></pre></td></tr></table></figure>
 
-
         </div>
 
         
@@ -299,6 +292,8 @@
                 <span>标签：</span>
                 <span class="tag">
                     
+                    
+                    <a href="/tags/%E9%83%A8%E7%BD%B2%E6%96%87%E6%A1%A3/"># 部署文档</a>
                     
                     <a href="/tags/SonarQube/"># SonarQube</a>
                     
@@ -324,10 +319,16 @@
         </div>
         <footer id="footer" class="footer">
     <div class="copyright">
-        <span>©<a href="https://github.com/zgsxxzzyl" target="_blank">YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+        <span><a href="https://github.com/zgsxxzzyl" target="_blank">©YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
     </div>
 </footer>
-
     </div>
 </body>
 </html>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    // var search_path = "search.json";
+    // var path = "/" + search_path;
+    loadSearchJson();
+</script>

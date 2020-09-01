@@ -70,17 +70,18 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
         }
     });
+
 </script>
 <!-- 通过连接CDN加载MathJax的js代码 -->
 <script type="text/javascript" async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
 
     
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 <body>
     <div class="wrapper">
         <header>
@@ -109,9 +110,9 @@
         <div class="container">
             <div class="navbar-header">
                 <div>
-                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                    <a href="/">博客</a>&nbsp;·&nbsp;<a id="mobile-toggle-theme">日间</a>
                 </div>
-                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+                <div class="menu-toggle" onclick="mobileBtn()">选项</div>
             </div>
             <div class="menu" id="mobile-menu">
                 
@@ -215,7 +216,7 @@
             
             <div class="post-meta">
                 
-                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                作者： <a itemprop="author" rel="author" href="#">YiLongZhang</a>&nbsp;
                 
 
                 
@@ -224,13 +225,6 @@
                         href="#">三月 21, 2020&nbsp;&nbsp;22:36:34</a>
                 </span>&nbsp;
                 
-                
-                <span class="post-category">
-                    分类：
-                    
-                    <a href="/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/">前端开发</a>&nbsp;
-                    
-                </span>
                 
                 <!-- 
                 状态：<a href="#">SNAPSHOT</a>
@@ -243,7 +237,7 @@
             <p>文章出自：<a href="https://blog.csdn.net/Prince_fmx/article/details/77926189" target="_blank" rel="noopener">https://blog.csdn.net/Prince_fmx/article/details/77926189</a></p>
 <p>下面我们来谈谈，在现有的知识体系下，如何很好的写组件。</p>
 <p>比如我们要实现这样一个组件，就是一个输入框里面字数的计数。这个应该是个很简单的需求。</p>
-<p><img src="/images/JavaScript%E7%BB%84%E4%BB%B6%E5%8C%96%E5%BC%80%E5%8F%91/js%E7%BB%84%E4%BB%B6%E5%8C%96%E5%BC%80%E5%8F%91.png" alt="图片"></p>
+<p><img src="/images/JavaScript%E7%BB%84%E4%BB%B6%E5%8C%96%E5%BC%80%E5%8F%91/js%E7%BB%84%E4%BB%B6%E5%8C%96%E5%BC%80%E5%8F%91.png" alt="js组件化开发"></p>
 <p>我们来看看，下面的各种写法。</p>
 <blockquote>
 <p>为了更清楚的演示，下面全部使用jQuery作为基础语言库。</p>
@@ -266,7 +260,7 @@
 <p>但是呢，当一个页面特别复杂，当我们需要的组件越来越多，当我们需要做一套组件。仅仅用这个就不行了。首先的问题就是，这种写法太灵活了，写单个组件还可以。如果我们需要做一套风格相近的组件，而且是多个人同时在写。那真的是噩梦。</p>
 <p>在编程的圈子里，面向对象一直是被认为最佳的编写代码方式。比如java，就是因为把面向对象发挥到了极致，所以多个人写出来的代码都很接近，维护也很方便。但是很不幸的是，javascript不支持class类的定义。但是我们可以模拟。</p>
 <p>下面我们先实现个简单的javascript类：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Class = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> _mix = <span class="function"><span class="keyword">function</span>(<span class="params">r, s</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> p <span class="keyword">in</span> s) &#123;</span><br><span class="line">      <span class="keyword">if</span> (s.hasOwnProperty(p)) &#123;</span><br><span class="line">        r[p] = s[p]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> _extend = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//开关 用来使生成原型时,不调用真正的构成流程init</span></span><br><span class="line">    <span class="keyword">this</span>.initPrototype = <span class="literal">true</span></span><br><span class="line">    <span class="keyword">var</span> prototype = <span class="keyword">new</span> <span class="keyword">this</span>()</span><br><span class="line">    <span class="keyword">this</span>.initPrototype = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> items = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>) || []</span><br><span class="line">    <span class="keyword">var</span> item</span><br><span class="line"></span><br><span class="line">    <span class="comment">//支持混入多个属性，并且支持&#123;&#125;也支持 Function</span></span><br><span class="line">    <span class="keyword">while</span> (item = items.shift()) &#123;</span><br><span class="line">      _mix(prototype, item.prototype || item)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这边是返回的类，其实就是我们返回的子类</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">SubClass</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (!SubClass.initPrototype &amp;&amp; <span class="keyword">this</span>.init)</span><br><span class="line">        <span class="keyword">this</span>.init.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>)<span class="comment">//调用init真正的构造函数</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 赋值原型链，完成继承</span></span><br><span class="line">    SubClass.prototype = prototype</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 改变constructor引用</span></span><br><span class="line">    SubClass.prototype.constructor = SubClass</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 为子类也添加extend方法</span></span><br><span class="line">    SubClass.extend = _extend</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> SubClass</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//超级父类</span></span><br><span class="line">  <span class="keyword">var</span> Class = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">  <span class="comment">//为超级父类添加extend方法</span></span><br><span class="line">  Class.extend = _extend</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> Class</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Class = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> _mix = <span class="function"><span class="keyword">function</span>(<span class="params">r, s</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> p <span class="keyword">in</span> s) &#123;</span><br><span class="line">      <span class="keyword">if</span> (s.hasOwnProperty(p)) &#123;</span><br><span class="line">        r[p] = s[p]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> _extend = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//开关 用来使生成原型时,不调用真正的构成流程init</span></span><br><span class="line">    <span class="keyword">this</span>.initPrototype = <span class="literal">true</span></span><br><span class="line">    <span class="keyword">var</span> prototype = <span class="keyword">new</span> <span class="keyword">this</span>()</span><br><span class="line">    <span class="keyword">this</span>.initPrototype = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> items = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>) || []</span><br><span class="line">    <span class="keyword">var</span> item</span><br><span class="line"></span><br><span class="line">    <span class="comment">//支持混入多个属性，并且支持&#123;&#125;也支持 Function</span></span><br><span class="line">    <span class="keyword">while</span> (item = items.shift()) &#123;</span><br><span class="line">      _mix(prototype, item.prototype || item)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这边是返回的类，其实就是我们返回的子类</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">SubClass</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (!SubClass.initPrototype &amp;&amp; <span class="keyword">this</span>.init)</span><br><span class="line">        <span class="keyword">this</span>.init.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>)<span class="comment">//调用init真正的构造函数</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 赋值原型链，完成继承</span></span><br><span class="line">    SubClass.prototype = prototype</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 改变constructor引用</span></span><br><span class="line">    SubClass.prototype.constructor = SubClass</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 为子类也添加extend方法</span></span><br><span class="line">    SubClass.extend = _extend</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> SubClass</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//超级父类</span></span><br><span class="line">  <span class="keyword">var</span> Class = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">  <span class="comment">//为超级父类添加extend方法</span></span><br><span class="line">  Class.extend = _extend</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> Class</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
 
 <p>这是拿John Resig的class简单修改了下。</p>
 <blockquote>
@@ -361,6 +355,8 @@
                     
                     <a href="/tags/JavaScript/"># JavaScript</a>
                     
+                    <a href="/tags/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/"># 前端开发</a>
+                    
                     
                 </span>
             </div>
@@ -383,10 +379,16 @@
         </div>
         <footer id="footer" class="footer">
     <div class="copyright">
-        <span>©<a href="https://github.com/zgsxxzzyl" target="_blank">YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+        <span><a href="https://github.com/zgsxxzzyl" target="_blank">©YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
     </div>
 </footer>
-
     </div>
 </body>
 </html>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    // var search_path = "search.json";
+    // var path = "/" + search_path;
+    loadSearchJson();
+</script>

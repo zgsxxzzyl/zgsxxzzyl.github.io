@@ -149,7 +149,7 @@ template {
   font-weight: 300;
 }
 html {
-  font-family: 'Microsoft Jhenghei', Lantinghei SC, 'lanting', PingFang SC, Seguo UI, Microsoft Yahei, Arial;
+  font-family: 'Segoe UI,SegoeUI,Helvetica Neue,Helvetica,Arial,sans-serif';
 }
 html::-webkit-scrollbar {
   width: 8px;
@@ -705,7 +705,7 @@ header label {
   padding-top: 0;
 }
 .post-wrap p {
-  font-size: 1em;
+  font-size: 1.1em;
   margin: 1em 0 1em 0;
 }
 .post-wrap .post-header h1 {
@@ -734,8 +734,7 @@ header label {
   color: #fff;
 }
 .post-content {
-  padding-top: 2rem;
-  text-align: justify;
+  padding-top: 1rem;
 }
 .post-content h2,
 .post-content h3,
@@ -910,6 +909,9 @@ header label {
   float: right;
   text-align: right;
 }
+.orange {
+  color: #fa8919;
+}
 .post-copyright {
   margin-top: 5rem;
   border-top: 1px solid #e8e8e8;
@@ -990,7 +992,7 @@ header label {
   border-collapse: collapse;
 }
 .post-content figure.highlight .code pre {
-  margin: 0 10px;
+  margin: 0px;
 }
 .post-content figure.highlight .gutter {
   width: 10px;
@@ -1043,6 +1045,14 @@ header label {
 }
 .tag:not(:last-child) a::after {
   content: " / ";
+}
+.prev,
+.next {
+  width: 20em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-radius: 5px;
 }
 .post-toc {
   position: fixed;
@@ -1264,7 +1274,7 @@ header label {
 .post-content code {
   padding: 2px 4px;
   background: #f7f7f7;
-  font-family: Menlo, Monaco, Consolas, Courier New, monospace;
+  font-family: Segoe UI, SegoeUI, Helvetica Neue, Helvetica, Arial, sans-serif;
   font-size: 1em;
 }
 .post-content h1 code {
@@ -1366,6 +1376,8 @@ header label {
   background: #fff;
   color: #222;
   overflow: hidden;
+  font-family: none;
+  line-height: 16px;
 }
 .form-group {
   text-align: center;
@@ -1376,6 +1388,13 @@ header label {
 #local-search-result li {
   list-style-type: none;
 }
-.search-result {
-  padding-left: 30px;
+#local-search-result li .search-result-title {
+  text-decoration: underline;
+}
+#local-search-result li .search-result-title:hover {
+  text-decoration: underline;
+}
+#local-search-result li .search-result {
+  width: 90%;
+  margin-left: 30px;
 }

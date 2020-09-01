@@ -70,17 +70,18 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
         }
     });
+
 </script>
 <!-- 通过连接CDN加载MathJax的js代码 -->
 <script type="text/javascript" async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
 
     
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 <body>
     <div class="wrapper">
         <header>
@@ -109,9 +110,9 @@
         <div class="container">
             <div class="navbar-header">
                 <div>
-                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                    <a href="/">博客</a>&nbsp;·&nbsp;<a id="mobile-toggle-theme">日间</a>
                 </div>
-                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+                <div class="menu-toggle" onclick="mobileBtn()">选项</div>
             </div>
             <div class="menu" id="mobile-menu">
                 
@@ -215,7 +216,7 @@
             
             <div class="post-meta">
                 
-                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                作者： <a itemprop="author" rel="author" href="#">YiLongZhang</a>&nbsp;
                 
 
                 
@@ -224,13 +225,6 @@
                         href="#">十月 24, 2019&nbsp;&nbsp;10:26:56</a>
                 </span>&nbsp;
                 
-                
-                <span class="post-category">
-                    分类：
-                    
-                    <a href="/categories/%E9%83%A8%E7%BD%B2%E6%96%87%E6%A1%A3/">部署文档</a>&nbsp;
-                    
-                </span>
                 
                 <!-- 
                 状态：<a href="#">SNAPSHOT</a>
@@ -244,10 +238,9 @@
 <p><a href="https://dev.mysql.com/doc/refman/5.7/en/docker-mysql-getting-started.html#docker-starting-mysql-server" target="_blank" rel="noopener">参考文档</a></p>
 <p>安装前要选择安装版本，访问<a href="https://hub.docker.com/r/mysql/mysql-server/tags/" target="_blank" rel="noopener">官方链接</a>，找到适合的版本，这里我选择5.7版本</p>
 </blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 拉去mysql镜像 docker pull mysql/mysql-server:tag</span></span><br><span class="line">docker pull mysql/mysql-server:5.7</span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看是否全部镜像</span></span><br><span class="line">docker images</span><br><span class="line"><span class="meta">#</span><span class="bash"> 选择镜像，启动容器 docker run --name=container_name -d image_name:tag</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> -d 后台启动 -p 容器3306端口映射外部端口3308 --name 给容器实例命名mysql5.7</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> docker run -p 3346:3306 --name mysql-slave4 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7</span></span><br><span class="line">docker run --name=mysql5.7 -p 3308:3306 -d mysql/mysql-server:5.7</span><br><span class="line"><span class="meta">#</span><span class="bash"> 容器启动过程中会重新初始化数据库，生成随机密码，查看容器启动日志</span></span><br><span class="line">docker logs mysql5.7 2&gt;&amp;1 | grep GENERATED</span><br><span class="line"><span class="meta">#</span><span class="bash"> 登录数据库</span></span><br><span class="line">docker exec -it mysql5.7 mysql -uroot -p</span><br><span class="line"><span class="meta">#</span><span class="bash"> 改密码</span></span><br><span class="line">ALTER USER 'root'@'localhost' IDENTIFIED BY 'password';</span><br><span class="line"><span class="meta">#</span><span class="bash"> 默认mysql的root用户不支持远程访问，开启访问权限</span></span><br><span class="line">GRANT ALL ON *.* TO root@'%' IDENTIFIED BY 'password' WITH GRANT OPTION;</span><br><span class="line">flush privileges;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 进入docker</span></span><br><span class="line">docker exec -it mysql5.7 bash </span><br><span class="line"><span class="meta">#</span><span class="bash"> 容器mysql部署路径</span></span><br><span class="line">cd /var/lib/mysql </span><br><span class="line"><span class="meta">#</span><span class="bash">启动、重启、停止、删除容器</span></span><br><span class="line">docker start mysql5.7</span><br><span class="line">docker restart mysql5.7</span><br><span class="line">docker stop mysql5.7</span><br><span class="line">docker rm mysql5.7</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 拉去mysql镜像 docker pull mysql/mysql-server:tag</span></span><br><span class="line">docker pull mysql/mysql-server:5.7</span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看是否全部镜像</span></span><br><span class="line">docker images</span><br><span class="line"><span class="meta">#</span><span class="bash"> 选择镜像，启动容器 docker run --name=container_name -d image_name:tag</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> -d 后台启动 -p 容器3306端口映射外部端口3308 --name 给容器实例命名mysql5.7</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> docker run -p 3346:3306 --name mysql-slave4 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7</span></span><br><span class="line">docker run --name=mysql5.7 -p 3308:3306 -d mysql/mysql-server:5.7</span><br><span class="line"><span class="meta">#</span><span class="bash"> 容器启动过程中会重新初始化数据库，生成随机密码，查看容器启动日志</span></span><br><span class="line">docker logs mysql5.7 2&gt;&amp;1 | grep GENERATED</span><br><span class="line"><span class="meta">#</span><span class="bash"> 登录数据库</span></span><br><span class="line">docker exec -it mysql5.7 mysql -uroot -p</span><br><span class="line"><span class="meta">#</span><span class="bash"> 改密码</span></span><br><span class="line">ALTER USER 'root'@'localhost' IDENTIFIED BY 'password';</span><br><span class="line"><span class="meta">#</span><span class="bash"> 默认mysql的root用户不支持远程访问，开启访问权限</span></span><br><span class="line">GRANT ALL ON *.* TO root@'%' IDENTIFIED BY 'password' WITH GRANT OPTION;</span><br><span class="line">flush privileges;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 进入docker</span></span><br><span class="line">docker exec -it mysql5.7 bash</span><br><span class="line"><span class="meta">#</span><span class="bash"> 容器mysql部署路径</span></span><br><span class="line">cd /var/lib/mysql</span><br><span class="line"><span class="meta">#</span><span class="bash">启动、重启、停止、删除容器</span></span><br><span class="line">docker start mysql5.7</span><br><span class="line">docker restart mysql5.7</span><br><span class="line">docker stop mysql5.7</span><br><span class="line">docker rm mysql5.7</span><br></pre></td></tr></table></figure>
 
 <h2 id="容器挂载本地配置和数据目录"><a href="#容器挂载本地配置和数据目录" class="headerlink" title="容器挂载本地配置和数据目录"></a>容器挂载本地配置和数据目录</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run --name=mysql5.7 \</span><br><span class="line">--mount type=bind,src=/opt/mysql.docker/my.cnf,dst=/etc/my.cnf \</span><br><span class="line">--mount type=bind,src=/opt/mysql.docker/datadir,dst=/var/lib/mysql \</span><br><span class="line">-p 3308:3306 \</span><br><span class="line">-d mysql/mysql-server:5.7</span><br></pre></td></tr></table></figure>
-
 
         </div>
 
@@ -262,6 +255,10 @@
                     
                     <a href="/tags/MySQL/"># MySQL</a>
                     
+                    <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"># 数据库</a>
+                    
+                    <a href="/tags/%E9%83%A8%E7%BD%B2%E6%96%87%E6%A1%A3/"># 部署文档</a>
+                    
                     
                 </span>
             </div>
@@ -273,7 +270,7 @@
         </section>
         <section class="post-nav">
             
-            <a class="prev" rel="prev" href="/2019/10/25/%E5%B0%86Linux%E5%91%BD%E4%BB%A4%E7%9A%84%E7%BB%93%E6%9E%9C%E4%BD%9C%E4%B8%BA%E4%B8%8B%E4%B8%80%E4%B8%AA%E5%91%BD%E4%BB%A4%E7%9A%84%E5%8F%82%E6%95%B0/">将Linux命令的结果作为下一个命令的参数</a>
+            <a class="prev" rel="prev" href="/2019/10/25/Jenkins%E5%92%8CSonarQube%E9%9B%86%E6%88%90/">Jenkins和SonarQube集成</a>
             
             
             <a class="next" rel="next" href="/2019/10/24/Java%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/">Java开发规范</a>
@@ -284,10 +281,16 @@
         </div>
         <footer id="footer" class="footer">
     <div class="copyright">
-        <span>©<a href="https://github.com/zgsxxzzyl" target="_blank">YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+        <span><a href="https://github.com/zgsxxzzyl" target="_blank">©YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
     </div>
 </footer>
-
     </div>
 </body>
 </html>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    // var search_path = "search.json";
+    // var path = "/" + search_path;
+    loadSearchJson();
+</script>

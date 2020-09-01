@@ -70,17 +70,18 @@
             all[i].SourceElement().parentNode.className += ' has-jax';
         }
     });
+
 </script>
 <!-- 通过连接CDN加载MathJax的js代码 -->
 <script type="text/javascript" async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
 
     
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 <body>
     <div class="wrapper">
         <header>
@@ -109,9 +110,9 @@
         <div class="container">
             <div class="navbar-header">
                 <div>
-                    <a href="/">博客</a><a id="mobile-toggle-theme">·&nbsp;日间</a>
+                    <a href="/">博客</a>&nbsp;·&nbsp;<a id="mobile-toggle-theme">日间</a>
                 </div>
-                <div class="menu-toggle" onclick="mobileBtn()">&#9776; 选项</div>
+                <div class="menu-toggle" onclick="mobileBtn()">选项</div>
             </div>
             <div class="menu" id="mobile-menu">
                 
@@ -153,7 +154,7 @@
             
             <div class="post-meta">
                 
-                作者： <a itemprop="author" rel="author" href="/">YiLongZhang</a>&nbsp;
+                作者： <a itemprop="author" rel="author" href="#">YiLongZhang</a>&nbsp;
                 
 
                 
@@ -197,8 +198,7 @@
 <td>此值必须是1024的倍数且大于2 MB</td>
 </tr>
 </tbody></table>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_OPTIONS="$&#123;JAVA_OPTIONS&#125; -server -Xms6144m -Xmx6144m -Xmn2048m -Xss256k -XX:PermSize=512m -XX:MaxPermSize=1024m  -XX:SurvivorRatio=2 -XX:+UseConcMarkSweepGC</span><br><span class="line">         -XX:+CMSParallelRemarkEnabled </span><br><span class="line">         -XX:+UseCMSCompactAtFullCollection </span><br><span class="line">         -XX:CMSFullGCsBeforeCompaction=3</span><br><span class="line">         -XX:+UseFastAccessorMethods </span><br><span class="line">         -XX:+UseCMSInitiatingOccupancyOnly </span><br><span class="line">         -XX:CMSInitiatingOccupancyFraction=80</span><br><span class="line">         -XX:+DoEscapeAnalysis </span><br><span class="line">         -XX:+EliminateAllocations</span><br><span class="line">         -XX:+HeapDumpOnOutOfMemoryError </span><br><span class="line">         -XX:-UseGCOverheadLimit </span><br><span class="line">         -XX:+TraceClassLoading </span><br><span class="line">         -XX:+CMSClassUnloadingEnabled </span><br><span class="line">         -XX:+PrintClassHistogram</span><br><span class="line">         -Djava.awt.headless=true </span><br><span class="line">         -XX:+UseParNewGC</span><br><span class="line">         -XX:ParallelGCThreads=4</span><br><span class="line">         -Doracle.jdbc.useThreadLocalBufferCache=false</span><br><span class="line">         -Doracle.jdbc.maxCachedBufferSize=0</span><br><span class="line">         -Dfile.encoding=utf-8i</span><br><span class="line">         -Dsun.zip.disableMemoryMapping=true</span><br><span class="line">        -Djava.rmi.server.hostname=192.168.99.67 -Dcom.sun.management.jmxremote.port=8989 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Djavax.management.builder.initial=weblogic.management.jmx.mbeanserver.WLSMBeanServerBuilder"</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_OPTIONS="$&#123;JAVA_OPTIONS&#125; -server -Xms6144m -Xmx6144m -Xmn2048m -Xss256k -XX:PermSize=512m -XX:MaxPermSize=1024m  -XX:SurvivorRatio=2 -XX:+UseConcMarkSweepGC</span><br><span class="line">         -XX:+CMSParallelRemarkEnabled</span><br><span class="line">         -XX:+UseCMSCompactAtFullCollection</span><br><span class="line">         -XX:CMSFullGCsBeforeCompaction=3</span><br><span class="line">         -XX:+UseFastAccessorMethods</span><br><span class="line">         -XX:+UseCMSInitiatingOccupancyOnly</span><br><span class="line">         -XX:CMSInitiatingOccupancyFraction=80</span><br><span class="line">         -XX:+DoEscapeAnalysis</span><br><span class="line">         -XX:+EliminateAllocations</span><br><span class="line">         -XX:+HeapDumpOnOutOfMemoryError</span><br><span class="line">         -XX:-UseGCOverheadLimit</span><br><span class="line">         -XX:+TraceClassLoading</span><br><span class="line">         -XX:+CMSClassUnloadingEnabled</span><br><span class="line">         -XX:+PrintClassHistogram</span><br><span class="line">         -Djava.awt.headless=true</span><br><span class="line">         -XX:+UseParNewGC</span><br><span class="line">         -XX:ParallelGCThreads=4</span><br><span class="line">         -Doracle.jdbc.useThreadLocalBufferCache=false</span><br><span class="line">         -Doracle.jdbc.maxCachedBufferSize=0</span><br><span class="line">         -Dfile.encoding=utf-8i</span><br><span class="line">         -Dsun.zip.disableMemoryMapping=true</span><br><span class="line">        -Djava.rmi.server.hostname=192.168.99.67 -Dcom.sun.management.jmxremote.port=8989 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Djavax.management.builder.initial=weblogic.management.jmx.mbeanserver.WLSMBeanServerBuilder"</span><br></pre></td></tr></table></figure>
 
         </div>
 
@@ -233,10 +233,16 @@
         </div>
         <footer id="footer" class="footer">
     <div class="copyright">
-        <span>©<a href="https://github.com/zgsxxzzyl" target="_blank">YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+        <span><a href="https://github.com/zgsxxzzyl" target="_blank">©YiLongZhang</a> | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
     </div>
 </footer>
-
     </div>
 </body>
 </html>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    // var search_path = "search.json";
+    // var path = "/" + search_path;
+    loadSearchJson();
+</script>
